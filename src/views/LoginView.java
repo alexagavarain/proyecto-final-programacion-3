@@ -29,34 +29,23 @@ public class LoginView extends JFrame {
 
 	public LoginView() {
 		error = true;
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		
 		contentPane = new JPanel();
-		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
+		
 		createSpace(100, contentPane);
 		
-		JLabel appName = new JLabel("Movies");
-		appName.setToolTipText("");
-		appName.setFont(new Font("Arial", Font.BOLD, 30));
-		appName.setAlignmentX(CENTER_ALIGNMENT);
-		contentPane.add(appName);
+		showAppName(contentPane, "Mi agenda UABCS");
 		createSpace(60, contentPane);
 		
-		JLabel loginText = new JLabel("Inicia sesión para acceder a nuestro catálago");
-		loginText.setToolTipText("");
-		loginText.setFont(new Font("Arial", Font.PLAIN, 16));
-		loginText.setAlignmentX(CENTER_ALIGNMENT);
-		contentPane.add(loginText);
+		showText(contentPane, "Inicia sesión con tu correo institucional para acceder", 16);
 		createSpace(40, contentPane);
 		
-		JLabel emailLabel = new JLabel("Correo electrónico");
-		emailLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		emailLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 75));
-		emailLabel.setAlignmentX(CENTER_ALIGNMENT);
-		contentPane.add(emailLabel);
+		createLabel(contentPane, "Correo electrónico", 14, 135);
 		
 		emailTextField = new JTextField();
 		emailTextField.setMaximumSize(new Dimension(250, 25));
@@ -66,11 +55,7 @@ public class LoginView extends JFrame {
 		emailTextField.setBorder(null);
 		createSpace(15, contentPane);
 
-		JLabel passwordLabel = new JLabel("Contraseña");
-		passwordLabel.setFont(new Font("Tahoma", Font.PLAIN, 14));
-		passwordLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 117));
-		passwordLabel.setAlignmentX(CENTER_ALIGNMENT);
-		contentPane.add(passwordLabel);
+		createLabel(contentPane, "Contraseña", 14, 178);
 		
 		passwordField = new JPasswordField();
 		passwordField.setMaximumSize(new Dimension(250, 25));
@@ -81,37 +66,66 @@ public class LoginView extends JFrame {
 		createSpace(3, contentPane);
 		
 		if (error) {
-			showError();
+			showError(contentPane);
 		}
 		
 		createSpace(40, contentPane);
 		
-		
-		JButton loginButton = new JButton("Acceder");
-		loginButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		loginButton.setMaximumSize(new Dimension(250, 30));
-		loginButton.setBackground(Color.BLACK);
-		loginButton.setForeground(Color.WHITE);
-		loginButton.setFocusPainted(false);  
-		loginButton.setBorderPainted(false);
-		loginButton.setAlignmentX(CENTER_ALIGNMENT);
-		contentPane.add(loginButton);
+		JButton loginButton = createButton(contentPane, "Acceder", 250, 30);
+
 	}
 	
-	public void showError() {
+	public void showText(JPanel container, String text, int fontSize) {
+		JLabel loginText = new JLabel(text);
+		loginText.setToolTipText("");
+		loginText.setFont(new Font("Arial", Font.PLAIN, fontSize));
+		loginText.setAlignmentX(CENTER_ALIGNMENT);
+		container.add(loginText);
+	}
+	
+	public void createLabel(JPanel container, String containerName, int fontSize, int rightBorder) {
+		JLabel emailLabel = new JLabel(containerName);
+		emailLabel.setFont(new Font("Tahoma", Font.PLAIN, fontSize));
+		emailLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, rightBorder));
+		emailLabel.setAlignmentX(CENTER_ALIGNMENT);
+		container.add(emailLabel);
+	}
+	
+	public void showAppName(JPanel container, String name) {
+		JLabel appName = new JLabel(name);
+		appName.setToolTipText("");
+		appName.setFont(new Font("Arial", Font.BOLD, 30));
+		appName.setAlignmentX(CENTER_ALIGNMENT);
+		container.add(appName);
+	}
+	
+	public void showError(JPanel container) {
 		JLabel errorLabel = new JLabel("*Credenciales incorrectas");
 		errorLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		errorLabel.setForeground(Color.RED);
 		errorLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 110));
 		errorLabel.setAlignmentX(CENTER_ALIGNMENT);
-		contentPane.add(errorLabel);
+		container.add(errorLabel);
 	}
 	
 	public void createSpace(int pixels, JPanel container) {
 		container.add(Box.createVerticalStrut(pixels));
+	}
+	
+	public JButton createButton(JPanel container, String name, int width, int length) {
+		JButton button = new JButton(name);
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		button.setMaximumSize(new Dimension(width, length));
+		button.setBackground(Color.BLACK);
+		button.setForeground(Color.WHITE);
+		button.setFocusPainted(false);  
+		button.setBorderPainted(false);
+		button.setAlignmentX(CENTER_ALIGNMENT);
+		container.add(button);
+		return button;
 	}
 	
 }
