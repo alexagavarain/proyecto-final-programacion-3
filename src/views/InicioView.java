@@ -33,20 +33,33 @@ public class InicioView extends JFrame{
 		showAppName(contentPane, "Registrarse");
 		createSpace(60, contentPane);
 		
-		createLabel(contentPane, "Nombre", 12, 5);
+		createLabel(contentPane, "Nombre", 15, 5);
 		JTextField nombre = new JTextField();
+		nombre.setMaximumSize(new Dimension(300, 28));
 		nombre.setAlignmentX(CENTER_ALIGNMENT);
+		nombre.setFont(new Font ("Arial", Font.PLAIN, 12));
+		nombre.setBorder(BorderFactory.createEmptyBorder(0, 3, 0, 3));
 		contentPane.add(nombre);
-		nombre.setColumns(1);
-		nombre.setBorder(null);
-		createSpace(15, contentPane);
+		createSpace(1, contentPane);
 		
 		createLabel(contentPane, "Carrera", 14, 10);
-		JComboBox <String>listaCarreras = new JComboBox<String>();
-		listaCarreras.addItem("IDS");
-		listaCarreras.addItem("LATI");
+
+		String[] carreras = {
+		    "Ingeniería en Desarrollo de Software (IDS)",
+		    "Licenciatura en Tecnologías de la Información (LATI)",
+		    "Ingeniería en Tecnologia Computacional (ITC)",
+		    "Ingeniería en Ciberseguridad"
+		};
+
+		JComboBox<String> listaCarreras = new JComboBox<>(carreras);
+		listaCarreras.setMaximumSize(new Dimension(300, 30));
+		listaCarreras.setAlignmentX(CENTER_ALIGNMENT);
+		listaCarreras.insertItemAt("Selecciona tu carrera", 0);
+		listaCarreras.setSelectedIndex(0);
+		contentPane.add(listaCarreras);
 		
-		createSpace(3, contentPane);
+		
+		
 		
 		
 	}
