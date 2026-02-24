@@ -51,15 +51,16 @@ public class RegisterView extends JFrame{
 		    "Ingeniería en Ciberseguridad"
 		};
 
-		JComboBox<String> listaCarreras = new JComboBox<>(carreras);
+		/*JComboBox<String> listaCarreras = new JComboBox<>(carreras);
 		listaCarreras.setMaximumSize(new Dimension(300, 30));
 		listaCarreras.setAlignmentX(CENTER_ALIGNMENT);
 		listaCarreras.insertItemAt("Selecciona tu carrera", 0);
 		listaCarreras.setSelectedIndex(0);
 		contentPane.add(listaCarreras);
+		*/
 		
 		
-		
+
 		
 		
 	}
