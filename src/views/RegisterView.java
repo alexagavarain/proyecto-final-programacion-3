@@ -18,11 +18,15 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import utils.TextPrompt;
+
 public class RegisterView extends JFrame{
+	boolean error = false;
 
 	public RegisterView() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		Color subtitleColor = new Color(100, 116, 139);
 		
 		JPanel contentPane = new JPanel();
 		setContentPane(contentPane);
@@ -40,8 +44,55 @@ public class RegisterView extends JFrame{
 		nombre.setFont(new Font ("Arial", Font.PLAIN, 12));
 		nombre.setBorder(BorderFactory.createEmptyBorder(0, 3, 0, 3));
 		contentPane.add(nombre);
-		createSpace(1, contentPane);
 		
+		
+		createSpace(10, contentPane);
+		
+		createLabel(contentPane, "Correo electrónico", 14, 180);
+		
+		JTextField emailTextField = new JTextField();
+		emailTextField.setMaximumSize(new Dimension(300, 28));
+		emailTextField.setAlignmentX(CENTER_ALIGNMENT);
+		emailTextField.setFont(new Font ("Arial", Font.PLAIN, 15));
+
+		emailTextField.setBorder(
+			    BorderFactory.createCompoundBorder(
+				    BorderFactory.createLineBorder(Color.GRAY, 1, true),
+				    BorderFactory.createEmptyBorder(5, 5, 5, 5)
+			    )
+		);
+		
+		TextPrompt promptEmail = new TextPrompt("estudiante@alu.uabcs.mx", emailTextField);
+		promptEmail.setForeground(Color.BLACK);
+		contentPane.add(emailTextField);
+		
+		
+		createSpace(10, contentPane);
+		createLabel(contentPane, "Contraseña", 14, 220);
+		JPasswordField passwordField = new JPasswordField();
+		passwordField.setMaximumSize(new Dimension(300, 28));
+		passwordField.setAlignmentX(CENTER_ALIGNMENT);
+		passwordField.setFont(new Font ("Arial", Font.PLAIN, 15));
+
+		passwordField.setBorder(
+			    BorderFactory.createCompoundBorder(
+			        BorderFactory.createLineBorder(subtitleColor, 1, true),
+			        BorderFactory.createEmptyBorder(5, 5, 5, 5)
+			    )
+			);
+		
+		TextPrompt promptPassword = new TextPrompt("•••••••••••", passwordField);
+		promptPassword.setForeground(subtitleColor);
+		contentPane.add(passwordField);
+				
+				
+		if (error) {
+			createSpace(4, contentPane);
+			showError(contentPane);
+		}
+		
+		
+		createSpace(10, contentPane);
 		createLabel(contentPane, "Carrera", 14, 10);
 
 		String[] carreras = {
@@ -51,13 +102,13 @@ public class RegisterView extends JFrame{
 		    "Ingeniería en Ciberseguridad"
 		};
 
-		/*JComboBox<String> listaCarreras = new JComboBox<>(carreras);
+		JComboBox<String> listaCarreras = new JComboBox<>(carreras);
 		listaCarreras.setMaximumSize(new Dimension(300, 30));
 		listaCarreras.setAlignmentX(CENTER_ALIGNMENT);
 		listaCarreras.insertItemAt("Selecciona tu carrera", 0);
 		listaCarreras.setSelectedIndex(0);
 		contentPane.add(listaCarreras);
-		*/
+	
 		
 		
 
@@ -108,6 +159,15 @@ public class RegisterView extends JFrame{
 		container.add(button);
 		return button;
 	}
+	public void showError(JPanel container) {
+		JLabel errorLabel = new JLabel("*Credenciales incorrectas");
+		errorLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		errorLabel.setForeground(Color.RED);
+		errorLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 110));
+		errorLabel.setAlignmentX(CENTER_ALIGNMENT);
+		container.add(errorLabel);
+	}
+	
 	
 	
 }

@@ -104,6 +104,7 @@ public class LoginView extends JFrame {
 		promptPassword.setForeground(subtitleColor);
 		contentPane.add(passwordField);
 				
+				
 		if (error) {
 			createSpace(4, contentPane);
 			showError(contentPane);
