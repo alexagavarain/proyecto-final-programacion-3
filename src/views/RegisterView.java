@@ -18,9 +18,9 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-public class InicioView extends JFrame{
+public class RegisterView extends JFrame{
 
-	public InicioView() {
+	public RegisterView() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		

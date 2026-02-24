@@ -42,6 +42,7 @@ public class LoginView extends JFrame {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		//TODO agregar title al frame
 		
 		Color backgroundColor = new Color(250, 250, 250);
 		Color accentColor = new Color(30, 58, 138);
@@ -122,7 +123,7 @@ public class LoginView extends JFrame {
 		JButton registerButton = createButton(contentPane, "¿No tienes una cuenta? Regístrate aquí", 300, 30, backgroundColor, accentColor);
 		
 		registerButton.addActionListener(e ->{
-			new InicioView().setVisible(true);
+			new RegisterView().setVisible(true);
 			dispose();
 		});
 		
@@ -130,10 +131,21 @@ public class LoginView extends JFrame {
 
 	}
 	
+	private void uploadFont() {
+		Font font = null;
+		
+//		try { 
+//			font = Font.createFont(Font.TRUETYPE_FONT, RegisterView.class.getResourceAsStream(//driceccion) null);
+//			font = fuente.deriveFont(14f);
+//		} catch() {
+//			
+//		}
+	}
+	
 	private void createLogo(JPanel container) {
 		JLabel lblLogo = new JLabel();
 		lblLogo.setBounds(145, 50, 100, 100);
-		lblLogo.setIcon(uploadIcon("/utils/logo.png", 30, 30));
+		lblLogo.setIcon(uploadIcon("/assets/logo.png", 30, 30));
 		container.add(lblLogo);
 	}
 	
