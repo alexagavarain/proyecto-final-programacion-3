@@ -10,15 +10,21 @@ import utils.Label;
 import utils.TextPrompt;
 
 import javax.swing.JTextField;
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+
 import java.awt.Color;
 import java.awt.Dimension;
 
 import javax.swing.JLabel;
 import java.awt.Font;
+import java.awt.Image;
+
 import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -37,41 +43,64 @@ public class LoginView extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		
-		Color backgroundColor = new Color(238, 238, 238);
-		Color accentColor = new Color(50, 53, 96);
-		
+		Color backgroundColor = new Color(250, 250, 250);
+		Color accentColor = new Color(30, 58, 138);
+		Color subtitleColor = new Color(100, 116, 139);
+				
 		contentPane = new JPanel();
 		setContentPane(contentPane);
 		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
 		contentPane.setBorder(BorderFactory.createEmptyBorder(150, 0, 0, 0));
-				
-		showAppName(contentPane, "Mi agenda UABCS", 30);
+		contentPane.setBackground(backgroundColor);
+		
+		createLogo(contentPane);
+		showAppName(contentPane, "UniTasks", 30);
 		createSpace(60, contentPane);
 		
-		Label showText = new Label ("Inicia sesión", 18, false);
+		Label showText = new Label ("Bienvenid@", 18, false);
 		contentPane.add(showText);
 		createSpace(15, contentPane);
 		
-		Label showText2 = new Label ("Ingresa tus datos para acceder", 14, true);
+		Label showText2 = new Label ("Inicia sesión para continuar", 14, true);
+		showText2.setForeground(subtitleColor);
 		contentPane.add(showText2);
 		createSpace(25, contentPane);
-				
+		
+		createLabel(contentPane, "Correo electrónico", 14, 180);
+		
 		emailTextField = new JTextField();
 		emailTextField.setMaximumSize(new Dimension(300, 28));
 		emailTextField.setAlignmentX(CENTER_ALIGNMENT);
 		emailTextField.setFont(new Font ("Arial", Font.PLAIN, 15));
-		emailTextField.setBorder(BorderFactory.createEmptyBorder(0, 3, 0, 3));
-		TextPrompt promptEmail = new TextPrompt("correoinstitucional@alu.uabcs.mx", emailTextField);
+
+		emailTextField.setBorder(
+			    BorderFactory.createCompoundBorder(
+			        BorderFactory.createLineBorder(subtitleColor, 1, true),
+			        BorderFactory.createEmptyBorder(5, 5, 5, 5)
+			    )
+			);
+		
+		TextPrompt promptEmail = new TextPrompt("estudiante@alu.uabcs.mx", emailTextField);
+		promptEmail.setForeground(subtitleColor);
 		contentPane.add(emailTextField);
 		
 		createSpace(10, contentPane);
 		
+		createLabel(contentPane, "Contraseña", 14, 220);
 		passwordField = new JPasswordField();
 		passwordField.setMaximumSize(new Dimension(300, 28));
 		passwordField.setAlignmentX(CENTER_ALIGNMENT);
 		passwordField.setFont(new Font ("Arial", Font.PLAIN, 15));
-		passwordField.setBorder(BorderFactory.createEmptyBorder(0, 3, 0, 3));
-		TextPrompt promptPassword = new TextPrompt("contraseña", passwordField);
+
+		passwordField.setBorder(
+			    BorderFactory.createCompoundBorder(
+			        BorderFactory.createLineBorder(subtitleColor, 1, true),
+			        BorderFactory.createEmptyBorder(5, 5, 5, 5)
+			    )
+			);
+		
+		TextPrompt promptPassword = new TextPrompt("•••••••••••", passwordField);
+		promptPassword.setForeground(subtitleColor);
 		contentPane.add(passwordField);
 				
 		if (error) {
@@ -79,24 +108,47 @@ public class LoginView extends JFrame {
 			showError(contentPane);
 		}
 		
+		JCheckBox chkAceptoCondiciones = new JCheckBox("Recuérdame", true);
+		add(chkAceptoCondiciones);
+		
+		JButton resetPasswordButton = createButton(contentPane, "¿Olvidaste tu contraseña?", 300, 30, backgroundColor, accentColor);
+		
+		createSpace(30, contentPane);
+		
+		JButton loginButton = createButton(contentPane, "Iniciar sesión", 300, 30, accentColor, Color.WHITE);
+		
 		createSpace(10, contentPane);
-		JButton registerButton = createButton(contentPane, "¿No tienes una cuenta? Regístrate", 300, 30, backgroundColor, Color.BLACK);
+		
+		JButton registerButton = createButton(contentPane, "¿No tienes una cuenta? Regístrate aquí", 300, 30, backgroundColor, accentColor);
+		
 		registerButton.addActionListener(e ->{
 			new InicioView().setVisible(true);
 			dispose();
 		});
 		
-		createSpace(30, contentPane);
-		
-		JButton loginButton = createButton(contentPane, "Acceder", 300, 30, accentColor, Color.WHITE);
-		
-		
-		pack();
+//		pack();
 
 	}
 	
+	private void createLogo(JPanel container) {
+		JLabel lblLogo = new JLabel();
+		lblLogo.setBounds(145, 50, 100, 100);
+		lblLogo.setIcon(uploadIcon("/utils/logo.png", 30, 30));
+		container.add(lblLogo);
+	}
 	
-	
+	private ImageIcon uploadIcon(String ruta, int w, int h) {
+
+		try {
+			Image icono = ImageIO.read(getClass().getResource(ruta));
+			icono = icono.getScaledInstance(w, h, Image.SCALE_SMOOTH);
+			return new ImageIcon(icono);
+		}catch(Exception ex) {
+			System.out.println("Image not found");
+		}
+		
+		return null;
+	}
 	
 	public void createLabel(JPanel container, String containerName, int fontSize, int rightBorder) {
 		JLabel emailLabel = new JLabel(containerName);
