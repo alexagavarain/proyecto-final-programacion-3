@@ -18,11 +18,14 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import utils.TextPrompt;
+
 public class RegisterView extends JFrame{
 
 	public RegisterView() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		setTitle("Registro");
 		
 		JPanel contentPane = new JPanel();
 		setContentPane(contentPane);
@@ -30,7 +33,7 @@ public class RegisterView extends JFrame{
 		
 		createSpace(100, contentPane);
 		
-		showAppName(contentPane, "Registrarse");
+		showAppName(contentPane, "Registro");
 		createSpace(60, contentPane);
 		
 		createLabel(contentPane, "Nombre", 15, 5);
@@ -40,8 +43,27 @@ public class RegisterView extends JFrame{
 		nombre.setFont(new Font ("Arial", Font.PLAIN, 12));
 		nombre.setBorder(BorderFactory.createEmptyBorder(0, 3, 0, 3));
 		contentPane.add(nombre);
-		createSpace(1, contentPane);
 		
+		createSpace(10, contentPane);
+		
+		createLabel(contentPane, "Correo electrónico", 14, 180);
+		
+		JTextField emailTextField = new JTextField();
+		emailTextField.setMaximumSize(new Dimension(300, 28));
+		emailTextField.setAlignmentX(CENTER_ALIGNMENT);
+		emailTextField.setFont(new Font ("Arial", Font.PLAIN, 15));
+
+		emailTextField.setBorder(
+			    BorderFactory.createCompoundBorder(
+				    BorderFactory.createLineBorder(Color.GRAY, 1, true),
+				    BorderFactory.createEmptyBorder(5, 5, 5, 5)
+			    )
+		);
+		
+		TextPrompt promptEmail = new TextPrompt("estudiante@alu.uabcs.mx", emailTextField);
+		promptEmail.setForeground(Color.BLACK);
+		contentPane.add(emailTextField);
+				
 		createLabel(contentPane, "Carrera", 14, 10);
 
 		String[] carreras = {

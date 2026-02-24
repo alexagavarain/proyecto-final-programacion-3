@@ -42,6 +42,7 @@ public class LoginView extends JFrame {
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
+		setTitle("Inicio de sesión");
 		//TODO agregar title al frame
 		
 		Color backgroundColor = new Color(250, 250, 250);
@@ -69,6 +70,7 @@ public class LoginView extends JFrame {
 		
 		createLabel(contentPane, "Correo electrónico", 14, 180);
 		
+		//TODO clase para textField
 		emailTextField = new JTextField();
 		emailTextField.setMaximumSize(new Dimension(300, 28));
 		emailTextField.setAlignmentX(CENTER_ALIGNMENT);
