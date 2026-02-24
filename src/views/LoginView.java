@@ -122,7 +122,7 @@ public class LoginView extends JFrame {
 		JButton registerButton = createButton(contentPane, "¿No tienes una cuenta? Regístrate aquí", 300, 30, backgroundColor, accentColor);
 		
 		registerButton.addActionListener(e ->{
-			new InicioView().setVisible(true);
+			new RegisterView().setVisible(true);
 			dispose();
 		});
 		

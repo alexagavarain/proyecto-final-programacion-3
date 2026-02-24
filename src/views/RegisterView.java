@@ -18,9 +18,9 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-public class InicioView extends JFrame{
+public class RegisterView extends JFrame{
 
-	public InicioView() {
+	public RegisterView() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		
@@ -51,15 +51,16 @@ public class InicioView extends JFrame{
 		    "Ingeniería en Ciberseguridad"
 		};
 
-		JComboBox<String> listaCarreras = new JComboBox<>(carreras);
+		/*JComboBox<String> listaCarreras = new JComboBox<>(carreras);
 		listaCarreras.setMaximumSize(new Dimension(300, 30));
 		listaCarreras.setAlignmentX(CENTER_ALIGNMENT);
 		listaCarreras.insertItemAt("Selecciona tu carrera", 0);
 		listaCarreras.setSelectedIndex(0);
 		contentPane.add(listaCarreras);
+		*/
 		
 		
-		
+
 		
 		
 	}
