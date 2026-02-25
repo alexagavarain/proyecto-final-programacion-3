@@ -9,12 +9,15 @@ import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
+
 import utils.AppColors;
 import utils.InputField;
 import utils.TextPrompt;
@@ -36,7 +39,7 @@ public class RegisterView extends JFrame{
 		showAppName(contentPane, "Registro");
 		createSpace(60, contentPane);
 		
-		createLabel(contentPane, "Nombre", 15, 235);
+		createLabel(contentPane, "Nombre", 14, 180);
 		InputField name = new InputField();
 		TextPrompt namePrompt = new TextPrompt("nombre apellido", name);
 		namePrompt.setForeground(AppColors.subtitle);
@@ -87,6 +90,7 @@ public class RegisterView extends JFrame{
 		    "Ingeniería en Ciberseguridad"
 		};
 
+
 		JComboBox<String> listaCarreras = new JComboBox<>(carreras);
 		listaCarreras.setMaximumSize(new Dimension(300, 30));
 		listaCarreras.setAlignmentX(CENTER_ALIGNMENT);
@@ -94,6 +98,43 @@ public class RegisterView extends JFrame{
 		listaCarreras.setSelectedIndex(0);
 		contentPane.add(listaCarreras);
 	
+		
+		
+		
+		createSpace(10, contentPane);
+		ButtonGroup grupoBotones = new ButtonGroup();
+		createLabel(contentPane, "Turno", 14, 245);
+		JRadioButton matutino = new JRadioButton("M");
+		grupoBotones.add(matutino);
+		contentPane.add(matutino);
+		JRadioButton Vespertino = new JRadioButton("V");
+		grupoBotones.add(Vespertino);
+		contentPane.add(Vespertino);
+		
+		
+		
+		
+		createSpace(10,contentPane);
+		
+		createLabel(contentPane, "Grupo", 14, 245);
+		String[] grupos = {
+			    "A",
+			    "B",
+			};
+		JComboBox<String> listaGrupos = new JComboBox<>(grupos);
+		listaGrupos.setMaximumSize(new Dimension(300, 30));
+		listaGrupos.setAlignmentX(CENTER_ALIGNMENT);
+		listaGrupos.insertItemAt("Selecciona tu grupo", 0);
+		listaGrupos.setSelectedIndex(0);
+		contentPane.add(listaGrupos);
+		
+			
+		createSpace(10, contentPane);
+		JButton registerButton = createButton(contentPane, "Registrarme", 300, 30, AppColors.primaryAccent, Color.WHITE);
+		
+		
+		
+		
 	}
 	
 	public void createLabel(JPanel container, String containerName, int fontSize, int rightBorder) {
@@ -147,7 +188,21 @@ public class RegisterView extends JFrame{
 		errorLabel.setAlignmentX(CENTER_ALIGNMENT);
 		container.add(errorLabel);
 	}
-	
+	public JButton createButton(JPanel container, String name, int width, int length, Color background, Color foreground) {
+		JButton button = new JButton(name);
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		button.setMaximumSize(new Dimension(width, length));
+		button.setBackground(background);
+		button.setForeground(foreground);
+		button.setFocusPainted(false);  
+		button.setBorderPainted(false);
+		button.setAlignmentX(CENTER_ALIGNMENT);
+		container.add(button);
+		return button;
+	}
 	
 	
 }
