@@ -1,17 +1,20 @@
 package views;
 
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
 import utils.AppColors;
+import utils.CreateFont;
 import utils.InputField;
 import utils.Label;
 import utils.TextPrompt;
 
 import javax.swing.JTextField;
+import javax.swing.SwingConstants;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -80,7 +83,7 @@ public class LoginView extends JFrame {
 		JPasswordField passwordField = new JPasswordField();
 		passwordField.setMaximumSize(new Dimension(300, 28));
 		passwordField.setAlignmentX(CENTER_ALIGNMENT);
-		passwordField.setFont(new Font ("Arial", Font.PLAIN, 15));
+//		passwordField.setFont(new Font ("Arial", Font.PLAIN, 15));
 		passwordField.setBorder(
 			    BorderFactory.createCompoundBorder(
 			        BorderFactory.createLineBorder(AppColors.subtleAccent, 1, true),
@@ -98,12 +101,25 @@ public class LoginView extends JFrame {
 			showError(contentPane);
 		}
 		
-		JCheckBox chkAceptoCondiciones = new JCheckBox("Recuérdame", true);
-		add(chkAceptoCondiciones);
+		createSpace(6, contentPane);
 		
-		JButton resetPasswordButton = createButton(contentPane, "¿Olvidaste tu contraseña?", 300, 30, AppColors.background, AppColors.primaryAccent);
+		JPanel secondaryOptionPanel = new JPanel();
+		secondaryOptionPanel.setMaximumSize(new Dimension(330, 35));
+		secondaryOptionPanel.setPreferredSize(new Dimension(330, 35));
+		secondaryOptionPanel.setBackground(AppColors.background);
 		
-		createSpace(30, contentPane);
+		JCheckBox chkRememberMe = new JCheckBox("Recuérdame", true);
+		secondaryOptionPanel.add(chkRememberMe);
+		
+		secondaryOptionPanel.add(Box.createHorizontalStrut(38));
+		
+		JButton resetPasswordButton = createButton(secondaryOptionPanel, "¿Olvidaste tu contraseña?", 160, 25, AppColors.background, AppColors.primaryAccent);
+		resetPasswordButton.setHorizontalAlignment(SwingConstants.RIGHT);
+		resetPasswordButton.setBorder(null);
+		
+		contentPane.add(secondaryOptionPanel);
+		
+		createSpace(25, contentPane);
 		
 		JButton loginButton = createButton(contentPane, "Iniciar sesión", 300, 30, AppColors.primaryAccent, Color.WHITE);
 		
@@ -153,7 +169,7 @@ public class LoginView extends JFrame {
 	
 	public void createLabel(JPanel container, String containerName, int fontSize, int rightBorder) {
 		JLabel emailLabel = new JLabel(containerName);
-		emailLabel.setFont(new Font("Tahoma", Font.PLAIN, fontSize));
+//		emailLabel.setFont(CreateFont.DEFAULT.deriveFont(fontSize));		
 		emailLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, rightBorder));
 		emailLabel.setAlignmentX(CENTER_ALIGNMENT);
 		container.add(emailLabel);
@@ -162,14 +178,16 @@ public class LoginView extends JFrame {
 	public void showAppName(JPanel container, String name, int fontSize) {
 		JLabel appName = new JLabel(name);
 		appName.setToolTipText("");
-		appName.setFont(new Font("Arial", Font.BOLD, fontSize));
+//		appName.setFont(CreateFont.DEFAULT.deriveFont(fontSize));		
+//		appName.setFont(new Font("Arial", Font.BOLD, fontSize));
 		appName.setAlignmentX(CENTER_ALIGNMENT);
 		container.add(appName);
 	}
 	
 	public void showError(JPanel container) {
 		JLabel errorLabel = new JLabel("*Credenciales incorrectas");
-		errorLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
+//		errorLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
+//		errorLabel.setFont(CreateFont.DEFAULT.deriveFont(12f));		
 		errorLabel.setForeground(Color.RED);
 		errorLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 110));
 		errorLabel.setAlignmentX(CENTER_ALIGNMENT);
@@ -187,6 +205,7 @@ public class LoginView extends JFrame {
 			}
 		});
 		button.setMaximumSize(new Dimension(width, length));
+		button.setPreferredSize(new Dimension(width, length));
 		button.setBackground(background);
 		button.setForeground(foreground);
 		button.setFocusPainted(false);  
