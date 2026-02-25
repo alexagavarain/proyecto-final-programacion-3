@@ -12,7 +12,7 @@ public class InputField extends JTextField{
 	public InputField() {
 		setMaximumSize(new Dimension(300, 28));
 		setAlignmentX(CENTER_ALIGNMENT);
-		//setFont(new Font ("Arial", Font.PLAIN, 15));
+
 
 		setBorder(
 			    BorderFactory.createCompoundBorder(
