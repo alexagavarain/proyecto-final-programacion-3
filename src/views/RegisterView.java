@@ -11,13 +11,12 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFormattedTextField;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
-import javax.swing.JTextField;
-
+import utils.AppColors;
+import utils.InputField;
 import utils.TextPrompt;
 
 public class RegisterView extends JFrame{
@@ -27,7 +26,6 @@ public class RegisterView extends JFrame{
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setTitle("Registro");
-		Color subtitleColor = new Color(100, 116, 139);
 		
 		JPanel contentPane = new JPanel();
 		setContentPane(contentPane);
@@ -38,32 +36,20 @@ public class RegisterView extends JFrame{
 		showAppName(contentPane, "Registro");
 		createSpace(60, contentPane);
 		
-		createLabel(contentPane, "Nombre", 15, 5);
-		JTextField nombre = new JTextField();
-		nombre.setMaximumSize(new Dimension(300, 28));
-		nombre.setAlignmentX(CENTER_ALIGNMENT);
-		nombre.setFont(new Font ("Arial", Font.PLAIN, 12));
-		nombre.setBorder(BorderFactory.createEmptyBorder(0, 3, 0, 3));
-		contentPane.add(nombre);
+		createLabel(contentPane, "Nombre", 15, 235);
+		InputField name = new InputField();
+		TextPrompt namePrompt = new TextPrompt("nombre apellido", name);
+		namePrompt.setForeground(AppColors.subtitle);
+		contentPane.add(name);
 		
 		createSpace(10, contentPane);
 		
 		createLabel(contentPane, "Correo electrónico", 14, 180);
 		
-		JTextField emailTextField = new JTextField();
-		emailTextField.setMaximumSize(new Dimension(300, 28));
-		emailTextField.setAlignmentX(CENTER_ALIGNMENT);
-		emailTextField.setFont(new Font ("Arial", Font.PLAIN, 15));
-
-		emailTextField.setBorder(
-			    BorderFactory.createCompoundBorder(
-				    BorderFactory.createLineBorder(Color.GRAY, 1, true),
-				    BorderFactory.createEmptyBorder(5, 5, 5, 5)
-			    )
-		);
+		InputField emailTextField = new InputField();
 		
 		TextPrompt promptEmail = new TextPrompt("estudiante@alu.uabcs.mx", emailTextField);
-		promptEmail.setForeground(Color.BLACK);
+		promptEmail.setForeground(AppColors.subtitle);
 		contentPane.add(emailTextField);
 		
 		createSpace(10, contentPane);
@@ -75,13 +61,13 @@ public class RegisterView extends JFrame{
 
 		passwordField.setBorder(
 			    BorderFactory.createCompoundBorder(
-			        BorderFactory.createLineBorder(subtitleColor, 1, true),
+			        BorderFactory.createLineBorder(AppColors.subtleAccent, 1, true),
 			        BorderFactory.createEmptyBorder(5, 5, 5, 5)
 			    )
 			);
 		
 		TextPrompt promptPassword = new TextPrompt("•••••••••••", passwordField);
-		promptPassword.setForeground(subtitleColor);
+		promptPassword.setForeground(AppColors.subtitle);
 		contentPane.add(passwordField);
 				
 				
@@ -92,7 +78,7 @@ public class RegisterView extends JFrame{
 		
 		
 		createSpace(10, contentPane);
-		createLabel(contentPane, "Carrera", 14, 10);
+		createLabel(contentPane, "Carrera", 14, 245);
 
 		String[] carreras = {
 		    "Ingeniería en Desarrollo de Software (IDS)",

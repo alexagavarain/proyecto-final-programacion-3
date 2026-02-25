@@ -6,6 +6,8 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import utils.AppColors;
+import utils.InputField;
 import utils.Label;
 import utils.TextPrompt;
 
@@ -43,17 +45,12 @@ public class LoginView extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setTitle("Inicio de sesión");
-		//TODO agregar title al frame
-		
-		Color backgroundColor = new Color(250, 250, 250);
-		Color accentColor = new Color(30, 58, 138);
-		Color subtitleColor = new Color(100, 116, 139);
 				
 		contentPane = new JPanel();
 		setContentPane(contentPane);
 		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
 		contentPane.setBorder(BorderFactory.createEmptyBorder(150, 0, 0, 0));
-		contentPane.setBackground(backgroundColor);
+		contentPane.setBackground(AppColors.background);
 		
 		createLogo(contentPane);
 		showAppName(contentPane, "UniTasks", 30);
@@ -64,46 +61,35 @@ public class LoginView extends JFrame {
 		createSpace(15, contentPane);
 		
 		Label showText2 = new Label ("Inicia sesión para continuar", 14, true);
-		showText2.setForeground(subtitleColor);
+		showText2.setForeground(AppColors.subtitle);
 		contentPane.add(showText2);
 		createSpace(25, contentPane);
 		
 		createLabel(contentPane, "Correo electrónico", 14, 180);
 		
 		//TODO clase para textField
-		emailTextField = new JTextField();
-		emailTextField.setMaximumSize(new Dimension(300, 28));
-		emailTextField.setAlignmentX(CENTER_ALIGNMENT);
-		emailTextField.setFont(new Font ("Arial", Font.PLAIN, 15));
-
-		emailTextField.setBorder(
-			    BorderFactory.createCompoundBorder(
-			        BorderFactory.createLineBorder(subtitleColor, 1, true),
-			        BorderFactory.createEmptyBorder(5, 5, 5, 5)
-			    )
-			);
-		
+		InputField emailTextField = new InputField();
 		TextPrompt promptEmail = new TextPrompt("estudiante@alu.uabcs.mx", emailTextField);
-		promptEmail.setForeground(subtitleColor);
+		promptEmail.setForeground(AppColors.subtitle);
 		contentPane.add(emailTextField);
 		
 		createSpace(10, contentPane);
 		
 		createLabel(contentPane, "Contraseña", 14, 220);
-		passwordField = new JPasswordField();
+		
+		JPasswordField passwordField = new JPasswordField();
 		passwordField.setMaximumSize(new Dimension(300, 28));
 		passwordField.setAlignmentX(CENTER_ALIGNMENT);
 		passwordField.setFont(new Font ("Arial", Font.PLAIN, 15));
-
 		passwordField.setBorder(
 			    BorderFactory.createCompoundBorder(
-			        BorderFactory.createLineBorder(subtitleColor, 1, true),
+			        BorderFactory.createLineBorder(AppColors.subtleAccent, 1, true),
 			        BorderFactory.createEmptyBorder(5, 5, 5, 5)
 			    )
 			);
 		
 		TextPrompt promptPassword = new TextPrompt("•••••••••••", passwordField);
-		promptPassword.setForeground(subtitleColor);
+		promptPassword.setForeground(AppColors.subtitle);
 		contentPane.add(passwordField);
 				
 				
@@ -115,15 +101,15 @@ public class LoginView extends JFrame {
 		JCheckBox chkAceptoCondiciones = new JCheckBox("Recuérdame", true);
 		add(chkAceptoCondiciones);
 		
-		JButton resetPasswordButton = createButton(contentPane, "¿Olvidaste tu contraseña?", 300, 30, backgroundColor, accentColor);
+		JButton resetPasswordButton = createButton(contentPane, "¿Olvidaste tu contraseña?", 300, 30, AppColors.background, AppColors.primaryAccent);
 		
 		createSpace(30, contentPane);
 		
-		JButton loginButton = createButton(contentPane, "Iniciar sesión", 300, 30, accentColor, Color.WHITE);
+		JButton loginButton = createButton(contentPane, "Iniciar sesión", 300, 30, AppColors.primaryAccent, Color.WHITE);
 		
 		createSpace(10, contentPane);
 		
-		JButton registerButton = createButton(contentPane, "¿No tienes una cuenta? Regístrate aquí", 300, 30, backgroundColor, accentColor);
+		JButton registerButton = createButton(contentPane, "¿No tienes una cuenta? Regístrate aquí", 300, 30, AppColors.background, AppColors.primaryAccent);
 		
 		registerButton.addActionListener(e ->{
 			new RegisterView().setVisible(true);
