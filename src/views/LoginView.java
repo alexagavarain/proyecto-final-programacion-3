@@ -1,11 +1,7 @@
 package views;
 
-import java.awt.EventQueue;
-import java.awt.FlowLayout;
-
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
 
 import utils.AppColors;
 import utils.CreateFont;
@@ -13,7 +9,6 @@ import utils.InputField;
 import utils.Label;
 import utils.TextPrompt;
 
-import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -24,10 +19,11 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 
 import javax.swing.JLabel;
-import java.awt.Font;
 import java.awt.Image;
 
 import javax.swing.JPasswordField;
@@ -38,8 +34,6 @@ public class LoginView extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	private JTextField emailTextField;
-	private JPasswordField passwordField;
 	boolean error;
 
 	public LoginView() {
@@ -55,23 +49,34 @@ public class LoginView extends JFrame {
 		contentPane.setBorder(BorderFactory.createEmptyBorder(150, 0, 0, 0));
 		contentPane.setBackground(AppColors.background);
 		
-		createLogo(contentPane);
-		showAppName(contentPane, "UniTasks", 30);
+		JPanel appLogo = new JPanel(new FlowLayout(FlowLayout.LEFT, 15, 0));
+		createLogo(appLogo);
+		showAppName(appLogo, "UniTasks", 30);
+		appLogo.setMaximumSize(new Dimension(330, 50));
+		appLogo.setPreferredSize(new Dimension(330, 50));
+		appLogo.setBackground(AppColors.background);
+		contentPane.add(appLogo);
 		createSpace(60, contentPane);
 		
+		JPanel descText = new JPanel(new FlowLayout(FlowLayout.LEFT, 15, 0));
+		descText.setMaximumSize(new Dimension(330, 50));
+		descText.setPreferredSize(new Dimension(330, 50));
+		descText.setBackground(AppColors.background);
+		
 		Label showText = new Label ("Bienvenid@", 18, false);
-		contentPane.add(showText);
+		descText.add(showText);
 		createSpace(15, contentPane);
 		
 		Label showText2 = new Label ("Inicia sesión para continuar", 14, true);
 		showText2.setForeground(AppColors.subtitle);
-		contentPane.add(showText2);
+		descText.add(showText2);
+		
+		contentPane.add(descText);
 		createSpace(25, contentPane);
 		
 		createLabel(contentPane, "Correo electrónico", 14, 180);
 		
-		//TODO clase para textField
-		InputField emailTextField = new InputField();
+ 		InputField emailTextField = new InputField();
 		TextPrompt promptEmail = new TextPrompt("estudiante@alu.uabcs.mx", emailTextField);
 		promptEmail.setForeground(AppColors.subtitle);
 		contentPane.add(emailTextField);
@@ -83,7 +88,6 @@ public class LoginView extends JFrame {
 		JPasswordField passwordField = new JPasswordField();
 		passwordField.setMaximumSize(new Dimension(300, 28));
 		passwordField.setAlignmentX(CENTER_ALIGNMENT);
-//		passwordField.setFont(new Font ("Arial", Font.PLAIN, 15));
 		passwordField.setBorder(
 			    BorderFactory.createCompoundBorder(
 			        BorderFactory.createLineBorder(AppColors.subtleAccent, 1, true),
@@ -136,17 +140,6 @@ public class LoginView extends JFrame {
 
 	}
 	
-	private void uploadFont() {
-		Font font = null;
-		
-//		try { 
-//			font = Font.createFont(Font.TRUETYPE_FONT, RegisterView.class.getResourceAsStream(//driceccion) null);
-//			font = fuente.deriveFont(14f);
-//		} catch() {
-//			
-//		}
-	}
-	
 	private void createLogo(JPanel container) {
 		JLabel lblLogo = new JLabel();
 		lblLogo.setBounds(145, 50, 100, 100);
@@ -167,27 +160,25 @@ public class LoginView extends JFrame {
 		return null;
 	}
 	
-	public void createLabel(JPanel container, String containerName, int fontSize, int rightBorder) {
+	public void createLabel(JPanel container, String containerName, float fontSize, int rightBorder) {
 		JLabel emailLabel = new JLabel(containerName);
-//		emailLabel.setFont(CreateFont.DEFAULT.deriveFont(fontSize));		
+		emailLabel.setFont(CreateFont.DEFAULT.deriveFont(fontSize));		
 		emailLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, rightBorder));
 		emailLabel.setAlignmentX(CENTER_ALIGNMENT);
 		container.add(emailLabel);
 	}
 	
-	public void showAppName(JPanel container, String name, int fontSize) {
+	public void showAppName(JPanel container, String name, float fontSize) {
 		JLabel appName = new JLabel(name);
 		appName.setToolTipText("");
-//		appName.setFont(CreateFont.DEFAULT.deriveFont(fontSize));		
-//		appName.setFont(new Font("Arial", Font.BOLD, fontSize));
+		appName.setFont(CreateFont.DEFAULT_BOLD.deriveFont(fontSize));		
 		appName.setAlignmentX(CENTER_ALIGNMENT);
 		container.add(appName);
 	}
 	
 	public void showError(JPanel container) {
 		JLabel errorLabel = new JLabel("*Credenciales incorrectas");
-//		errorLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
-//		errorLabel.setFont(CreateFont.DEFAULT.deriveFont(12f));		
+		errorLabel.setFont(CreateFont.DEFAULT.deriveFont(12f));		
 		errorLabel.setForeground(Color.RED);
 		errorLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 110));
 		errorLabel.setAlignmentX(CENTER_ALIGNMENT);

@@ -6,17 +6,17 @@ import javax.swing.JLabel;
 
 public class Label extends JLabel {
 
-	public Label(String text, int fontSize, boolean plain) {
+	public Label(String text, float fontSize, boolean plain) {
 		setToolTipText("");
 		setText(text);
-//		setFont(new Font("Arial", (plain ? Font.PLAIN:Font.BOLD), fontSize));
+		setFont(CreateFont.DEFAULT.deriveFont(fontSize));		
 		setAlignmentX(CENTER_ALIGNMENT);
 	}
 	
-	public Label(String text, int fontSize, boolean plain, Color color) {
+	public Label(String text, float fontSize, boolean plain, Color color) {
 		setToolTipText("");
 		setText(text);
-//		setFont(new Font("Arial", (plain ? Font.PLAIN:Font.BOLD), fontSize));
+		setFont(CreateFont.DEFAULT.deriveFont(fontSize));		
 		setForeground(color);
 		setAlignmentX(CENTER_ALIGNMENT);
 	}
