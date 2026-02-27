@@ -3,6 +3,7 @@ package views;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -17,6 +18,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
+import javax.swing.SwingConstants;
 
 import utils.AppColors;
 import utils.InputField;
@@ -39,7 +41,7 @@ public class RegisterView extends JFrame{
 		showAppName(contentPane, "Registro");
 		createSpace(60, contentPane);
 		
-		createLabel(contentPane, "Nombre", 14, 180);
+		createLabel(contentPane, "Nombre", 14, 245);
 		InputField name = new InputField();
 		TextPrompt namePrompt = new TextPrompt("nombre apellido", name);
 		namePrompt.setForeground(AppColors.subtitle);
@@ -98,36 +100,51 @@ public class RegisterView extends JFrame{
 		listaCarreras.setSelectedIndex(0);
 		contentPane.add(listaCarreras);
 	
-		
-		
-		
 		createSpace(10, contentPane);
+		JPanel secondaryPanel = new JPanel();
+		secondaryPanel.setOpaque(false);
+		secondaryPanel.setMaximumSize(new Dimension(300, 35));
+		secondaryPanel.setPreferredSize(new Dimension(300, 35));
+		secondaryPanel.setBackground(AppColors.background);
+
+		// Layout horizontal limpio
+		secondaryPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 5));
+
+		// ===== Turno =====
+		JLabel turnoLabel = new JLabel("Turno");
+		turnoLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		secondaryPanel.add(turnoLabel);
+
 		ButtonGroup grupoBotones = new ButtonGroup();
-		createLabel(contentPane, "Turno", 14, 245);
+
 		JRadioButton matutino = new JRadioButton("M");
+		JRadioButton vespertino = new JRadioButton("V");
+
+		matutino.setOpaque(false);
+		vespertino.setOpaque(false);
+
 		grupoBotones.add(matutino);
-		contentPane.add(matutino);
-		JRadioButton Vespertino = new JRadioButton("V");
-		grupoBotones.add(Vespertino);
-		contentPane.add(Vespertino);
-		
-		
-		
-		
-		createSpace(10,contentPane);
-		
-		createLabel(contentPane, "Grupo", 14, 245);
-		String[] grupos = {
-			    "A",
-			    "B",
-			};
+		grupoBotones.add(vespertino);
+
+		secondaryPanel.add(matutino);
+		secondaryPanel.add(vespertino);
+
+		// Espacio flexible
+		secondaryPanel.add(Box.createHorizontalStrut(20));
+
+		// ===== Grupo =====
+		JLabel grupoLabel = new JLabel("Grupo");
+		grupoLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
+		secondaryPanel.add(grupoLabel);
+
+		String[] grupos = {"A", "B"};
 		JComboBox<String> listaGrupos = new JComboBox<>(grupos);
-		listaGrupos.setMaximumSize(new Dimension(300, 30));
-		listaGrupos.setAlignmentX(CENTER_ALIGNMENT);
-		listaGrupos.insertItemAt("Selecciona tu grupo", 0);
-		listaGrupos.setSelectedIndex(0);
-		contentPane.add(listaGrupos);
-		
+		listaGrupos.setPreferredSize(new Dimension(70, 25));
+		listaGrupos.setFocusable(false);
+
+		secondaryPanel.add(listaGrupos);
+
+		contentPane.add(secondaryPanel);
 			
 		createSpace(10, contentPane);
 		JButton registerButton = createButton(contentPane, "Registrarme", 300, 30, AppColors.primaryAccent, Color.WHITE);
