@@ -107,10 +107,10 @@ public class RegisterView extends JFrame{
 		secondaryPanel.setPreferredSize(new Dimension(300, 35));
 		secondaryPanel.setBackground(AppColors.background);
 
-		// Layout horizontal limpio
+		
 		secondaryPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 5));
 
-		// ===== Turno =====
+		
 		JLabel turnoLabel = new JLabel("Turno");
 		turnoLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		secondaryPanel.add(turnoLabel);
@@ -129,10 +129,10 @@ public class RegisterView extends JFrame{
 		secondaryPanel.add(matutino);
 		secondaryPanel.add(vespertino);
 
-		// Espacio flexible
+
 		secondaryPanel.add(Box.createHorizontalStrut(20));
 
-		// ===== Grupo =====
+
 		JLabel grupoLabel = new JLabel("Grupo");
 		grupoLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		secondaryPanel.add(grupoLabel);
