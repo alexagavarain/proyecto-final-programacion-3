@@ -36,6 +36,7 @@ public class RegisterView extends JFrame{
 		JPanel contentPane = new JPanel();
 		setContentPane(contentPane);
 		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
+		contentPane.setBackground(AppColors.background);
 		
 		createSpace(100, contentPane);
 		
@@ -146,7 +147,7 @@ public class RegisterView extends JFrame{
 
 		contentPane.add(secondaryPanel);
 			
-		createSpace(10, contentPane);
+		createSpace(30, contentPane);
 		JButton registerButton = createButton(contentPane, "Registrarme", 300, 30, AppColors.primaryAccent, Color.WHITE);
 		
 		
