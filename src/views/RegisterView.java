@@ -21,6 +21,7 @@ import javax.swing.JRadioButton;
 import javax.swing.SwingConstants;
 
 import utils.AppColors;
+import utils.CreateFont;
 import utils.InputField;
 import utils.TextPrompt;
 
@@ -38,7 +39,7 @@ public class RegisterView extends JFrame{
 		
 		createSpace(100, contentPane);
 		
-		showAppName(contentPane, "Registro");
+		showAppName(contentPane, "Registro", 30);
 		createSpace(60, contentPane);
 		
 		createLabel(contentPane, "Nombre", 14, 245);
@@ -134,7 +135,6 @@ public class RegisterView extends JFrame{
 
 
 		JLabel grupoLabel = new JLabel("Grupo");
-		grupoLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		secondaryPanel.add(grupoLabel);
 
 		String[] grupos = {"A", "B"};
@@ -154,9 +154,9 @@ public class RegisterView extends JFrame{
 		
 	}
 	
-	public void createLabel(JPanel container, String containerName, int fontSize, int rightBorder) {
+	public void createLabel(JPanel container, String containerName, float fontSize, int rightBorder) {
 		JLabel emailLabel = new JLabel(containerName);
-		emailLabel.setFont(new Font("Tahoma", Font.PLAIN, fontSize));
+		emailLabel.setFont(CreateFont.DEFAULT.deriveFont(fontSize));		
 		emailLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, rightBorder));
 		emailLabel.setAlignmentX(CENTER_ALIGNMENT);
 		container.add(emailLabel);
@@ -165,15 +165,14 @@ public class RegisterView extends JFrame{
 	public void showText(JPanel container, String text, int fontSize) {
 		JLabel loginText = new JLabel(text);
 		loginText.setToolTipText("");
-		loginText.setFont(new Font("Arial", Font.PLAIN, fontSize));
 		loginText.setAlignmentX(CENTER_ALIGNMENT);
 		container.add(loginText);
 	}
 	
-	public void showAppName(JPanel container, String name) {
+	public void showAppName(JPanel container, String name, float fontSize) {
 		JLabel appName = new JLabel(name);
 		appName.setToolTipText("");
-		appName.setFont(new Font("Arial", Font.BOLD, 30));
+		appName.setFont(CreateFont.DEFAULT_BOLD.deriveFont(fontSize));		
 		appName.setAlignmentX(CENTER_ALIGNMENT);
 		container.add(appName);
 	}
@@ -199,8 +198,8 @@ public class RegisterView extends JFrame{
 	}
 	public void showError(JPanel container) {
 		JLabel errorLabel = new JLabel("*Credenciales incorrectas");
-		errorLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
 		errorLabel.setForeground(Color.RED);
+		errorLabel.setFont(CreateFont.DEFAULT.deriveFont(12f));		
 		errorLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 110));
 		errorLabel.setAlignmentX(CENTER_ALIGNMENT);
 		container.add(errorLabel);

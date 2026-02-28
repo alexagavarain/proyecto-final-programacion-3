@@ -42,7 +42,11 @@ public class LoginView extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setTitle("Inicio de sesión");
-				
+		
+		createContent();
+	}
+	
+	private void createContent() {
 		contentPane = new JPanel();
 		setContentPane(contentPane);
 		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
@@ -58,7 +62,7 @@ public class LoginView extends JFrame {
 		contentPane.add(appLogo);
 		createSpace(60, contentPane);
 		
-		JPanel descText = new JPanel(new FlowLayout(FlowLayout.LEFT, 15, 0));
+		JPanel descText = new JPanel(new FlowLayout(FlowLayout.LEFT, 16, 0));
 		descText.setMaximumSize(new Dimension(330, 50));
 		descText.setPreferredSize(new Dimension(330, 50));
 		descText.setBackground(AppColors.background);
@@ -66,6 +70,8 @@ public class LoginView extends JFrame {
 		Label showText = new Label ("Bienvenid@", 18, false);
 		descText.add(showText);
 		createSpace(15, contentPane);
+		
+		descText.add(Box.createHorizontalStrut(100));
 		
 		Label showText2 = new Label ("Inicia sesión para continuar", 14, true);
 		showText2.setForeground(AppColors.subtitle);
@@ -135,9 +141,6 @@ public class LoginView extends JFrame {
 			new RegisterView().setVisible(true);
 			dispose();
 		});
-		
-//		pack();
-
 	}
 	
 	private void createLogo(JPanel container) {
