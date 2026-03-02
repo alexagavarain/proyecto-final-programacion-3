@@ -15,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
@@ -26,6 +27,9 @@ import utils.TextPrompt;
 
 public class RegisterView extends JFrame{
 	boolean error = false;
+	InputField name;
+	InputField emailTextField;
+	JPasswordField passwordField;
 
 	public RegisterView() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -43,7 +47,7 @@ public class RegisterView extends JFrame{
 		createSpace(60, contentPane);
 		
 		createLabel(contentPane, "Nombre", 14, 245);
-		InputField name = new InputField();
+		name = new InputField();
 		TextPrompt namePrompt = new TextPrompt("nombre apellido", name);
 		namePrompt.setForeground(AppColors.subtitle);
 		contentPane.add(name);
@@ -52,7 +56,7 @@ public class RegisterView extends JFrame{
 		
 		createLabel(contentPane, "Correo electrónico", 14, 180);
 		
-		InputField emailTextField = new InputField();
+		emailTextField = new InputField();
 		
 		TextPrompt promptEmail = new TextPrompt("estudiante@alu.uabcs.mx", emailTextField);
 		promptEmail.setForeground(AppColors.subtitle);
@@ -60,7 +64,7 @@ public class RegisterView extends JFrame{
 		
 		createSpace(10, contentPane);
 		createLabel(contentPane, "Contraseña", 14, 220);
-		JPasswordField passwordField = new JPasswordField();
+		passwordField = new JPasswordField();
 		passwordField.setMaximumSize(new Dimension(300, 28));
 		passwordField.setAlignmentX(CENTER_ALIGNMENT);
 		passwordField.setFont(new Font ("Arial", Font.PLAIN, 15));
@@ -147,9 +151,38 @@ public class RegisterView extends JFrame{
 		contentPane.add(secondaryPanel);
 			
 		createSpace(30, contentPane);
-		JButton registerButton = createButton(contentPane, "Registrarme", 300, 30, AppColors.primaryAccent, Color.WHITE);	
+		JButton registerButton = createButton(contentPane, "Registrarme", 300, 30, AppColors.primaryAccent, Color.WHITE);
+		registerButton.addActionListener(e ->{
+			JOptionPane.showMessageDialog(null, "Se ha registrado con exito");
+		});
+		
 	}
 	
+	
+	
+	/*
+	
+	public void register() {
+		
+		
+	}
+	
+	
+	public boolean validateRegister() {
+		
+		 if(name.getText().trim().isEmpty()) {
+			 return false;
+		 }
+		 if(emailTextField.getText().trim().isEmpty()) {
+			 return false;
+		 }
+		 if(passwordField.getPassword().toString().trim().isEmpty()) {
+			 return false;
+		 }
+		
+		return true;
+	}
+	*/
 	public void createLabel(JPanel container, String containerName, float fontSize, int rightBorder) {
 		JLabel emailLabel = new JLabel(containerName);
 		emailLabel.setFont(CreateFont.DEFAULT.deriveFont(fontSize));		
