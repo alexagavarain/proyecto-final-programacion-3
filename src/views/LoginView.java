@@ -23,6 +23,8 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.Image;
 
 import javax.swing.JPasswordField;
@@ -34,9 +36,10 @@ public class LoginView extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	boolean error;
+	InputField emailTextField;
+	JPasswordField passwordField;
 
 	public LoginView() {
-		error = false;
 		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -81,7 +84,7 @@ public class LoginView extends JFrame {
 		
 		createLabel(contentPane, "Correo electrónico", 14, 180);
 		
- 		InputField emailTextField = new InputField();
+ 		emailTextField = new InputField();
 		TextPrompt promptEmail = new TextPrompt("estudiante@alu.uabcs.mx", emailTextField);
 		promptEmail.setForeground(AppColors.subtitle);
 		contentPane.add(emailTextField);
@@ -90,7 +93,7 @@ public class LoginView extends JFrame {
 		
 		createLabel(contentPane, "Contraseña", 14, 220);
 		
-		JPasswordField passwordField = new JPasswordField();
+		passwordField = new JPasswordField();
 		passwordField.setMaximumSize(new Dimension(300, 28));
 		passwordField.setAlignmentX(CENTER_ALIGNMENT);
 		passwordField.setBorder(
@@ -103,12 +106,6 @@ public class LoginView extends JFrame {
 		TextPrompt promptPassword = new TextPrompt("•••••••••••", passwordField);
 		promptPassword.setForeground(AppColors.subtitle);
 		contentPane.add(passwordField);
-				
-				
-		if (error) {
-			createSpace(4, contentPane);
-			showError(contentPane);
-		}
 		
 		createSpace(6, contentPane);
 		
@@ -116,6 +113,8 @@ public class LoginView extends JFrame {
 		secondaryOptionPanel.setMaximumSize(new Dimension(330, 35));
 		secondaryOptionPanel.setPreferredSize(new Dimension(330, 35));
 		secondaryOptionPanel.setBackground(AppColors.background);
+		
+		//TODO 
 		
 		JCheckBox chkRememberMe = new JCheckBox("Recuérdame", true);
 		secondaryOptionPanel.add(chkRememberMe);
@@ -126,11 +125,17 @@ public class LoginView extends JFrame {
 		resetPasswordButton.setHorizontalAlignment(SwingConstants.RIGHT);
 		resetPasswordButton.setBorder(null);
 		
+		resetPasswordButton.addActionListener(e ->{
+			JOptionPane.showMessageDialog(contentPane, "Te hemos enviado un correo", "Restablecer contraseña", JOptionPane.INFORMATION_MESSAGE);
+		});
+		
 		contentPane.add(secondaryOptionPanel);
 		
 		createSpace(25, contentPane);
 		
 		JButton loginButton = createButton(contentPane, "Iniciar sesión", 300, 30, AppColors.primaryAccent, Color.WHITE);
+
+		loginButton.addActionListener(e -> login(contentPane));
 		
 		createSpace(10, contentPane);
 		
@@ -140,6 +145,31 @@ public class LoginView extends JFrame {
 			new RegisterView().setVisible(true);
 			dispose();
 		});
+	}
+	
+	private void login(JPanel panel) {
+		if (validateLogin()) {
+			JOptionPane.showMessageDialog(panel, "Has iniciado sesion", "Inicio sesion", JOptionPane.INFORMATION_MESSAGE);
+		}
+//		} else {
+//			JOptionPane.showMessageDialog(panel, "Credenciales incorrectas", "Error", JOptionPane.INFORMATION_MESSAGE);
+//		}
+	};
+	
+	private boolean validateLogin() {
+		if (!emailTextField.getText().trim().equals("") && !String.valueOf(passwordField.getPassword()).trim().isEmpty()) {
+			return true;
+		}
+		
+		if (emailTextField.getText().trim().equals("")){
+			showError(contentPane, "El correo es obligatorio");
+		}
+		
+		if (String.valueOf(passwordField.getPassword()).trim().isEmpty()) {
+			showError(contentPane, "La contreseña es obligatoria");
+		}
+		
+		return false;
 	}
 	
 	private void createLogo(JPanel container) {
@@ -178,13 +208,15 @@ public class LoginView extends JFrame {
 		container.add(appName);
 	}
 	
-	public void showError(JPanel container) {
-		JLabel errorLabel = new JLabel("*Credenciales incorrectas");
+	public void showError(JPanel container, String text) {
+		JLabel errorLabel = new JLabel(text);
 		errorLabel.setFont(CreateFont.DEFAULT.deriveFont(12f));		
 		errorLabel.setForeground(Color.RED);
 		errorLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 110));
 		errorLabel.setAlignmentX(CENTER_ALIGNMENT);
 		container.add(errorLabel);
+		container.revalidate();
+		container.repaint();
 	}
 	
 	public void createSpace(int pixels, JPanel container) {
