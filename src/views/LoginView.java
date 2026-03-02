@@ -19,7 +19,6 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 
@@ -146,7 +145,7 @@ public class LoginView extends JFrame {
 	private void createLogo(JPanel container) {
 		JLabel lblLogo = new JLabel();
 		lblLogo.setBounds(145, 50, 100, 100);
-		lblLogo.setIcon(uploadIcon("/assets/logo.png", 30, 30));
+		lblLogo.setIcon(uploadIcon("/assets/img/logo.png", 30, 30));
 		container.add(lblLogo);
 	}
 	

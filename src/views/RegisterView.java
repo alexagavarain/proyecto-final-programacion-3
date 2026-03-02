@@ -18,7 +18,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
-import javax.swing.SwingConstants;
 
 import utils.AppColors;
 import utils.CreateFont;
@@ -148,11 +147,7 @@ public class RegisterView extends JFrame{
 		contentPane.add(secondaryPanel);
 			
 		createSpace(30, contentPane);
-		JButton registerButton = createButton(contentPane, "Registrarme", 300, 30, AppColors.primaryAccent, Color.WHITE);
-		
-		
-		
-		
+		JButton registerButton = createButton(contentPane, "Registrarme", 300, 30, AppColors.primaryAccent, Color.WHITE);	
 	}
 	
 	public void createLabel(JPanel container, String containerName, float fontSize, int rightBorder) {
@@ -197,6 +192,7 @@ public class RegisterView extends JFrame{
 		container.add(button);
 		return button;
 	}
+	
 	public void showError(JPanel container) {
 		JLabel errorLabel = new JLabel("*Credenciales incorrectas");
 		errorLabel.setForeground(Color.RED);
@@ -205,6 +201,7 @@ public class RegisterView extends JFrame{
 		errorLabel.setAlignmentX(CENTER_ALIGNMENT);
 		container.add(errorLabel);
 	}
+	
 	public JButton createButton(JPanel container, String name, int width, int length, Color background, Color foreground) {
 		JButton button = new JButton(name);
 		button.addActionListener(new ActionListener() {

@@ -13,7 +13,7 @@ public class CreateFont {
         try {
             DEFAULT = Font.createFont(
                 Font.TRUETYPE_FONT,
-                CreateFont.class.getResourceAsStream("/assets/segoeuithis.ttf")
+                CreateFont.class.getResourceAsStream("/assets/fonts/segoeuithis.ttf")
             ).deriveFont(13f);
 
             DEFAULT_BOLD = DEFAULT.deriveFont(Font.BOLD);
