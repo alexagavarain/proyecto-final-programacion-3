@@ -166,15 +166,18 @@ public class LoginView extends JFrame {
 	}
 	
 	private void login(JPanel panel) {
-		emailErrorSpace.removeAll();
-		passwordErrorSpace.removeAll();
-		emailErrorSpace.repaint();
-		passwordErrorSpace.repaint();
+		updatePanel(emailErrorSpace);
+		updatePanel(passwordErrorSpace);
 		
 		if (validateLogin()) {
 			JOptionPane.showMessageDialog(panel, "Has iniciado sesion", "Inicio sesion", JOptionPane.INFORMATION_MESSAGE);
 		}
 	};
+	
+	private void updatePanel(JPanel panel) {
+		panel.removeAll();
+		panel.repaint();
+	}
 	
 	private boolean validateLogin() {
 		if (!emailTextField.getText().trim().equals("") && !String.valueOf(passwordField.getPassword()).trim().isEmpty()) {
