@@ -38,10 +38,8 @@ public class LoginView extends JFrame {
 	boolean error;
 	private InputField emailTextField;
 	private JPasswordField passwordField;
-	private JLabel emailError = createErrorLabel("El correo es obligatorio");
-	private JLabel passwordError = createErrorLabel("La contraseña es obligatoria");
-	private JPanel emailErrorSpace;
-	private JPanel passwordErrorSpace;
+	private Label emailError = createErrorLabel("");
+	private Label passwordError = createErrorLabel("");
 
 	public LoginView() {
 		
@@ -93,12 +91,7 @@ public class LoginView extends JFrame {
 		promptEmail.setForeground(AppColors.subtitle);
 		contentPane.add(emailTextField);
 		
-		emailErrorSpace = new JPanel();
-		emailErrorSpace.setMaximumSize(new Dimension(330, 20));
-		emailErrorSpace.setPreferredSize(new Dimension(330, 20));
-		emailErrorSpace.setBackground(AppColors.background);
-		
-		contentPane.add(emailErrorSpace);
+		contentPane.add(emailError);
 		
 		createSpace(10, contentPane);
 		
@@ -118,12 +111,7 @@ public class LoginView extends JFrame {
 		promptPassword.setForeground(AppColors.subtitle);
 		contentPane.add(passwordField);
 		
-		passwordErrorSpace = new JPanel();
-		passwordErrorSpace.setMaximumSize(new Dimension(330, 20));
-		passwordErrorSpace.setPreferredSize(new Dimension(330, 20));
-		passwordErrorSpace.setBackground(AppColors.background);
-		
-		contentPane.add(passwordErrorSpace);
+		contentPane.add(passwordError);
 		
 		createSpace(6, contentPane);
 		
@@ -166,17 +154,16 @@ public class LoginView extends JFrame {
 	}
 	
 	private void login(JPanel panel) {
-		updatePanel(emailErrorSpace);
-		updatePanel(passwordErrorSpace);
+		resetErrorLabel(emailError);
+		resetErrorLabel(passwordError);
 		
 		if (validateLogin()) {
 			JOptionPane.showMessageDialog(panel, "Has iniciado sesion", "Inicio sesion", JOptionPane.INFORMATION_MESSAGE);
 		}
 	};
 	
-	private void updatePanel(JPanel panel) {
-		panel.removeAll();
-		panel.repaint();
+	private void resetErrorLabel(JLabel errorLabel) {
+		errorLabel.setText("");
 	}
 	
 	private boolean validateLogin() {
@@ -185,15 +172,11 @@ public class LoginView extends JFrame {
 		}
 		
 		if (emailTextField.getText().trim().equals("")){
-			emailErrorSpace.add(emailError);
-			emailErrorSpace.revalidate();
-			emailErrorSpace.repaint();
+			emailError.setText("El correo es obligatorio");
 		}
 		
 		if (String.valueOf(passwordField.getPassword()).trim().isEmpty()) {
-			passwordErrorSpace.add(passwordError);
-			passwordErrorSpace.revalidate();
-			passwordErrorSpace.repaint();
+			passwordError.setText("La contraseña es obligatoria");
 		}
 		
 		return false;
@@ -235,9 +218,9 @@ public class LoginView extends JFrame {
 		container.add(appName);
 	}
 	
-	public JLabel createErrorLabel(String text) {
-		JLabel errorLabel = new JLabel(text);
-		errorLabel.setFont(CreateFont.DEFAULT.deriveFont(12f));		
+	public Label createErrorLabel(String text) {
+		Label errorLabel = new Label(text, 12, false);
+//		errorLabel.setFont(CreateFont.DEFAULT.deriveFont(12f));		
 		errorLabel.setForeground(Color.RED);
 		errorLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 110));
 		errorLabel.setAlignmentX(CENTER_ALIGNMENT);
