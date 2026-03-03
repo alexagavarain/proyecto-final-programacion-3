@@ -30,13 +30,14 @@ public class RegisterView extends JFrame{
 	InputField name;
 	InputField emailTextField;
 	JPasswordField passwordField;
+	private JPanel contentPane;
 
 	public RegisterView() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setTitle("Registro");
 		
-		JPanel contentPane = new JPanel();
+		contentPane = new JPanel();
 		setContentPane(contentPane);
 		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
 		contentPane.setBackground(AppColors.background);
@@ -80,12 +81,6 @@ public class RegisterView extends JFrame{
 		promptPassword.setForeground(AppColors.subtitle);
 		contentPane.add(passwordField);
 				
-				
-		if (error) {
-			createSpace(4, contentPane);
-			showError(contentPane);
-		}
-		
 		
 		createSpace(10, contentPane);
 		createLabel(contentPane, "Carrera", 14, 245);
@@ -153,36 +148,38 @@ public class RegisterView extends JFrame{
 		createSpace(30, contentPane);
 		JButton registerButton = createButton(contentPane, "Registrarme", 300, 30, AppColors.primaryAccent, Color.WHITE);
 		registerButton.addActionListener(e ->{
-			JOptionPane.showMessageDialog(null, "Se ha registrado con exito");
+			Register(contentPane);
 		});
 		
 	}
 	
 	
 	
-	/*
+	private void Register(JPanel panel) {
+		if (validateRegister()) {
+			JOptionPane.showMessageDialog(panel, "Te has registrado correctamente", "Registrado", JOptionPane.INFORMATION_MESSAGE);
+		}
+	};
 	
-	public void register() {
+	private boolean validateRegister() {
+		if (!emailTextField.getText().trim().equals("") && !String.valueOf(passwordField.getPassword()).trim().isEmpty() && !name.getText().trim().equals("")) {
+			return true;
+		}
 		
 		
+		if (emailTextField.getText().trim().equals("")){
+			showError(contentPane, "El correo es obligatorio");
+		}
+		
+		if (name.getText().trim().equals("")){
+			showError(contentPane, "El nombre es obligatorio.");
+		}
+		if (String.valueOf(passwordField.getPassword()).trim().isEmpty()) {
+			showError(contentPane, "La contreseña es obligatoria");
+		}
+		
+		return false;
 	}
-	
-	
-	public boolean validateRegister() {
-		
-		 if(name.getText().trim().isEmpty()) {
-			 return false;
-		 }
-		 if(emailTextField.getText().trim().isEmpty()) {
-			 return false;
-		 }
-		 if(passwordField.getPassword().toString().trim().isEmpty()) {
-			 return false;
-		 }
-		
-		return true;
-	}
-	*/
 	public void createLabel(JPanel container, String containerName, float fontSize, int rightBorder) {
 		JLabel emailLabel = new JLabel(containerName);
 		emailLabel.setFont(CreateFont.DEFAULT.deriveFont(fontSize));		
@@ -226,14 +223,17 @@ public class RegisterView extends JFrame{
 		return button;
 	}
 	
-	public void showError(JPanel container) {
-		JLabel errorLabel = new JLabel("*Credenciales incorrectas");
-		errorLabel.setForeground(Color.RED);
+	public void showError(JPanel container, String text) {
+		JLabel errorLabel = new JLabel(text);
 		errorLabel.setFont(CreateFont.DEFAULT.deriveFont(12f));		
+		errorLabel.setForeground(Color.RED);
 		errorLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 110));
 		errorLabel.setAlignmentX(CENTER_ALIGNMENT);
 		container.add(errorLabel);
+		container.revalidate();
+		container.repaint();
 	}
+	
 	
 	public JButton createButton(JPanel container, String name, int width, int length, Color background, Color foreground) {
 		JButton button = new JButton(name);
