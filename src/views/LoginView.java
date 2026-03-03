@@ -36,8 +36,12 @@ public class LoginView extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	boolean error;
-	InputField emailTextField;
-	JPasswordField passwordField;
+	private InputField emailTextField;
+	private JPasswordField passwordField;
+	private JLabel emailError = createErrorLabel("El correo es obligatorio");
+	private JLabel passwordError = createErrorLabel("La contraseña es obligatoria");
+	private JPanel emailErrorSpace;
+	private JPanel passwordErrorSpace;
 
 	public LoginView() {
 		
@@ -89,6 +93,13 @@ public class LoginView extends JFrame {
 		promptEmail.setForeground(AppColors.subtitle);
 		contentPane.add(emailTextField);
 		
+		emailErrorSpace = new JPanel();
+		emailErrorSpace.setMaximumSize(new Dimension(330, 20));
+		emailErrorSpace.setPreferredSize(new Dimension(330, 20));
+		emailErrorSpace.setBackground(AppColors.background);
+		
+		contentPane.add(emailErrorSpace);
+		
 		createSpace(10, contentPane);
 		
 		createLabel(contentPane, "Contraseña", 14, 220);
@@ -107,6 +118,13 @@ public class LoginView extends JFrame {
 		promptPassword.setForeground(AppColors.subtitle);
 		contentPane.add(passwordField);
 		
+		passwordErrorSpace = new JPanel();
+		passwordErrorSpace.setMaximumSize(new Dimension(330, 20));
+		passwordErrorSpace.setPreferredSize(new Dimension(330, 20));
+		passwordErrorSpace.setBackground(AppColors.background);
+		
+		contentPane.add(passwordErrorSpace);
+		
 		createSpace(6, contentPane);
 		
 		JPanel secondaryOptionPanel = new JPanel();
@@ -114,7 +132,7 @@ public class LoginView extends JFrame {
 		secondaryOptionPanel.setPreferredSize(new Dimension(330, 35));
 		secondaryOptionPanel.setBackground(AppColors.background);
 		
-		//TODO 
+		//TODO espacio para añadir el showErrors
 		
 		JCheckBox chkRememberMe = new JCheckBox("Recuérdame", true);
 		secondaryOptionPanel.add(chkRememberMe);
@@ -148,12 +166,14 @@ public class LoginView extends JFrame {
 	}
 	
 	private void login(JPanel panel) {
+		emailErrorSpace.removeAll();
+		passwordErrorSpace.removeAll();
+		emailErrorSpace.repaint();
+		passwordErrorSpace.repaint();
+		
 		if (validateLogin()) {
 			JOptionPane.showMessageDialog(panel, "Has iniciado sesion", "Inicio sesion", JOptionPane.INFORMATION_MESSAGE);
 		}
-//		} else {
-//			JOptionPane.showMessageDialog(panel, "Credenciales incorrectas", "Error", JOptionPane.INFORMATION_MESSAGE);
-//		}
 	};
 	
 	private boolean validateLogin() {
@@ -162,11 +182,15 @@ public class LoginView extends JFrame {
 		}
 		
 		if (emailTextField.getText().trim().equals("")){
-			showError(contentPane, "El correo es obligatorio");
+			emailErrorSpace.add(emailError);
+			emailErrorSpace.revalidate();
+			emailErrorSpace.repaint();
 		}
 		
 		if (String.valueOf(passwordField.getPassword()).trim().isEmpty()) {
-			showError(contentPane, "La contreseña es obligatoria");
+			passwordErrorSpace.add(passwordError);
+			passwordErrorSpace.revalidate();
+			passwordErrorSpace.repaint();
 		}
 		
 		return false;
@@ -185,7 +209,7 @@ public class LoginView extends JFrame {
 			Image icono = ImageIO.read(getClass().getResource(ruta));
 			icono = icono.getScaledInstance(w, h, Image.SCALE_SMOOTH);
 			return new ImageIcon(icono);
-		}catch(Exception ex) {
+		} catch(Exception ex) {
 			System.out.println("Image not found");
 		}
 		
@@ -208,15 +232,13 @@ public class LoginView extends JFrame {
 		container.add(appName);
 	}
 	
-	public void showError(JPanel container, String text) {
+	public JLabel createErrorLabel(String text) {
 		JLabel errorLabel = new JLabel(text);
 		errorLabel.setFont(CreateFont.DEFAULT.deriveFont(12f));		
 		errorLabel.setForeground(Color.RED);
 		errorLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 110));
 		errorLabel.setAlignmentX(CENTER_ALIGNMENT);
-		container.add(errorLabel);
-		container.revalidate();
-		container.repaint();
+		return errorLabel;
 	}
 	
 	public void createSpace(int pixels, JPanel container) {
