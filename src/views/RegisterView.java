@@ -32,9 +32,13 @@ public class RegisterView extends JFrame{
 	InputField emailTextField;
 	JPasswordField passwordField;
 	private JPanel contentPane;
+	JComboBox<String> listaGrupos;
 	private Label emailError = createErrorLabel("");
 	private Label passwordError = createErrorLabel("");
 	private Label nameError = createErrorLabel("");
+	private Label carreraError = createErrorLabel("");
+	private Label grupoError =  createErrorLabel("");
+	private Label turnoError = createErrorLabel("");
 	
 	public RegisterView() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -141,7 +145,7 @@ public class RegisterView extends JFrame{
 		//secondaryPanel.add(grupoLabel);
 
 		String[] grupos = {"A", "B"};
-		JComboBox<String> listaGrupos = new JComboBox<>(grupos);
+		listaGrupos = new JComboBox<>(grupos);
 		listaGrupos.setPreferredSize(new Dimension(70, 25));
 		listaGrupos.setFocusable(false);
 
@@ -155,37 +159,80 @@ public class RegisterView extends JFrame{
 			Register(contentPane);
 		});
 		
+		createSpace(30, contentPane);
+		JButton btnReturn = createButton(contentPane, "Regresar", 100, 20, AppColors.primaryAccent, Color.WHITE);
+		btnReturn.addActionListener(e -> {
+			int option = JOptionPane.showConfirmDialog(this, "¿Seguro que deseas regresar? Se perderán todos los datos");
+			
+			if(option == JOptionPane.YES_OPTION) {
+				new LoginView().setVisible(true);
+				dispose();
+			}
+		});
+		
 	}
 	
 	
 	
 	private void Register(JPanel panel) {
-		resetErrorLabel(emailError);
-		resetErrorLabel(passwordError);
 		if (validateRegister()) {
 			JOptionPane.showMessageDialog(panel, "Te has registrado correctamente", "Registrado", JOptionPane.INFORMATION_MESSAGE);
 		}
 	};
 	
 	private boolean validateRegister() {
-		if (!emailTextField.getText().trim().equals("") && !String.valueOf(passwordField.getPassword()).trim().isEmpty() && !name.getText().trim().equals("")) {
+		if (!(listaGrupos.getSelectedIndex()==0 )&& !emailTextField.getText().trim().equals("") && !String.valueOf(passwordField.getPassword()).trim().isEmpty() && !name.getText().trim().equals("")) {
 			return true;
 		}
 		
+		if (listaGrupos.getSelectedIndex() == 0) {
+			carreraError.setText("Seleccione una carrera");
+			emailError.setFont(CreateFont.DEFAULT.deriveFont(12f));
+		}
 		
 		if (emailTextField.getText().trim().isEmpty()){
 			emailError.setText("El correo es obligatorio.");
+			emailError.setFont(CreateFont.DEFAULT.deriveFont(12f));
 		}
 		
 		if (name.getText().trim().isEmpty()){
 			nameError.setText("El nombre es obligatorio.");
+			emailError.setFont(CreateFont.DEFAULT.deriveFont(12f));
 		}
 		if (String.valueOf(passwordField.getPassword()).trim().isEmpty()) {
 			passwordError.setText("La contraseña es obligatoria.");
+			emailError.setFont(CreateFont.DEFAULT.deriveFont(12f));
 		}
 		
 		return false;
 	}
+	
+	private boolean validateName() {
+		if (name.getText().trim().isEmpty()) {
+			nameError.setText("El nombre es obligatorio");
+			return false;
+		}
+
+		return true;
+	}
+	
+	private boolean validateCareer() {
+		if (listaGrupos.getSelectedIndex() == 0) {
+			carreraError.setText("Seleccione una carrera");
+			return false;
+		}
+		return true;
+	}
+	
+	private boolean validatePassword() {
+		if (String.valueOf(passwordField.getPassword()).trim().isEmpty()) {
+			passwordError.setText("La contraseña es obligatoria.");
+			return false;
+		}
+		return true;
+	}
+	
+	
 	public void createLabel(JPanel container, String containerName, float fontSize, int rightBorder) {
 		JLabel emailLabel = new JLabel(containerName);
 		emailLabel.setFont(CreateFont.DEFAULT.deriveFont(fontSize));		
