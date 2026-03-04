@@ -35,60 +35,45 @@ public class LoginView extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
-	boolean error;
 	private InputField emailTextField;
 	private JPasswordField passwordField;
 	private Label emailError = createErrorLabel("");
 	private Label passwordError = createErrorLabel("");
 
 	public LoginView() {
-		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setTitle("Inicio de sesión");
 		
-		createContent();
+		initializeComponents();
 	}
 	
-	private void createContent() {
-		contentPane = new JPanel();
+	private void initializeComponents() {
+		contentPane = createMainPanel();
 		setContentPane(contentPane);
-		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
-		contentPane.setBorder(BorderFactory.createEmptyBorder(150, 0, 0, 0));
-		contentPane.setBackground(AppColors.background);
 		
-		JPanel appLogo = new JPanel(new FlowLayout(FlowLayout.LEFT, 15, 0));
-		createLogo(appLogo);
-		showAppName(appLogo, "UniTasks", 30);
-		appLogo.setMaximumSize(new Dimension(330, 50));
-		appLogo.setPreferredSize(new Dimension(330, 50));
-		appLogo.setBackground(AppColors.background);
+		JPanel appLogo = createAppLogo("UniTasks", 30);
 		contentPane.add(appLogo);
 		createSpace(60, contentPane);
 		
-		JPanel descText = new JPanel(new FlowLayout(FlowLayout.LEFT, 16, 0));
-		descText.setMaximumSize(new Dimension(330, 50));
-		descText.setPreferredSize(new Dimension(330, 50));
-		descText.setBackground(AppColors.background);
+		JPanel descText = createAlignPanel();
 		
-		Label showText = new Label ("Bienvenid@", 18, false);
-		descText.add(showText);
+		Label welcomeMessage = new Label ("Bienvenid@", 18, false);
+		descText.add(welcomeMessage);
 		createSpace(15, contentPane);
 		
 		descText.add(Box.createHorizontalStrut(100));
 		
-		Label showText2 = new Label ("Inicia sesión para continuar", 14, true);
-		showText2.setForeground(AppColors.subtitle);
-		descText.add(showText2);
+		Label message = new Label ("Inicia sesión para continuar", 14, true);
+		message.setForeground(AppColors.subtitle);
+		descText.add(message);
 		
 		contentPane.add(descText);
 		createSpace(25, contentPane);
 		
 		createLabel(contentPane, "Correo electrónico", 14, 180);
 		
- 		emailTextField = new InputField();
-		TextPrompt promptEmail = new TextPrompt("estudiante@alu.uabcs.mx", emailTextField);
-		promptEmail.setForeground(AppColors.subtitle);
+ 		emailTextField = createEmailField("estudiante@alu.uabcs.mx");
 		contentPane.add(emailTextField);
 		
 		contentPane.add(emailError);
@@ -97,43 +82,15 @@ public class LoginView extends JFrame {
 		
 		createLabel(contentPane, "Contraseña", 14, 220);
 		
-		passwordField = new JPasswordField();
-		passwordField.setMaximumSize(new Dimension(300, 28));
-		passwordField.setAlignmentX(CENTER_ALIGNMENT);
-		passwordField.setBorder(
-			    BorderFactory.createCompoundBorder(
-			        BorderFactory.createLineBorder(AppColors.subtleAccent, 1, true),
-			        BorderFactory.createEmptyBorder(5, 5, 5, 5)
-			    )
-			);
-		
-		TextPrompt promptPassword = new TextPrompt("•••••••••••", passwordField);
-		promptPassword.setForeground(AppColors.subtitle);
+		JPasswordField passwordField = createPasswordField();
+	
 		contentPane.add(passwordField);
 		
 		contentPane.add(passwordError);
 		
 		createSpace(6, contentPane);
 		
-		JPanel secondaryOptionPanel = new JPanel();
-		secondaryOptionPanel.setMaximumSize(new Dimension(330, 35));
-		secondaryOptionPanel.setPreferredSize(new Dimension(330, 35));
-		secondaryOptionPanel.setBackground(AppColors.background);
-		
-		//TODO espacio para añadir el showErrors
-		
-		JCheckBox chkRememberMe = new JCheckBox("Recuérdame", true);
-		secondaryOptionPanel.add(chkRememberMe);
-		
-		secondaryOptionPanel.add(Box.createHorizontalStrut(38));
-		
-		JButton resetPasswordButton = createButton(secondaryOptionPanel, "¿Olvidaste tu contraseña?", 160, 25, AppColors.background, AppColors.primaryAccent);
-		resetPasswordButton.setHorizontalAlignment(SwingConstants.RIGHT);
-		resetPasswordButton.setBorder(null);
-		
-		resetPasswordButton.addActionListener(e ->{
-			JOptionPane.showMessageDialog(contentPane, "Te hemos enviado un correo", "Restablecer contraseña", JOptionPane.INFORMATION_MESSAGE);
-		});
+		JPanel secondaryOptionPanel = createSecondaryOptionPanel();
 		
 		contentPane.add(secondaryOptionPanel);
 		
@@ -145,61 +102,40 @@ public class LoginView extends JFrame {
 		
 		createSpace(10, contentPane);
 		
-		JButton registerButton = createButton(contentPane, "¿No tienes una cuenta? Regístrate aquí", 300, 30, AppColors.background, AppColors.primaryAccent);
-		
-		registerButton.addActionListener(e ->{
-			new RegisterView().setVisible(true);
-			dispose();
-		});
+		JButton registerButton = createRegisterBtn();
 	}
 	
-	private void login(JPanel panel) {
-		resetErrorLabel(emailError);
-		resetErrorLabel(passwordError);
-		
-		if (validateLogin()) {
-			JOptionPane.showMessageDialog(panel, "Has iniciado sesion", "Inicio sesion", JOptionPane.INFORMATION_MESSAGE);
-		}
-	};
-	
-	private void resetErrorLabel(JLabel errorLabel) {
-		errorLabel.setText("");
+	private JPanel createMainPanel() {
+		JPanel contentPane = new JPanel();
+		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
+		contentPane.setBorder(BorderFactory.createEmptyBorder(150, 0, 0, 0));
+		contentPane.setBackground(AppColors.background);
+		return contentPane;
 	}
 	
-	private boolean validateLogin() {
-		if (!emailTextField.getText().trim().equals("") && !String.valueOf(passwordField.getPassword()).trim().isEmpty()) {
-			return true;
-		}
-		
-		if (emailTextField.getText().trim().equals("")){
-			emailError.setText("El correo es obligatorio");
-		}
-		
-		if (String.valueOf(passwordField.getPassword()).trim().isEmpty()) {
-			passwordError.setText("La contraseña es obligatoria");
-		}
-		
-		return false;
+	private JPanel createAppLogo(String appName, int fontSize) {
+		JPanel appLogo = new JPanel(new FlowLayout(FlowLayout.LEFT, 15, 0));
+		createLogoImage(appLogo);
+		createTitle(appLogo, appName, fontSize);
+		appLogo.setMaximumSize(new Dimension(330, 50));
+		appLogo.setPreferredSize(new Dimension(330, 50));
+		appLogo.setBackground(AppColors.background);
+		return appLogo;
 	}
 	
-	private void createLogo(JPanel container) {
+	private void createLogoImage(JPanel container) {
 		JLabel lblLogo = new JLabel();
 		lblLogo.setBounds(145, 50, 100, 100);
 		lblLogo.setIcon(uploadIcon("/assets/img/logo.png", 30, 30));
 		container.add(lblLogo);
 	}
 	
-	private ImageIcon uploadIcon(String ruta, int w, int h) {
-
-		try {
-			Image icono = ImageIO.read(getClass().getResource(ruta));
-			icono = icono.getScaledInstance(w, h, Image.SCALE_SMOOTH);
-			return new ImageIcon(icono);
-		} catch(Exception ex) {
-			System.out.println("Image not found");
-		}
-		
-		return null;
+	private JPanel createAlignPanel() {
+		JPanel alignPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 16, 0));
+		alignPanel.setMaximumSize(new Dimension(330, 50));
+		alignPanel.setPreferredSize(new Dimension(330, 50));
+		alignPanel.setBackground(AppColors.background);
+		return alignPanel;
 	}
 	
 	public void createLabel(JPanel container, String containerName, float fontSize, int rightBorder) {
@@ -210,7 +146,7 @@ public class LoginView extends JFrame {
 		container.add(emailLabel);
 	}
 	
-	public void showAppName(JPanel container, String name, float fontSize) {
+	public void createTitle(JPanel container, String name, float fontSize) {
 		JLabel appName = new JLabel(name);
 		appName.setToolTipText("");
 		appName.setFont(CreateFont.DEFAULT_BOLD.deriveFont(fontSize));		
@@ -218,9 +154,71 @@ public class LoginView extends JFrame {
 		container.add(appName);
 	}
 	
+	private InputField createEmailField(String textPrompt) {
+		InputField emailTextField = new InputField();
+		TextPrompt promptEmail = new TextPrompt(textPrompt, emailTextField);
+		promptEmail.setForeground(AppColors.subtitle);
+		return emailTextField;
+	}
+	
+	private JPasswordField createPasswordField() {
+		passwordField = new JPasswordField();
+		passwordField.setMaximumSize(new Dimension(300, 28));
+		passwordField.setAlignmentX(CENTER_ALIGNMENT);
+		passwordField.setBorder(
+			    BorderFactory.createCompoundBorder(
+			        BorderFactory.createLineBorder(AppColors.subtleAccent, 1, true),
+			        BorderFactory.createEmptyBorder(5, 5, 5, 5)
+			    )
+			);
+		TextPrompt promptPassword = new TextPrompt("•••••••••••", passwordField);
+		promptPassword.setForeground(AppColors.subtitle);
+		return passwordField;
+	}
+	
+	private JCheckBox createRememberMeChk(String text) {
+		JCheckBox chkRememberMe = new JCheckBox(text, true);
+		return chkRememberMe;
+	}
+	
+	private void createResetPasswordBtn(JPanel panel) {
+		JButton resetPasswordButton = createButton(panel, "¿Olvidaste tu contraseña?", 160, 25, AppColors.background, AppColors.primaryAccent);
+		resetPasswordButton.setHorizontalAlignment(SwingConstants.RIGHT);
+		resetPasswordButton.setBorder(null);
+		
+		resetPasswordButton.addActionListener(e ->{
+			JOptionPane.showMessageDialog(contentPane, "Te hemos enviado un correo", "Restablecer contraseña", JOptionPane.INFORMATION_MESSAGE);
+		});
+	}
+	
+	private JPanel createSecondaryOptionPanel() {
+		JPanel secondaryOptionPanel = new JPanel();
+		secondaryOptionPanel.setMaximumSize(new Dimension(330, 35));
+		secondaryOptionPanel.setPreferredSize(new Dimension(330, 35));
+		secondaryOptionPanel.setBackground(AppColors.background);
+				
+		JCheckBox chkRememberMe = createRememberMeChk("Recuérdame");
+		secondaryOptionPanel.add(chkRememberMe);
+		
+		secondaryOptionPanel.add(Box.createHorizontalStrut(38));
+		
+		createResetPasswordBtn(secondaryOptionPanel);
+		
+		return secondaryOptionPanel;
+	}
+	
+	private JButton createRegisterBtn() {
+		JButton registerButton = createButton(contentPane, "¿No tienes una cuenta? Regístrate aquí", 300, 30, AppColors.background, AppColors.primaryAccent);
+		
+		registerButton.addActionListener(e ->{
+			new RegisterView().setVisible(true);
+			dispose();
+		});
+		return registerButton;
+	}
+	
 	public Label createErrorLabel(String text) {
 		Label errorLabel = new Label(text, 12, false);
-//		errorLabel.setFont(CreateFont.DEFAULT.deriveFont(12f));		
 		errorLabel.setForeground(Color.RED);
 		errorLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 110));
 		errorLabel.setAlignmentX(CENTER_ALIGNMENT);
@@ -246,6 +244,52 @@ public class LoginView extends JFrame {
 		button.setAlignmentX(CENTER_ALIGNMENT);
 		container.add(button);
 		return button;
+	}
+	
+	private ImageIcon uploadIcon(String ruta, int w, int h) {
+
+		try {
+			Image icono = ImageIO.read(getClass().getResource(ruta));
+			icono = icono.getScaledInstance(w, h, Image.SCALE_SMOOTH);
+			return new ImageIcon(icono);
+		} catch(Exception ex) {
+			System.out.println("Image not found");
+		}
+		
+		return null;
+	}
+	
+	
+	private void resetErrorLabel(JLabel errorLabel) {
+		errorLabel.setText("");
+		errorLabel.setFont(CreateFont.DEFAULT.deriveFont(1f));		
+	}
+	
+	private void login(JPanel panel) {
+		resetErrorLabel(emailError);
+		resetErrorLabel(passwordError);
+		
+		if (validateLogin()) {
+			JOptionPane.showMessageDialog(panel, "Has iniciado sesion", "Inicio sesion", JOptionPane.INFORMATION_MESSAGE);
+		}
+	};
+	
+	private boolean validateLogin() {
+		if (!emailTextField.getText().trim().equals("") && !String.valueOf(passwordField.getPassword()).trim().isEmpty()) {
+			return true;
+		}
+		
+		if (emailTextField.getText().trim().equals("")){
+			emailError.setText("El correo es obligatorio");
+			emailError.setFont(CreateFont.DEFAULT.deriveFont(12f));		
+		}
+		
+		if (String.valueOf(passwordField.getPassword()).trim().isEmpty()) {
+			passwordError.setText("La contraseña es obligatoria");
+			passwordError.setFont(CreateFont.DEFAULT.deriveFont(12f));		
+		}
+		
+		return false;
 	}
 	
 }
