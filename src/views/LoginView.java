@@ -139,11 +139,11 @@ public class LoginView extends JFrame {
 	}
 	
 	public void createLabel(JPanel container, String containerName, float fontSize, int rightBorder) {
-		JLabel emailLabel = new JLabel(containerName);
-		emailLabel.setFont(CreateFont.DEFAULT.deriveFont(fontSize));		
-		emailLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, rightBorder));
-		emailLabel.setAlignmentX(CENTER_ALIGNMENT);
-		container.add(emailLabel);
+		JLabel lbl = new JLabel(containerName);
+		lbl.setFont(CreateFont.DEFAULT.deriveFont(fontSize));		
+		lbl.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, rightBorder));
+		lbl.setAlignmentX(CENTER_ALIGNMENT);
+		container.add(lbl);
 	}
 	
 	public void createTitle(JPanel container, String name, float fontSize) {
@@ -187,7 +187,8 @@ public class LoginView extends JFrame {
 		resetPasswordButton.setBorder(null);
 		
 		resetPasswordButton.addActionListener(e ->{
-			JOptionPane.showMessageDialog(contentPane, "Te hemos enviado un correo", "Restablecer contraseña", JOptionPane.INFORMATION_MESSAGE);
+			new ResetPasswordView().setVisible(true);
+			dispose();
 		});
 	}
 	
@@ -270,7 +271,8 @@ public class LoginView extends JFrame {
 		resetErrorLabel(passwordError);
 		
 		if (validateLogin()) {
-			JOptionPane.showMessageDialog(panel, "Has iniciado sesion", "Inicio sesion", JOptionPane.INFORMATION_MESSAGE);
+			new HomeView().setVisible(true);;
+			dispose();
 		}
 	};
 	
