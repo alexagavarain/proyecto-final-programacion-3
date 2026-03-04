@@ -23,6 +23,7 @@ import javax.swing.JRadioButton;
 import utils.AppColors;
 import utils.CreateFont;
 import utils.InputField;
+import utils.Label;
 import utils.TextPrompt;
 
 public class RegisterView extends JFrame{
@@ -31,7 +32,10 @@ public class RegisterView extends JFrame{
 	InputField emailTextField;
 	JPasswordField passwordField;
 	private JPanel contentPane;
-
+	private Label emailError = createErrorLabel("");
+	private Label passwordError = createErrorLabel("");
+	private Label nameError = createErrorLabel("");
+	
 	public RegisterView() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
@@ -111,9 +115,8 @@ public class RegisterView extends JFrame{
 		secondaryPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 5));
 
 		
-		JLabel turnoLabel = new JLabel("Turno");
-		turnoLabel.setFont(new Font("Tahoma", Font.PLAIN, 12));
-		secondaryPanel.add(turnoLabel);
+		//JLabel turnoLabel = new JLabel("Turno");
+		createLabel(secondaryPanel,"Turno", 13,0);
 
 		ButtonGroup grupoBotones = new ButtonGroup();
 
@@ -133,8 +136,9 @@ public class RegisterView extends JFrame{
 		secondaryPanel.add(Box.createHorizontalStrut(20));
 
 
-		JLabel grupoLabel = new JLabel("Grupo");
-		secondaryPanel.add(grupoLabel);
+		createLabel(secondaryPanel,"Grupo", 13,0);
+		
+		//secondaryPanel.add(grupoLabel);
 
 		String[] grupos = {"A", "B"};
 		JComboBox<String> listaGrupos = new JComboBox<>(grupos);
@@ -156,6 +160,8 @@ public class RegisterView extends JFrame{
 	
 	
 	private void Register(JPanel panel) {
+		resetErrorLabel(emailError);
+		resetErrorLabel(passwordError);
 		if (validateRegister()) {
 			JOptionPane.showMessageDialog(panel, "Te has registrado correctamente", "Registrado", JOptionPane.INFORMATION_MESSAGE);
 		}
@@ -167,15 +173,15 @@ public class RegisterView extends JFrame{
 		}
 		
 		
-		if (emailTextField.getText().trim().equals("")){
-			showError(contentPane, "El correo es obligatorio");
+		if (emailTextField.getText().trim().isEmpty()){
+			emailError.setText("El correo es obligatorio.");
 		}
 		
-		if (name.getText().trim().equals("")){
-			showError(contentPane, "El nombre es obligatorio.");
+		if (name.getText().trim().isEmpty()){
+			nameError.setText("El nombre es obligatorio.");
 		}
 		if (String.valueOf(passwordField.getPassword()).trim().isEmpty()) {
-			showError(contentPane, "La contreseña es obligatoria");
+			passwordError.setText("La contraseña es obligatoria.");
 		}
 		
 		return false;
@@ -222,18 +228,9 @@ public class RegisterView extends JFrame{
 		container.add(button);
 		return button;
 	}
-	
-	public void showError(JPanel container, String text) {
-		JLabel errorLabel = new JLabel(text);
-		errorLabel.setFont(CreateFont.DEFAULT.deriveFont(12f));		
-		errorLabel.setForeground(Color.RED);
-		errorLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 110));
-		errorLabel.setAlignmentX(CENTER_ALIGNMENT);
-		container.add(errorLabel);
-		container.revalidate();
-		container.repaint();
+	private void resetErrorLabel(JLabel errorLabel) {
+		errorLabel.setText("");
 	}
-	
 	
 	public JButton createButton(JPanel container, String name, int width, int length, Color background, Color foreground) {
 		JButton button = new JButton(name);
@@ -249,6 +246,14 @@ public class RegisterView extends JFrame{
 		button.setAlignmentX(CENTER_ALIGNMENT);
 		container.add(button);
 		return button;
+	}
+	public Label createErrorLabel(String text) {
+		Label errorLabel = new Label(text, 12, false);
+//		errorLabel.setFont(CreateFont.DEFAULT.deriveFont(12f));		
+		errorLabel.setForeground(Color.RED);
+		errorLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 110));
+		errorLabel.setAlignmentX(CENTER_ALIGNMENT);
+		return errorLabel;
 	}
 	
 	
