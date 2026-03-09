@@ -19,6 +19,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JRadioButton;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 
 import utils.AppColors;
 import utils.CreateFont;
@@ -158,9 +160,10 @@ public class RegisterView extends JFrame{
 		listaGrupos.setFocusable(false);
 
 		secondaryPanel.add(listaGrupos);
-		contentPane.add(grupoError);
+		secondaryPanel.add(grupoError);
 
 		contentPane.add(secondaryPanel);
+		assignListeners();
 			
 		createSpace(30, contentPane);
 		JButton registerButton = createButton(contentPane, "Registrarme", 300, 30, AppColors.primaryAccent, Color.WHITE);
@@ -189,6 +192,42 @@ public class RegisterView extends JFrame{
 		}
 	};
 	
+	private void assignListeners() {
+
+	    name.getDocument().addDocumentListener(new DocumentListener() {
+	        public void insertUpdate(DocumentEvent e) { validateName(); }
+	        public void removeUpdate(DocumentEvent e) { validateName(); }
+	        public void changedUpdate(DocumentEvent e) { validateName(); }
+	    });
+
+	    emailTextField.getDocument().addDocumentListener(new DocumentListener() {
+	        public void insertUpdate(DocumentEvent e) { validateEmail(); }
+	        public void removeUpdate(DocumentEvent e) { validateEmail(); }
+	        public void changedUpdate(DocumentEvent e) { validateEmail(); }
+	    });
+
+	    passwordField.getDocument().addDocumentListener(new DocumentListener() {
+	        public void insertUpdate(DocumentEvent e) { validatePassword(); }
+	        public void removeUpdate(DocumentEvent e) { validatePassword(); }
+	        public void changedUpdate(DocumentEvent e) { validatePassword(); }
+	    });
+
+	}
+	private boolean validateEmail() {
+
+	    if (emailTextField.getText().trim().isEmpty()) {
+	        emailError.setText("El correo es obligatorio");
+	        return false;
+	    }
+
+	    if (!emailTextField.getText().contains("@")) {
+	        emailError.setText("Correo inválido");
+	        return false;
+	    }
+
+	    emailError.setText("");
+	    return true;
+	}
 	private boolean validateRegister() {
 
 	    // Limpiar errores anteriores
@@ -235,12 +274,19 @@ public class RegisterView extends JFrame{
 	}
 	
 	private boolean validateName() {
-		if (name.getText().trim().isEmpty()) {
-			nameError.setText("El nombre es obligatorio");
-			return false;
-		}
 
-		return true;
+	    if (name.getText().trim().isEmpty()) {
+	        nameError.setText("El nombre es obligatorio");
+	        return false;
+	    }
+
+	    if (name.getText().trim().length() <= 3) {
+	        nameError.setText("Mínimo 4 caracteres");
+	        return false;
+	    }
+
+	    nameError.setText("");
+	    return true;
 	}
 	
 	private boolean validateCareer() {
@@ -252,11 +298,19 @@ public class RegisterView extends JFrame{
 	}
 	
 	private boolean validatePassword() {
-		if (String.valueOf(passwordField.getPassword()).trim().isEmpty()) {
-			passwordError.setText("La contraseña es obligatoria.");
-			return false;
-		}
-		return true;
+
+	    if (String.valueOf(passwordField.getPassword()).trim().isEmpty()) {
+	        passwordError.setText("La contraseña es obligatoria");
+	        return false;
+	    }
+
+	    if (String.valueOf(passwordField.getPassword()).length() < 6) {
+	        passwordError.setText("Mínimo 6 caracteres");
+	        return false;
+	    }
+
+	    passwordError.setText("");
+	    return true;
 	}
 	
 	
