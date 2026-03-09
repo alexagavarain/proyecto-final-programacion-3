@@ -33,6 +33,9 @@ public class RegisterView extends JFrame{
 	JPasswordField passwordField;
 	private JPanel contentPane;
 	JComboBox<String> listaGrupos;
+	private JComboBox<String> listaCarreras;
+	private JRadioButton matutino;
+	private JRadioButton vespertino;
 	private Label emailError = createErrorLabel("");
 	private Label passwordError = createErrorLabel("");
 	private Label nameError = createErrorLabel("");
@@ -60,6 +63,7 @@ public class RegisterView extends JFrame{
 		TextPrompt namePrompt = new TextPrompt("nombre apellido", name);
 		namePrompt.setForeground(AppColors.subtitle);
 		contentPane.add(name);
+		contentPane.add(nameError);
 		
 		createSpace(10, contentPane);
 		
@@ -70,6 +74,7 @@ public class RegisterView extends JFrame{
 		TextPrompt promptEmail = new TextPrompt("estudiante@alu.uabcs.mx", emailTextField);
 		promptEmail.setForeground(AppColors.subtitle);
 		contentPane.add(emailTextField);
+		contentPane.add(emailError);
 		
 		createSpace(10, contentPane);
 		createLabel(contentPane, "Contraseña", 14, 220);
@@ -88,6 +93,7 @@ public class RegisterView extends JFrame{
 		TextPrompt promptPassword = new TextPrompt("•••••••••••", passwordField);
 		promptPassword.setForeground(AppColors.subtitle);
 		contentPane.add(passwordField);
+		contentPane.add(passwordError);
 				
 		
 		createSpace(10, contentPane);
@@ -101,12 +107,13 @@ public class RegisterView extends JFrame{
 		};
 
 
-		JComboBox<String> listaCarreras = new JComboBox<>(carreras);
+		listaCarreras = new JComboBox<>(carreras);
 		listaCarreras.setMaximumSize(new Dimension(300, 30));
 		listaCarreras.setAlignmentX(CENTER_ALIGNMENT);
 		listaCarreras.insertItemAt("Selecciona tu carrera", 0);
 		listaCarreras.setSelectedIndex(0);
 		contentPane.add(listaCarreras);
+		contentPane.add(carreraError);
 	
 		createSpace(10, contentPane);
 		JPanel secondaryPanel = new JPanel();
@@ -124,17 +131,18 @@ public class RegisterView extends JFrame{
 
 		ButtonGroup grupoBotones = new ButtonGroup();
 
-		JRadioButton matutino = new JRadioButton("M");
-		JRadioButton vespertino = new JRadioButton("V");
-
+		matutino = new JRadioButton("M");
+		vespertino = new JRadioButton("V");
 		matutino.setOpaque(false);
 		vespertino.setOpaque(false);
 
 		grupoBotones.add(matutino);
 		grupoBotones.add(vespertino);
+		
 
 		secondaryPanel.add(matutino);
 		secondaryPanel.add(vespertino);
+		contentPane.add(turnoError);
 
 
 		secondaryPanel.add(Box.createHorizontalStrut(20));
@@ -150,6 +158,7 @@ public class RegisterView extends JFrame{
 		listaGrupos.setFocusable(false);
 
 		secondaryPanel.add(listaGrupos);
+		contentPane.add(grupoError);
 
 		contentPane.add(secondaryPanel);
 			
@@ -181,30 +190,48 @@ public class RegisterView extends JFrame{
 	};
 	
 	private boolean validateRegister() {
-		if (!(listaGrupos.getSelectedIndex()==0 )&& !emailTextField.getText().trim().equals("") && !String.valueOf(passwordField.getPassword()).trim().isEmpty() && !name.getText().trim().equals("")) {
-			return true;
-		}
-		
-		if (listaGrupos.getSelectedIndex() == 0) {
-			carreraError.setText("Seleccione una carrera");
-			emailError.setFont(CreateFont.DEFAULT.deriveFont(12f));
-		}
-		
-		if (emailTextField.getText().trim().isEmpty()){
-			emailError.setText("El correo es obligatorio.");
-			emailError.setFont(CreateFont.DEFAULT.deriveFont(12f));
-		}
-		
-		if (name.getText().trim().isEmpty()){
-			nameError.setText("El nombre es obligatorio.");
-			emailError.setFont(CreateFont.DEFAULT.deriveFont(12f));
-		}
-		if (String.valueOf(passwordField.getPassword()).trim().isEmpty()) {
-			passwordError.setText("La contraseña es obligatoria.");
-			emailError.setFont(CreateFont.DEFAULT.deriveFont(12f));
-		}
-		
-		return false;
+
+	    // Limpiar errores anteriores
+	    nameError.setText("");
+	    emailError.setText("");
+	    passwordError.setText("");
+	    carreraError.setText("");
+	    turnoError.setText("");
+	    grupoError.setText("");
+
+	    boolean valid = true;
+
+	    if (name.getText().trim().isEmpty()) {
+	        nameError.setText("El nombre es obligatorio.");
+	        valid = false;
+	    }
+
+	    if (emailTextField.getText().trim().isEmpty()) {
+	        emailError.setText("El correo es obligatorio.");
+	        valid = false;
+	    }
+
+	    if (String.valueOf(passwordField.getPassword()).trim().isEmpty()) {
+	        passwordError.setText("La contraseña es obligatoria.");
+	        valid = false;
+	    }
+
+	    if (listaCarreras.getSelectedIndex() == 0) {
+	        carreraError.setText("Selecciona una carrera.");
+	        valid = false;
+	    }
+
+	    if (!matutino.isSelected() && !vespertino.isSelected()) {
+	        turnoError.setText("Selecciona un turno.");
+	        valid = false;
+	    }
+
+	    if (listaGrupos.getSelectedIndex() == 0) {
+	        grupoError.setText("Selecciona un grupo.");
+	        valid = false;
+	    }
+
+	    return valid;
 	}
 	
 	private boolean validateName() {
@@ -298,7 +325,7 @@ public class RegisterView extends JFrame{
 		Label errorLabel = new Label(text, 12, false);
 //		errorLabel.setFont(CreateFont.DEFAULT.deriveFont(12f));		
 		errorLabel.setForeground(Color.RED);
-		errorLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 110));
+		errorLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 160));
 		errorLabel.setAlignmentX(CENTER_ALIGNMENT);
 		return errorLabel;
 	}
