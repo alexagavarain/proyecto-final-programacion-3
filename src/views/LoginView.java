@@ -10,6 +10,8 @@ import utils.Label;
 import utils.TextPrompt;
 
 import javax.swing.SwingConstants;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -46,6 +48,28 @@ public class LoginView extends JFrame {
 		setTitle("Inicio de sesión");
 		
 		initializeComponents();
+		assignListeners();
+	}
+	
+	private JPanel createLoginFields(JPanel container) {
+		createLabel(container, "Correo electrónico", 14, 0);
+	
+ 		emailTextField = createEmailField("estudiante@alu.uabcs.mx");
+		container.add(emailTextField);
+		
+		container.add(emailError);
+		
+		createSpace(10, container);
+		
+		createLabel(container, "Contraseña", 14, 0);
+		
+		passwordField = createPasswordField();
+	
+		container.add(passwordField);
+		
+		container.add(passwordError);
+		
+		return container;
 	}
 	
 	private void initializeComponents() {
@@ -71,22 +95,7 @@ public class LoginView extends JFrame {
 		contentPane.add(descText);
 		createSpace(25, contentPane);
 		
-		createLabel(contentPane, "Correo electrónico", 14, 180);
-		
- 		emailTextField = createEmailField("estudiante@alu.uabcs.mx");
-		contentPane.add(emailTextField);
-		
-		contentPane.add(emailError);
-		
-		createSpace(10, contentPane);
-		
-		createLabel(contentPane, "Contraseña", 14, 220);
-		
-		JPasswordField passwordField = createPasswordField();
-	
-		contentPane.add(passwordField);
-		
-		contentPane.add(passwordError);
+		createLoginFields(contentPane);
 		
 		createSpace(6, contentPane);
 		
@@ -220,8 +229,8 @@ public class LoginView extends JFrame {
 	
 	public Label createErrorLabel(String text) {
 		Label errorLabel = new Label(text, 12, false);
-		errorLabel.setForeground(Color.RED);
-		errorLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 110));
+		errorLabel.setForeground(new Color(200, 10, 10));
+		errorLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 150));
 		errorLabel.setAlignmentX(CENTER_ALIGNMENT);
 		return errorLabel;
 	}
@@ -263,7 +272,7 @@ public class LoginView extends JFrame {
 	
 	private void resetErrorLabel(JLabel errorLabel) {
 		errorLabel.setText("");
-		errorLabel.setFont(CreateFont.DEFAULT.deriveFont(1f));		
+//		errorLabel.setFont(CreateFont.DEFAULT.deriveFont(1f));		
 	}
 	
 	private void login(JPanel panel) {
@@ -275,23 +284,80 @@ public class LoginView extends JFrame {
 			dispose();
 		}
 	};
+
+	private void assignListeners() {
+	    emailTextField.getDocument().addDocumentListener(new DocumentListener() {
+
+	        public void insertUpdate(DocumentEvent e) {
+	            validateEmail();
+	        }
+
+	        public void removeUpdate(DocumentEvent e) {
+	            validateEmail();
+	        }
+
+	        public void changedUpdate(DocumentEvent e) {
+	            validateEmail();
+	        }
+	    });
+
+
+	    passwordField.getDocument().addDocumentListener(new DocumentListener() {
+
+	        public void insertUpdate(DocumentEvent e) {
+	            validatePassword();
+	        }
+
+	        public void removeUpdate(DocumentEvent e) {
+	            validatePassword();
+	        }
+
+	        public void changedUpdate(DocumentEvent e) {
+	            validatePassword();
+	        }
+	    });
+	}
 	
 	private boolean validateLogin() {
-		if (!emailTextField.getText().trim().equals("") && !String.valueOf(passwordField.getPassword()).trim().isEmpty()) {
+		if (validateEmail() && validatePassword()) {
 			return true;
 		}
-		
-		if (emailTextField.getText().trim().equals("")){
-			emailError.setText("El correo es obligatorio");
-			emailError.setFont(CreateFont.DEFAULT.deriveFont(12f));		
-		}
-		
+	
+		return false;
+	}
+	
+	private boolean validatePassword() {
 		if (String.valueOf(passwordField.getPassword()).trim().isEmpty()) {
 			passwordError.setText("La contraseña es obligatoria");
-			passwordError.setFont(CreateFont.DEFAULT.deriveFont(12f));		
+//			passwordError.setFont(CreateFont.DEFAULT.deriveFont(12f));		
+			return false;
 		}
 		
-		return false;
+		if (String.valueOf(passwordField.getPassword()).length() < 6) {
+	        passwordError.setText("La contraseña debe tener mínimo 6 caracteres");
+//			passwordError.setFont(CreateFont.DEFAULT.deriveFont(12f));		
+	        return false;
+	    }
+
+	    passwordError.setText("");
+	    return true;
+	}
+	
+	private boolean validateEmail() {
+		if (emailTextField.getText().trim().equals("")){
+			emailError.setText("El correo es obligatorio");
+//			emailError.setFont(CreateFont.DEFAULT.deriveFont(12f));
+			return false;
+		}
+		
+		if (!emailTextField.getText().contains("@")) {
+	        emailError.setText("Correo inválido");
+//			emailError.setFont(CreateFont.DEFAULT.deriveFont(12f));
+	        return false;
+	    }
+
+	    emailError.setText("");
+	    return true;
 	}
 	
 }
