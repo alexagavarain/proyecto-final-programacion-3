@@ -21,6 +21,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 
 import java.awt.Color;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 
@@ -31,6 +32,8 @@ import java.awt.Image;
 
 import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
 
 public class LoginView extends JFrame {
@@ -49,27 +52,6 @@ public class LoginView extends JFrame {
 		
 		initializeComponents();
 		assignListeners();
-	}
-	
-	private JPanel createLoginFields(JPanel container) {
-		createLabel(container, "Correo electrónico", 14, 0);
-	
- 		emailTextField = createEmailField("estudiante@alu.uabcs.mx");
-		container.add(emailTextField);
-		
-		container.add(emailError);
-		
-		createSpace(10, container);
-		
-		createLabel(container, "Contraseña", 14, 0);
-		
-		passwordField = createPasswordField();
-	
-		container.add(passwordField);
-		
-		container.add(passwordError);
-		
-		return container;
 	}
 	
 	private void initializeComponents() {
@@ -105,9 +87,7 @@ public class LoginView extends JFrame {
 		
 		createSpace(25, contentPane);
 		
-		JButton loginButton = createButton(contentPane, "Iniciar sesión", 300, 30, AppColors.primaryAccent, Color.WHITE);
-
-		loginButton.addActionListener(e -> login(contentPane));
+		JButton loginButton = createLoginButton();
 		
 		createSpace(10, contentPane);
 		
@@ -185,6 +165,22 @@ public class LoginView extends JFrame {
 		return passwordField;
 	}
 	
+	private JPanel createLoginFields(JPanel container) {
+		createLabel(container, "Correo electrónico", 14, 175);
+ 		emailTextField = createEmailField("estudiante@alu.uabcs.mx");
+		container.add(emailTextField);
+		container.add(emailError);
+		
+		createSpace(10, container);
+		
+		createLabel(container, "Contraseña", 14, 220);
+		passwordField = createPasswordField();
+		container.add(passwordField);
+		container.add(passwordError);
+		
+		return container;
+	}
+	
 	private JCheckBox createRememberMeChk(String text) {
 		JCheckBox chkRememberMe = new JCheckBox(text, true);
 		return chkRememberMe;
@@ -194,10 +190,21 @@ public class LoginView extends JFrame {
 		JButton resetPasswordButton = createButton(panel, "¿Olvidaste tu contraseña?", 160, 25, AppColors.background, AppColors.primaryAccent);
 		resetPasswordButton.setHorizontalAlignment(SwingConstants.RIGHT);
 		resetPasswordButton.setBorder(null);
+		resetPasswordButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		
 		resetPasswordButton.addActionListener(e ->{
 			new ResetPasswordView().setVisible(true);
 			dispose();
+		});
+		
+		resetPasswordButton.addMouseListener(new MouseAdapter() {
+			public void mouseEntered(MouseEvent e) {
+				resetPasswordButton.setText("<html><u>¿Olvidaste tu contraseña?</u></html>");
+			}
+			
+			public void mouseExited(MouseEvent e) {
+				resetPasswordButton.setText("¿Olvidaste tu contraseña?");
+			}
 		});
 	}
 	
@@ -217,12 +224,48 @@ public class LoginView extends JFrame {
 		return secondaryOptionPanel;
 	}
 	
+	private JButton createLoginButton() {
+		JButton loginButton = createButton(contentPane, "Iniciar sesión", 300, 30, AppColors.primaryAccent, Color.WHITE);
+		loginButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		loginButton.setContentAreaFilled(true);
+		
+		loginButton.addActionListener(e -> login(contentPane));
+		
+		loginButton.addMouseListener(new MouseAdapter() {
+			public void mouseEntered(MouseEvent e) {
+				loginButton.setBackground(AppColors.background);
+				loginButton.setForeground(AppColors.primaryAccent);
+				loginButton.setBorderPainted(true);
+				loginButton.setBorder(BorderFactory.createLineBorder(AppColors.primaryAccent, 1));
+			}
+			
+			public void mouseExited(MouseEvent e) {
+				loginButton.setBackground(AppColors.primaryAccent);
+				loginButton.setForeground(Color.WHITE);
+				loginButton.setBorderPainted(false);
+			}
+		});
+		
+		return loginButton;
+	}
+	
 	private JButton createRegisterBtn() {
 		JButton registerButton = createButton(contentPane, "¿No tienes una cuenta? Regístrate aquí", 300, 30, AppColors.background, AppColors.primaryAccent);
+		registerButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		
 		registerButton.addActionListener(e ->{
 			new RegisterView().setVisible(true);
 			dispose();
+		});
+		
+		registerButton.addMouseListener(new MouseAdapter() {
+			public void mouseEntered(MouseEvent e) {
+				registerButton.setText("<html><u>¿No tienes una cuenta? Regístrate aquí</u></html>");
+			}
+			
+			public void mouseExited(MouseEvent e) {
+				registerButton.setText("¿No tienes una cuenta? Regístrate aquí");
+			}
 		});
 		return registerButton;
 	}
@@ -252,6 +295,8 @@ public class LoginView extends JFrame {
 		button.setFocusPainted(false);  
 		button.setBorderPainted(false);
 		button.setAlignmentX(CENTER_ALIGNMENT);
+		button.setContentAreaFilled(false);
+		button.setOpaque(true);
 		container.add(button);
 		return button;
 	}
@@ -272,7 +317,6 @@ public class LoginView extends JFrame {
 	
 	private void resetErrorLabel(JLabel errorLabel) {
 		errorLabel.setText("");
-//		errorLabel.setFont(CreateFont.DEFAULT.deriveFont(1f));		
 	}
 	
 	private void login(JPanel panel) {
@@ -287,7 +331,6 @@ public class LoginView extends JFrame {
 
 	private void assignListeners() {
 	    emailTextField.getDocument().addDocumentListener(new DocumentListener() {
-
 	        public void insertUpdate(DocumentEvent e) {
 	            validateEmail();
 	        }
@@ -303,7 +346,6 @@ public class LoginView extends JFrame {
 
 
 	    passwordField.getDocument().addDocumentListener(new DocumentListener() {
-
 	        public void insertUpdate(DocumentEvent e) {
 	            validatePassword();
 	        }
@@ -319,23 +361,20 @@ public class LoginView extends JFrame {
 	}
 	
 	private boolean validateLogin() {
-		if (validateEmail() && validatePassword()) {
-			return true;
-		}
-	
-		return false;
+	    boolean emailValid = validateEmail();
+	    boolean passwordValid = validatePassword();
+
+	    return emailValid && passwordValid;
 	}
 	
 	private boolean validatePassword() {
 		if (String.valueOf(passwordField.getPassword()).trim().isEmpty()) {
 			passwordError.setText("La contraseña es obligatoria");
-//			passwordError.setFont(CreateFont.DEFAULT.deriveFont(12f));		
 			return false;
 		}
 		
 		if (String.valueOf(passwordField.getPassword()).length() < 6) {
 	        passwordError.setText("La contraseña debe tener mínimo 6 caracteres");
-//			passwordError.setFont(CreateFont.DEFAULT.deriveFont(12f));		
 	        return false;
 	    }
 
@@ -346,13 +385,11 @@ public class LoginView extends JFrame {
 	private boolean validateEmail() {
 		if (emailTextField.getText().trim().equals("")){
 			emailError.setText("El correo es obligatorio");
-//			emailError.setFont(CreateFont.DEFAULT.deriveFont(12f));
 			return false;
 		}
 		
 		if (!emailTextField.getText().contains("@")) {
 	        emailError.setText("Correo inválido");
-//			emailError.setFont(CreateFont.DEFAULT.deriveFont(12f));
 	        return false;
 	    }
 
