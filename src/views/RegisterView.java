@@ -1,11 +1,10 @@
 package views;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -166,21 +165,10 @@ public class RegisterView extends JFrame{
 		assignListeners();
 			
 		createSpace(30, contentPane);
-		JButton registerButton = createButton(contentPane, "Registrarme", 300, 30, AppColors.primaryAccent, Color.WHITE);
-		registerButton.addActionListener(e ->{
-			Register(contentPane);
-		});
+		createRegisterButton();
 		
 		createSpace(30, contentPane);
-		JButton btnReturn = createButton(contentPane, "Regresar", 100, 20, AppColors.primaryAccent, Color.WHITE);
-		btnReturn.addActionListener(e -> {
-			int option = JOptionPane.showConfirmDialog(this, "¿Seguro que deseas regresar? Se perderán todos los datos");
-			
-			if(option == JOptionPane.YES_OPTION) {
-				new LoginView().setVisible(true);
-				dispose();
-			}
-		});
+		createBackButton();
 		
 	}
 	
@@ -356,6 +344,69 @@ public class RegisterView extends JFrame{
 		container.add(button);
 		return button;
 	}
+	
+	private JButton createRegisterButton() {
+		JButton registerButton = createButton(contentPane, "Registrarme", 300, 30, AppColors.primaryAccent, Color.WHITE);
+		registerButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		registerButton.setContentAreaFilled(true);
+		
+		registerButton.addActionListener(e -> Register(contentPane));
+		
+		registerButton.addMouseListener(new MouseAdapter() {
+			public void mouseEntered(MouseEvent e) {
+				registerButton.setBackground(AppColors.background);
+				registerButton.setForeground(AppColors.primaryAccent);
+				registerButton.setBorderPainted(true);
+				registerButton.setBorder(BorderFactory.createLineBorder(AppColors.primaryAccent, 1));
+			}
+			
+			public void mouseExited(MouseEvent e) {
+				registerButton.setBackground(AppColors.primaryAccent);
+				registerButton.setForeground(Color.WHITE);
+				registerButton.setBorderPainted(false);
+			}
+		});
+		
+		return registerButton;
+	}
+	
+	private JButton createBackButton() {
+		JButton btnReturn = createButton(contentPane, "Regresar", 100, 20, AppColors.primaryAccent, Color.WHITE);
+		btnReturn.addActionListener(e -> {
+			int option = JOptionPane.showConfirmDialog(
+			        this,
+			        "¿Seguro que deseas regresar? Se perderán todos los datos",
+			        "Confirmar regreso",
+			        JOptionPane.YES_NO_OPTION
+			    );
+			
+			if(option == JOptionPane.YES_OPTION) {
+				new LoginView().setVisible(true);
+				dispose();
+			}
+		});
+		
+		btnReturn.addActionListener(e -> Register(contentPane));
+		
+		btnReturn.addMouseListener(new MouseAdapter() {
+			public void mouseEntered(MouseEvent e) {
+				btnReturn.setBackground(AppColors.background);
+				btnReturn.setForeground(AppColors.primaryAccent);
+				btnReturn.setBorderPainted(true);
+				btnReturn.setBorder(BorderFactory.createLineBorder(AppColors.primaryAccent, 1));
+			}
+			
+			public void mouseExited(MouseEvent e) {
+				btnReturn.setBackground(AppColors.primaryAccent);
+				btnReturn.setForeground(Color.WHITE);
+				btnReturn.setBorderPainted(false);
+			}
+		});
+		
+		return btnReturn;
+	}
+	
+	
 	private void resetErrorLabel(JLabel errorLabel) {
 		errorLabel.setText("");
 	}
