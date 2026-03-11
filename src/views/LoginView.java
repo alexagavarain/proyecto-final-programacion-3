@@ -33,11 +33,15 @@ import java.awt.Image;
 
 import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.event.ActionEvent;
 
 public class LoginView extends JFrame {
@@ -56,6 +60,7 @@ public class LoginView extends JFrame {
 		
 		initializeComponents();
 		assignListeners();
+		fieldsFocus();
 	}
 	
 	private void initializeComponents() {
@@ -368,7 +373,10 @@ public class LoginView extends JFrame {
 		field.addKeyListener(new KeyAdapter() {
 			
 			public void keyTyped(KeyEvent e) {
-				if ( Character.isDigit( e.getKeyChar() ) || !Character.isAlphabetic( e.getKeyChar() ) && e.getKeyChar() != '@') {
+				if ( Character.isDigit( e.getKeyChar() ) || 
+						!Character.isAlphabetic( e.getKeyChar() ) && 
+						e.getKeyChar() != '@' &&
+						e.getKeyChar() != '.') {
 					e.consume();
 				}
 				
@@ -380,7 +388,24 @@ public class LoginView extends JFrame {
 		});
 	}
 	
-	
+	private void fieldsFocus() {
+		addWindowListener(new WindowAdapter() {
+			public void windowOpened(WindowEvent e) {
+				emailTextField.requestFocusInWindow();
+			}
+		});
+		
+		emailTextField.addFocusListener(new FocusAdapter() {
+			public void focusGained(FocusEvent e) {
+				emailTextField.selectAll();
+		        emailTextField.setBorder(BorderFactory.createLineBorder(AppColors.primaryAccent, 1, true));
+			}
+			 
+			public void focusLost(FocusEvent e) {
+		        emailTextField.setBorder(BorderFactory.createLineBorder(AppColors.subtleAccent, 1, true));
+			}
+		});
+	}
 	
 	private boolean validateLogin() {
 	    boolean emailValid = validateEmail();
