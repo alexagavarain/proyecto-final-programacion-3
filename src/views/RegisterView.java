@@ -3,6 +3,8 @@ package views;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -61,6 +63,7 @@ public class RegisterView extends JFrame{
 		
 		createLabel(contentPane, "Nombre", 14, 245);
 		name = new InputField();
+		validateNameCharacters(name);
 		TextPrompt namePrompt = new TextPrompt("nombre apellido", name);
 		namePrompt.setForeground(AppColors.subtitle);
 		contentPane.add(name);
@@ -71,6 +74,7 @@ public class RegisterView extends JFrame{
 		createLabel(contentPane, "Correo electrónico", 14, 180);
 		
 		emailTextField = new InputField();
+		validateEmailCharacters(emailTextField);
 		
 		TextPrompt promptEmail = new TextPrompt("estudiante@alu.uabcs.mx", emailTextField);
 		promptEmail.setForeground(AppColors.subtitle);
@@ -433,6 +437,38 @@ public class RegisterView extends JFrame{
 		errorLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 160));
 		errorLabel.setAlignmentX(CENTER_ALIGNMENT);
 		return errorLabel;
+	}
+	
+	private void validateEmailCharacters(InputField field) {
+		field.addKeyListener(new KeyAdapter() {
+			
+			public void keyTyped(KeyEvent e) {
+				if ( Character.isDigit( e.getKeyChar() ) || !Character.isAlphabetic( e.getKeyChar() ) && e.getKeyChar() != '@') {
+					e.consume();
+				}
+				
+				if ( field.getText().length() >= 30 ) {
+					e.consume();
+				}
+			};	
+			
+		});
+	}
+	
+	private void validateNameCharacters(InputField field) {
+		field.addKeyListener(new KeyAdapter() {
+			
+			public void keyTyped(KeyEvent e) {
+				if ( Character.isDigit( e.getKeyChar() ) || !Character.isAlphabetic( e.getKeyChar() ) && e.getKeyChar() != ' ' ){
+					e.consume();
+				}
+				
+				if ( field.getText().length() >= 100 ) {
+					e.consume();
+				}
+			};	
+			
+		});
 	}
 	
 	

@@ -21,6 +21,7 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -32,6 +33,9 @@ import java.awt.Image;
 
 import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionEvent;
@@ -168,6 +172,7 @@ public class LoginView extends JFrame {
 	private JPanel createLoginFields(JPanel container) {
 		createLabel(container, "Correo electrónico", 14, 175);
  		emailTextField = createEmailField("estudiante@alu.uabcs.mx");
+ 		validateEmailCharacters(emailTextField);
 		container.add(emailTextField);
 		container.add(emailError);
 		
@@ -344,7 +349,6 @@ public class LoginView extends JFrame {
 	        }
 	    });
 
-
 	    passwordField.getDocument().addDocumentListener(new DocumentListener() {
 	        public void insertUpdate(DocumentEvent e) {
 	            validatePassword();
@@ -359,6 +363,24 @@ public class LoginView extends JFrame {
 	        }
 	    });
 	}
+	
+	private void validateEmailCharacters(InputField field) {
+		field.addKeyListener(new KeyAdapter() {
+			
+			public void keyTyped(KeyEvent e) {
+				if ( Character.isDigit( e.getKeyChar() ) || !Character.isAlphabetic( e.getKeyChar() ) && e.getKeyChar() != '@') {
+					e.consume();
+				}
+				
+				if ( field.getText().length() >= 30 ) {
+					e.consume();
+				}
+			};	
+			
+		});
+	}
+	
+	
 	
 	private boolean validateLogin() {
 	    boolean emailValid = validateEmail();
