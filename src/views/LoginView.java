@@ -12,6 +12,7 @@ import utils.TextPrompt;
 import javax.swing.SwingConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.text.JTextComponent;
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -61,7 +62,6 @@ public class LoginView extends JFrame {
 		
 		initializeComponents();
 		assignListeners();
-		fieldsFocus();
 		windowStatus();
 	}
 	
@@ -189,6 +189,9 @@ public class LoginView extends JFrame {
 		passwordField = createPasswordField();
 		container.add(passwordField);
 		container.add(passwordError);
+		
+		fieldFocus(passwordField);
+		fieldFocus(emailTextField);
 		
 		return container;
 	}
@@ -445,21 +448,21 @@ public class LoginView extends JFrame {
 		}
 	}
 	
-	private void fieldsFocus() {
+	private void fieldFocus(JTextComponent field) {
 		addWindowListener(new WindowAdapter() {
 			public void windowOpened(WindowEvent e) {
-				emailTextField.requestFocusInWindow();
+				field.requestFocusInWindow();
 			}
 		});
 		
-		emailTextField.addFocusListener(new FocusAdapter() {
+		field.addFocusListener(new FocusAdapter() {
 			public void focusGained(FocusEvent e) {
-				emailTextField.selectAll();
-		        emailTextField.setBorder(BorderFactory.createLineBorder(AppColors.primaryAccent, 1, true));
+				field.selectAll();
+		        field.setBorder(BorderFactory.createLineBorder(AppColors.primaryAccent, 1, true));
 			}
 			
 			public void focusLost(FocusEvent e) {
-		        emailTextField.setBorder(BorderFactory.createLineBorder(AppColors.subtleAccent, 1, true));
+		        field.setBorder(BorderFactory.createLineBorder(AppColors.subtleAccent, 1, true));
 			}
 		});
 	}
