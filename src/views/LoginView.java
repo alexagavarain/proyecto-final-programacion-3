@@ -42,6 +42,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 import java.awt.event.ActionEvent;
 
 public class LoginView extends JFrame {
@@ -61,6 +62,7 @@ public class LoginView extends JFrame {
 		initializeComponents();
 		assignListeners();
 		fieldsFocus();
+		windowStatus();
 	}
 	
 	private void initializeComponents() {
@@ -388,6 +390,61 @@ public class LoginView extends JFrame {
 		});
 	}
 	
+	private void windowStatus() {
+		addWindowListener(new WindowListener() {
+			
+			@Override
+			public void windowOpened(WindowEvent e) {
+				System.out.println("Ventana abierta");
+				
+			}
+			
+			@Override
+			public void windowIconified(WindowEvent e) {
+				System.out.println("Ventana minimizada");
+				
+			}
+			
+			@Override
+			public void windowDeiconified(WindowEvent e) {
+				System.out.println("Ventana reabrierta");
+				
+			}
+			
+			@Override
+			public void windowDeactivated(WindowEvent e) {
+				System.out.println("Ventana fuera de focus");
+				
+			}
+			
+			@Override
+			public void windowClosing(WindowEvent e) {
+				handleClose();
+				
+			}
+			
+			@Override
+			public void windowClosed(WindowEvent e) {
+				System.out.println("Ventana cerrada");
+				
+			}
+			
+			@Override
+			public void windowActivated(WindowEvent e) {
+				System.out.println("Ventana dentro de focus");
+				
+			}
+		});
+	}
+	
+	private void handleClose() {
+		int option = JOptionPane.showConfirmDialog(this, "¿Seguro que deseas salir?");
+		
+		if(option == JOptionPane.YES_OPTION) {
+			System.exit(0);
+		}
+	}
+	
 	private void fieldsFocus() {
 		addWindowListener(new WindowAdapter() {
 			public void windowOpened(WindowEvent e) {
@@ -400,7 +457,7 @@ public class LoginView extends JFrame {
 				emailTextField.selectAll();
 		        emailTextField.setBorder(BorderFactory.createLineBorder(AppColors.primaryAccent, 1, true));
 			}
-			 
+			
 			public void focusLost(FocusEvent e) {
 		        emailTextField.setBorder(BorderFactory.createLineBorder(AppColors.subtleAccent, 1, true));
 			}
