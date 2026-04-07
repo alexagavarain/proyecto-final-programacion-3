@@ -13,6 +13,10 @@ import javax.swing.SwingConstants;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.JTextComponent;
+
+import exceptions.InvalidEmailException;
+import exceptions.InvalidPasswordException;
+
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -61,7 +65,7 @@ public class LoginView extends JFrame {
 		setTitle("Inicio de sesión");
 		
 		initializeComponents();
-		assignListeners();
+//		assignListeners();
 		windowStatus();
 	}
 	
@@ -244,7 +248,7 @@ public class LoginView extends JFrame {
 		loginButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		loginButton.setContentAreaFilled(true);
 		
-		loginButton.addActionListener(e -> login(contentPane));
+		loginButton.addActionListener(e -> handleLogin(contentPane));
 		
 		loginButton.addMouseListener(new MouseAdapter() {
 			public void mouseEntered(MouseEvent e) {
@@ -334,7 +338,7 @@ public class LoginView extends JFrame {
 		errorLabel.setText("");
 	}
 	
-	private void login(JPanel panel) {
+	private void handleLogin(JPanel panel) {
 		resetErrorLabel(emailError);
 		resetErrorLabel(passwordError);
 		
@@ -344,35 +348,35 @@ public class LoginView extends JFrame {
 		}
 	};
 
-	private void assignListeners() {
-	    emailTextField.getDocument().addDocumentListener(new DocumentListener() {
-	        public void insertUpdate(DocumentEvent e) {
-	            validateEmail();
-	        }
-
-	        public void removeUpdate(DocumentEvent e) {
-	            validateEmail();
-	        }
-
-	        public void changedUpdate(DocumentEvent e) {
-	            validateEmail();
-	        }
-	    });
-
-	    passwordField.getDocument().addDocumentListener(new DocumentListener() {
-	        public void insertUpdate(DocumentEvent e) {
-	            validatePassword();
-	        }
-
-	        public void removeUpdate(DocumentEvent e) {
-	            validatePassword();
-	        }
-
-	        public void changedUpdate(DocumentEvent e) {
-	            validatePassword();
-	        }
-	    });
-	}
+//	private void assignListeners() {
+//	    emailTextField.getDocument().addDocumentListener(new DocumentListener() {
+//	        public void insertUpdate(DocumentEvent e) {
+//	            validateEmail();
+//	        }
+//
+//	        public void removeUpdate(DocumentEvent e) {
+//	            validateEmail();
+//	        }
+//
+//	        public void changedUpdate(DocumentEvent e) {
+//	            validateEmail();
+//	        }
+//	    });
+//
+//	    passwordField.getDocument().addDocumentListener(new DocumentListener() {
+//	        public void insertUpdate(DocumentEvent e) {
+//	            validatePassword();
+//	        }
+//
+//	        public void removeUpdate(DocumentEvent e) {
+//	            validatePassword();
+//	        }
+//
+//	        public void changedUpdate(DocumentEvent e) {
+//	            validatePassword();
+//	        }
+//	    });
+//	}
 	
 	private void validateEmailCharacters(InputField field) {
 		field.addKeyListener(new KeyAdapter() {
@@ -468,39 +472,54 @@ public class LoginView extends JFrame {
 	}
 	
 	private boolean validateLogin() {
-	    boolean emailValid = validateEmail();
-	    boolean passwordValid = validatePassword();
+		boolean valid = false; 
+	    
+		try {
+			if(validateEmail()) {
+				valid = true;
+			}
+		} catch (InvalidEmailException e) {
+			//emailMessage
+			emailError.setText(e.getMessage());
+			System.out.println(e.getMessage());
+		}
+	    
+		try {
+			 if (validatePassword()) {
+				 valid = true;
+			 }
+		} catch (InvalidPasswordException e) {
+			// TODO Auto-generated catch block
+			passwordError.setText(e.getMessage());
+			System.out.println(e.getMessage());
+		}
 
-	    return emailValid && passwordValid;
+	    return valid;
 	}
 	
-	private boolean validatePassword() {
+	private boolean validatePassword() throws InvalidPasswordException {
 		if (String.valueOf(passwordField.getPassword()).trim().isEmpty()) {
 			passwordError.setText("La contraseña es obligatoria");
 			return false;
 		}
 		
-		if (String.valueOf(passwordField.getPassword()).length() < 6) {
-	        passwordError.setText("La contraseña debe tener mínimo 6 caracteres");
-	        return false;
+		if (!String.valueOf(passwordField.getPassword()).trim().isEmpty() && !String.valueOf(passwordField.getPassword()).equals("123")) {
+			throw new InvalidPasswordException("La contraseña no coindice");
 	    }
 
-	    passwordError.setText("");
 	    return true;
 	}
 	
-	private boolean validateEmail() {
+	private boolean validateEmail() throws InvalidEmailException {
 		if (emailTextField.getText().trim().equals("")){
 			emailError.setText("El correo es obligatorio");
 			return false;
 		}
 		
-		if (!emailTextField.getText().contains("@")) {
-	        emailError.setText("Correo inválido");
-	        return false;
+		if (!emailTextField.getText().trim().equals("") && !emailTextField.getText().contains("@")) {
+	        throw new InvalidEmailException("Correo inválido");
 	    }
 
-	    emailError.setText("");
 	    return true;
 	}
 	
