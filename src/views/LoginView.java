@@ -383,12 +383,12 @@ public class LoginView extends JFrame {
 			
 			public void keyTyped(KeyEvent e) {
 				if (!Character.isAlphabetic( e.getKeyChar()) && !Character.isDigit(e.getKeyChar())) {
-					if (e.getKeyChar() != '@' && e.getKeyChar() != '.') {
+					if (e.getKeyChar() != '@' && e.getKeyChar() != '.' && e.getKeyChar() != '_') {
 						e.consume();
 					}
 				}
 				
-				if ( field.getText().length() >= 30 ) {
+				if ( field.getText().length() >= 100 ) {
 					e.consume();
 				}
 			};	
@@ -425,7 +425,7 @@ public class LoginView extends JFrame {
 			
 			@Override
 			public void windowClosing(WindowEvent e) {
-//				handleClose();
+				handleClose();
 				
 			}
 			
@@ -478,7 +478,6 @@ public class LoginView extends JFrame {
 				valid = true;
 			}
 		} catch (InvalidEmailException e) {
-			//emailMessage
 			emailError.setText(e.getMessage());
 		}
 	    
@@ -487,7 +486,6 @@ public class LoginView extends JFrame {
 				 valid = true;
 			 }
 		} catch (InvalidPasswordException e) {
-			// TODO Auto-generated catch block
 			passwordError.setText(e.getMessage());
 		}
 
