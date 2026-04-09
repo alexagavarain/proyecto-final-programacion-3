@@ -56,8 +56,9 @@ public class LoginView extends JFrame {
 	private JPanel contentPane;
 	private InputField emailTextField;
 	private JPasswordField passwordField;
-	private Label emailError = createErrorLabel("");
-	private Label passwordError = createErrorLabel("");
+	private Label emailError;
+	private Label passwordError;
+	private JButton loginButton;
 
 	public LoginView() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -65,10 +66,32 @@ public class LoginView extends JFrame {
 		setTitle("Inicio de sesión");
 		
 		initializeComponents();
-//		assignListeners();
-		windowStatus();
 	}
 	
+	public JPanel getContentPane() {
+		return contentPane;
+	}
+
+	public InputField getEmailTextField() {
+		return emailTextField;
+	}
+
+	public JPasswordField getPasswordField() {
+		return passwordField;
+	}
+
+	public Label getEmailError() {
+		return emailError;
+	}
+
+	public Label getPasswordError() {
+		return passwordError;
+	}
+
+	public JButton getLoginButton() {
+		return loginButton;
+	}
+
 	private void initializeComponents() {
 		contentPane = createMainPanel();
 		setContentPane(contentPane);
@@ -92,6 +115,9 @@ public class LoginView extends JFrame {
 		contentPane.add(descText);
 		createSpace(25, contentPane);
 		
+		emailError = createErrorLabel("");
+		passwordError = createErrorLabel("");
+		
 		createLoginFields(contentPane);
 		
 		createSpace(6, contentPane);
@@ -102,7 +128,7 @@ public class LoginView extends JFrame {
 		
 		createSpace(25, contentPane);
 		
-		JButton loginButton = createLoginButton();
+		loginButton = createLoginButton();
 		
 		createSpace(10, contentPane);
 		
@@ -183,7 +209,6 @@ public class LoginView extends JFrame {
 	private JPanel createLoginFields(JPanel container) {
 		createLabel(container, "Correo electrónico", 14, 175);
  		emailTextField = createEmailField("estudiante@alu.uabcs.mx");
- 		validateEmailCharacters(emailTextField);
 		container.add(emailTextField);
 		container.add(emailError);
 		
@@ -247,9 +272,7 @@ public class LoginView extends JFrame {
 		JButton loginButton = createButton(contentPane, "Iniciar sesión", 300, 30, AppColors.primaryAccent, Color.WHITE);
 		loginButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		loginButton.setContentAreaFilled(true);
-		
-		loginButton.addActionListener(e -> handleLogin(contentPane));
-		
+				
 		loginButton.addMouseListener(new MouseAdapter() {
 			public void mouseEntered(MouseEvent e) {
 				loginButton.setBackground(AppColors.background);
@@ -331,125 +354,7 @@ public class LoginView extends JFrame {
 		}
 		
 		return null;
-	}
-	
-	
-	private void resetErrorLabel(JLabel errorLabel) {
-		errorLabel.setText("");
-	}
-	
-	private void handleLogin(JPanel panel) {
-		resetErrorLabel(emailError);
-		resetErrorLabel(passwordError);
-		
-		if (validateLogin()) {
-			new HomeView().setVisible(true);;
-			dispose();
-		}
-	};
-
-//	private void assignListeners() {
-//	    emailTextField.getDocument().addDocumentListener(new DocumentListener() {
-//	        public void insertUpdate(DocumentEvent e) {
-//	            validateEmail();
-//	        }
-//
-//	        public void removeUpdate(DocumentEvent e) {
-//	            validateEmail();
-//	        }
-//
-//	        public void changedUpdate(DocumentEvent e) {
-//	            validateEmail();
-//	        }
-//	    });
-//
-//	    passwordField.getDocument().addDocumentListener(new DocumentListener() {
-//	        public void insertUpdate(DocumentEvent e) {
-//	            validatePassword();
-//	        }
-//
-//	        public void removeUpdate(DocumentEvent e) {
-//	            validatePassword();
-//	        }
-//
-//	        public void changedUpdate(DocumentEvent e) {
-//	            validatePassword();
-//	        }
-//	    });
-//	}
-	
-	private void validateEmailCharacters(InputField field) {
-		field.addKeyListener(new KeyAdapter() {
-			
-			public void keyTyped(KeyEvent e) {
-				if (!Character.isAlphabetic( e.getKeyChar()) && !Character.isDigit(e.getKeyChar())) {
-					if (e.getKeyChar() != '@' && e.getKeyChar() != '.' && e.getKeyChar() != '_') {
-						e.consume();
-					}
-				}
-				
-				if ( field.getText().length() >= 100 ) {
-					e.consume();
-				}
-			};	
-			
-		});
-	}
-	
-	private void windowStatus() {
-		addWindowListener(new WindowListener() {
-			
-			@Override
-			public void windowOpened(WindowEvent e) {
-				System.out.println("Ventana abierta");
-				
-			}
-			
-			@Override
-			public void windowIconified(WindowEvent e) {
-				System.out.println("Ventana minimizada");
-				
-			}
-			
-			@Override
-			public void windowDeiconified(WindowEvent e) {
-				System.out.println("Ventana reabrierta");
-				
-			}
-			
-			@Override
-			public void windowDeactivated(WindowEvent e) {
-				System.out.println("Ventana fuera de focus");
-				
-			}
-			
-			@Override
-			public void windowClosing(WindowEvent e) {
-				handleClose();
-				
-			}
-			
-			@Override
-			public void windowClosed(WindowEvent e) {
-				System.out.println("Ventana cerrada");
-				
-			}
-			
-			@Override
-			public void windowActivated(WindowEvent e) {
-				System.out.println("Ventana dentro de focus");
-				
-			}
-		});
-	}
-	
-	private void handleClose() {
-		int option = JOptionPane.showConfirmDialog(this, "¿Seguro que deseas salir?");
-		
-		if(option == JOptionPane.YES_OPTION) {
-			System.exit(0);
-		}
-	}
+	}	
 	
 	private void fieldFocus(JTextComponent field) {
 		addWindowListener(new WindowAdapter() {
@@ -470,52 +375,6 @@ public class LoginView extends JFrame {
 		});
 	}
 	
-	private boolean validateLogin() {
-		boolean valid = false; 
-	    
-		try {
-			if(validateEmail()) {
-				valid = true;
-			}
-		} catch (InvalidEmailException e) {
-			emailError.setText(e.getMessage());
-		}
-	    
-		try {
-			 if (validatePassword()) {
-				 valid = true;
-			 }
-		} catch (InvalidPasswordException e) {
-			passwordError.setText(e.getMessage());
-		}
 
-	    return valid;
-	}
-	
-	private boolean validatePassword() throws InvalidPasswordException {
-		if (String.valueOf(passwordField.getPassword()).trim().isEmpty()) {
-			passwordError.setText("La contraseña es obligatoria");
-			return false;
-		}
-		
-		if (!String.valueOf(passwordField.getPassword()).trim().isEmpty() && !String.valueOf(passwordField.getPassword()).equals("123")) {
-			throw new InvalidPasswordException("La contraseña no coindice");
-	    }
-
-	    return true;
-	}
-	
-	private boolean validateEmail() throws InvalidEmailException {
-		if (emailTextField.getText().trim().equals("")){
-			emailError.setText("El correo es obligatorio");
-			return false;
-		}
-		
-		if (!emailTextField.getText().trim().equals("") && !emailTextField.getText().contains("@")) {
-	        throw new InvalidEmailException("Correo inválido");
-	    }
-
-	    return true;
-	}
 	
 }

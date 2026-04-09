@@ -7,6 +7,7 @@ import javax.swing.UIManager;
 
 import com.formdev.flatlaf.FlatLightLaf;
 
+import controllers.LoginController;
 import utils.CreateFont;
 
 public class Main {
@@ -21,6 +22,7 @@ public class Main {
 			public void run() {
 				try {
 					LoginView frame = new LoginView();
+					new LoginController(frame);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
