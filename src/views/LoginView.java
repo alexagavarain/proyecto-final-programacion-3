@@ -14,6 +14,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.JTextComponent;
 
+import controllers.RegisterController;
 import exceptions.InvalidEmailException;
 import exceptions.InvalidPasswordException;
 
@@ -296,8 +297,10 @@ public class LoginView extends JFrame {
 		registerButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		
 		registerButton.addActionListener(e ->{
-			new RegisterView().setVisible(true);
-			dispose();
+		    RegisterView view = new RegisterView();
+		    new RegisterController(view);
+		    view.setVisible(true);
+		    dispose();
 		});
 		
 		registerButton.addMouseListener(new MouseAdapter() {

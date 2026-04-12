@@ -29,6 +29,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.JTextComponent;
 
+import controllers.RegisterController;
 import utils.AppColors;
 import utils.CreateFont;
 import utils.InputField;
@@ -51,6 +52,8 @@ public class RegisterView extends JFrame{
 	private Label carreraError = createErrorLabel("");
 	private Label grupoError =  createErrorLabel("");
 	private Label turnoError = createErrorLabel("");
+	private JButton RegisterButton;
+	private JButton BackButton;
 	
 	public RegisterView() {
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -82,26 +85,22 @@ public class RegisterView extends JFrame{
 		
 		createLabel(contentPane, "Nombre", 14, 245);
 		name = new InputField();
-		validateNameCharacters(name);
 		TextPrompt namePrompt = new TextPrompt("nombre apellido", name);
 		namePrompt.setForeground(AppColors.subtitle);
 		contentPane.add(name);
 		contentPane.add(nameError);
-		fieldFocus(name);
 		
 		createSpace(10, contentPane);
 		
 		createLabel(contentPane, "Correo electrónico", 14, 180);
 		
 		emailTextField = new InputField();
-		validateEmailCharacters(emailTextField);
 		
 		TextPrompt promptEmail = new TextPrompt("estudiante@alu.uabcs.mx", emailTextField);
 		promptEmail.setForeground(AppColors.subtitle);
 		contentPane.add(emailTextField);
 		contentPane.add(emailError);
-		fieldFocus(emailTextField);
-		
+
 		createSpace(10, contentPane);
 		createLabel(contentPane, "Contraseña", 14, 220);
 		passwordField = new JPasswordField();
@@ -120,7 +119,6 @@ public class RegisterView extends JFrame{
 		promptPassword.setForeground(AppColors.subtitle);
 		contentPane.add(passwordField);
 		contentPane.add(passwordError);
-		fieldFocus(passwordField);
 				
 		
 		createSpace(10, contentPane);
@@ -199,187 +197,77 @@ public class RegisterView extends JFrame{
 		secondaryPanel.add(grupoPanel);
 
 		contentPane.add(secondaryPanel);
-		assignListeners();
+
 			
 		createSpace(30, contentPane);
-		createRegisterButton();
+		RegisterButton = createRegisterButton();
 		
 		createSpace(30, contentPane);
-		createBackButton();
+		BackButton =createBackButton();
 		
 	}
 	
 	
 	
-	private void Register(JPanel panel) {
-		if (validateRegister()) {
-			JOptionPane.showMessageDialog(panel, "Te has registrado correctamente", "Registrado", JOptionPane.INFORMATION_MESSAGE);
-			
-			new HomeView().setVisible(true);
-			dispose();
-		} else {
-	        panel.revalidate();
-	        panel.repaint();
-	    }
+	public JPanel getContentPane() {
+		return contentPane;
+	}
+	public Label getEmailError() {
+		return emailError;
+	}
+	public Label getPasswordError() {
+		return passwordError;
+	}
+	public Label getNameError() {
+		return nameError;
+	}
+	public Label getCarreraError() {
+		return carreraError;
+	}
+	public Label getGrupoError() {
+		return grupoError;
+	}
+	public Label getTurnoError() {
+		return turnoError;
+	}
+	public JButton getRegisterButton() {
+		return RegisterButton;
 	}
 	
-	private void assignListeners() {
 
-
-		 emailTextField.getDocument().addDocumentListener(new DocumentListener() {
-		        public void insertUpdate(DocumentEvent e) {
-		            validateEmail();
-		        }
-
-		        public void removeUpdate(DocumentEvent e) {
-		            validateEmail();
-		        }
-
-		        public void changedUpdate(DocumentEvent e) {
-		            validateEmail();
-		        }
-		    });
-
-		    passwordField.getDocument().addDocumentListener(new DocumentListener() {
-		        public void insertUpdate(DocumentEvent e) {
-		            validatePassword();
-		        }
-
-		        public void removeUpdate(DocumentEvent e) {
-		            validatePassword();
-		        }
-
-		        public void changedUpdate(DocumentEvent e) {
-		            validatePassword();
-		        }
-		    });
-
-		    name.getDocument().addDocumentListener(new DocumentListener() {
-		        public void insertUpdate(DocumentEvent e) {
-		            validateName();
-		        }
-
-		        public void removeUpdate(DocumentEvent e) {
-		            validateName();
-		        }
-
-		        public void changedUpdate(DocumentEvent e) {
-		            validateName();
-		        }
-		    });
-
-	    KeyAdapter enterRegister = new KeyAdapter() {
-	        public void keyPressed(KeyEvent e) {
-	            if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-	                Register(contentPane);
-	            }
-	        }
-	    };
-
-	    emailTextField.addKeyListener(enterRegister);
-	    passwordField.addKeyListener(enterRegister);
+	public boolean isError() {
+		return error;
 	}
-	private boolean validateEmail() {
-
-	    if (emailTextField.getText().trim().isEmpty()) {
-	        emailError.setText("El correo es obligatorio");
-	        return false;
-	    }
-
-	    if (!emailTextField.getText().contains("@")) {
-	        emailError.setText("Correo inválido");
-	        return false;
-	    }
-
-	    emailError.setText("");
-	    return true;
+	public String getName() {
+		return name.getText();
 	}
-	private boolean validateRegister() {
-
-	    // Limpiar errores anteriores
-	    nameError.setText("");
-	    emailError.setText("");
-	    passwordError.setText("");
-	    carreraError.setText("");
-	    turnoError.setText("");
-	    grupoError.setText("");
-
-	    boolean valid = true;
-
-	    if (name.getText().trim().isEmpty()) {
-	        nameError.setText("El nombre es obligatorio.");
-	        valid = false;
-	    }
-
-	    if (emailTextField.getText().trim().isEmpty()) {
-	        emailError.setText("El correo es obligatorio.");
-	        valid = false;
-	    }
-
-	    if (String.valueOf(passwordField.getPassword()).trim().isEmpty()) {
-	        passwordError.setText("La contraseña es obligatoria.");
-	        valid = false;
-	    }
-
-	    if (listaCarreras.getSelectedIndex() == 0) {
-	        carreraError.setText("Selecciona una carrera.");
-	        valid = false;
-	    }
-
-	    if (!matutino.isSelected() && !vespertino.isSelected()) {
-	        turnoError.setText("Selecciona un turno.");
-	        valid = false;
-	    }
-
-	    if (listaGrupos.getSelectedIndex() == 0) {
-	        grupoError.setText("Selecciona un grupo.");
-	        valid = false;
-	    }
-
-	    return valid;
+	public InputField getNameField() {
+		return name;
 	}
-	
-	private boolean validateName() {
-
-	    if (name.getText().trim().isEmpty()) {
-	        nameError.setText("El nombre es obligatorio");
-	        return false;
-	    }
-
-	    if (name.getText().trim().length() <= 3) {
-	        nameError.setText("Mínimo 4 caracteres");
-	        return false;
-	    }
-
-	    nameError.setText("");
-	    return true;
+	public InputField getEmailTextField() {
+		return emailTextField;
 	}
-	
-	private boolean validateCareer() {
-		if (listaCarreras.getSelectedIndex() == 0) {
-			carreraError.setText("Seleccione una carrera");
-			return false;
-		}
-		return true;
+	public JPasswordField getPasswordField() {
+		return passwordField;
 	}
-	
-	private boolean validatePassword() {
-
-	    if (String.valueOf(passwordField.getPassword()).trim().isEmpty()) {
-	        passwordError.setText("La contraseña es obligatoria");
-	        return false;
-	    }
-
-	    if (String.valueOf(passwordField.getPassword()).length() < 6) {
-	        passwordError.setText("Mínimo 6 caracteres");
-	        return false;
-	    }
-
-	    passwordError.setText("");
-	    return true;
+	public JComboBox<String> getListaGrupos() {
+		return listaGrupos;
 	}
-	
-	
+	public JRadioButton getMatutino() {
+		return matutino;
+	}
+	public JRadioButton getVespertino() {
+		return vespertino;
+	}
+	public JComboBox<String> getListaCarreras() {
+		return listaCarreras;
+	}
+	public JButton getBackButton() {
+		return BackButton;
+	}
+
+
+
 	public void createLabel(JPanel container, String containerName, float fontSize, int rightBorder) {
 		JLabel label = new JLabel(containerName);
 		label.setFont(CreateFont.DEFAULT.deriveFont(fontSize));		
@@ -428,8 +316,6 @@ public class RegisterView extends JFrame{
 		registerButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		registerButton.setContentAreaFilled(true);
 		
-		registerButton.addActionListener(e -> Register(contentPane));
-		
 		registerButton.addMouseListener(new MouseAdapter() {
 			public void mouseEntered(MouseEvent e) {
 				registerButton.setBackground(AppColors.background);
@@ -464,7 +350,6 @@ public class RegisterView extends JFrame{
 			}
 		});
 		
-		btnReturn.addActionListener(e -> Register(contentPane));
 		
 		btnReturn.addMouseListener(new MouseAdapter() {
 			public void mouseEntered(MouseEvent e) {
@@ -512,108 +397,8 @@ public class RegisterView extends JFrame{
 		errorLabel.setAlignmentX(CENTER_ALIGNMENT);
 		return errorLabel;
 	}
-	private void validateEmailCharacters(InputField field) {
-		field.addKeyListener(new KeyAdapter() {
-			
-			public void keyTyped(KeyEvent e) {
-				if ( Character.isDigit( e.getKeyChar() ) || !Character.isAlphabetic( e.getKeyChar() ) && e.getKeyChar() != '@') {
-					e.consume();
-				}
-				
-				if ( field.getText().length() >= 30 ) {
-					e.consume();
-				}
-			};	
-			
-		});
-	}
 	
-	private void validateNameCharacters(InputField field) {
-		field.addKeyListener(new KeyAdapter() {
-			
-			public void keyTyped(KeyEvent e) {
-				if ( Character.isDigit( e.getKeyChar() ) || !Character.isAlphabetic( e.getKeyChar() ) && e.getKeyChar() != ' ' ){
-					e.consume();
-				}
-				
-				if ( field.getText().length() >= 100 ) {
-					e.consume();
-				}
-			};	
-			
-		});
-	}
-	private void windowStatus() {
-		addWindowListener(new WindowListener() {
-			
-			@Override
-			public void windowOpened(WindowEvent e) {
-				System.out.println("Ventana abierta");
-				
-			}
-			
-			@Override
-			public void windowIconified(WindowEvent e) {
-				System.out.println("Ventana minimizada");
-				
-			}
-			
-			@Override
-			public void windowDeiconified(WindowEvent e) {
-				System.out.println("Ventana reabrierta");
-				
-			}
-			
-			@Override
-			public void windowDeactivated(WindowEvent e) {
-				System.out.println("Ventana fuera de focus");
-				
-			}
-			
-			@Override
-			public void windowClosing(WindowEvent e) {
-				handleClose();
-				
-			}
-			
-			@Override
-			public void windowClosed(WindowEvent e) {
-				System.out.println("Ventana cerrada");
-				
-			}
-			
-			@Override
-			public void windowActivated(WindowEvent e) {
-				System.out.println("Ventana dentro de focus");
-				
-			}
-		});
-	}
-	private void handleClose() {
-		int option = JOptionPane.showConfirmDialog(this, "¿Seguro que deseas salir?");
-		
-		if(option == JOptionPane.YES_OPTION) {
-			System.exit(0);
-		}
-	}
-	private void fieldFocus(JTextComponent field) {
-		addWindowListener(new WindowAdapter() {
-			public void windowOpened(WindowEvent e) {
-				field.requestFocusInWindow();
-			}
-		});
-		
-		field.addFocusListener(new FocusAdapter() {
-			public void focusGained(FocusEvent e) {
-				field.selectAll();
-		        field.setBorder(BorderFactory.createLineBorder(AppColors.primaryAccent, 1, true));
-			}
-			
-			public void focusLost(FocusEvent e) {
-		        field.setBorder(BorderFactory.createLineBorder(AppColors.subtleAccent, 1, true));
-			}
-		});
-	}
+	
 	
 	
 }
