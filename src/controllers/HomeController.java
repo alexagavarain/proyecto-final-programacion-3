@@ -23,7 +23,6 @@ public class HomeController {
 	}
 	
 	public void registerListeners( ) {
-		
 		view.btnUsers.addActionListener(e -> {
 			UserRepository repository = new UserRepository();
 			try {
@@ -33,6 +32,8 @@ public class HomeController {
 					System.out.println(user);
 					System.out.println("---------------");
 				}
+				
+				System.out.println("Entro aqui");
 			} catch (IOException ex) {
 				// TODO Auto-generated catch block
 				JOptionPane.showMessageDialog(view, ex.getMessage());

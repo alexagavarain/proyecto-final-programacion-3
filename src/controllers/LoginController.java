@@ -35,7 +35,9 @@ public class LoginController {
 		view.getPasswordError().setText("");
 		
 		if (validateLogin()) {
-			new HomeView().setVisible(true);;
+			HomeView home = new HomeView();
+			home.setVisible(true);
+			new HomeController(home);
 			view.dispose();
 		} else {
 			view.getPasswordError().setText("Credenciales incorrectas");

@@ -18,6 +18,7 @@ import javax.swing.text.JTextComponent;
 import exceptions.InvalidEmailException;
 import exceptions.InvalidPasswordException;
 import models.User;
+import repository.UserRepository;
 import utils.AppColors;
 import utils.InputField;
 import views.HomeView;
@@ -26,6 +27,9 @@ import views.RegisterView;
 
 
 public class RegisterController {
+	
+	public UserRepository repository = new UserRepository();
+	
 	private RegisterView view;
 	
 	public RegisterController(RegisterView view) {
@@ -61,8 +65,20 @@ public class RegisterController {
 			    view.getListaGrupos().getSelectedItem().toString(),
 			    String.valueOf(view.getPasswordField().getPassword())
 			);
-			new HomeView().setVisible(true);
-			view.dispose();
+			
+			try {
+	            repository.save(user); 
+	            JOptionPane.showMessageDialog(panel, "Te has registrado correctamente");
+
+	            HomeView home = new HomeView();
+	            home.setVisible(true);
+	            new HomeController(home);
+	            view.dispose();
+
+	        } catch (Exception e) {
+	            JOptionPane.showMessageDialog(panel, "Error al guardar usuario");
+	            e.printStackTrace();
+	        }
 		} else {
 	        panel.revalidate();
 	        panel.repaint();

@@ -27,10 +27,11 @@ public class HomeView extends JFrame{
 	public void initializeComponents() {
 		JPanel contentPane = new JPanel();
 		createTitle(contentPane, "Home", 30);
+				
+		add(contentPane);
 		
 		btnUsers = new JButton("Ver usuarios");
-		
-		add(contentPane);
+		contentPane.add(btnUsers);
 	}
 	
 	public void createTitle(JPanel container, String name, float fontSize) {
