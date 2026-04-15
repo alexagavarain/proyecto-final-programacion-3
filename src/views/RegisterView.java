@@ -234,7 +234,6 @@ public class RegisterView extends JFrame{
 		return RegisterButton;
 	}
 	
-
 	public boolean isError() {
 		return error;
 	}

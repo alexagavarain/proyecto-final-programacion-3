@@ -17,6 +17,7 @@ import javax.swing.text.JTextComponent;
 
 import exceptions.InvalidEmailException;
 import exceptions.InvalidPasswordException;
+import models.User;
 import utils.AppColors;
 import utils.InputField;
 import views.HomeView;
@@ -50,7 +51,16 @@ public class RegisterController {
 	private void Register(JPanel panel) {
 		if (validateRegister()) {
 			JOptionPane.showMessageDialog(panel, "Te has registrado correctamente", "Registrado", JOptionPane.INFORMATION_MESSAGE);
-			
+			String turno = view.getMatutino().isSelected() ? "Matutino" : "Vespertino";
+
+			User user = new User(
+			    view.getName(),
+			    view.getEmailTextField().getText(),
+			    view.getListaCarreras().getSelectedItem().toString(),
+			    turno,
+			    view.getListaGrupos().getSelectedItem().toString(),
+			    String.valueOf(view.getPasswordField().getPassword())
+			);
 			new HomeView().setVisible(true);
 			view.dispose();
 		} else {
@@ -309,6 +319,9 @@ public class RegisterController {
 			}
 		});
 	}
+	
+	
+	
 //    view.getName().getDocument().addDocumentListener(new DocumentListener() {
 //        public void insertUpdate(DocumentEvent e) {
 //            validateName();
