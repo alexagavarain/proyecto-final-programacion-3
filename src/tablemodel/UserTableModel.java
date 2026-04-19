@@ -1,0 +1,60 @@
+package tablemodel;
+
+import java.util.List;
+import models.User;
+import javax.swing.table.AbstractTableModel;
+
+public class UserTableModel extends AbstractTableModel {
+	
+	private List<User> users;
+	
+	private final String[] columns = {
+			"Correo",
+			"Nombre",
+			"Carrera",
+			"Turno",
+			"Grupo"
+		};
+		
+		public UserTableModel(List<User> users) {
+			this.users = users;
+		}
+		
+		@Override
+		public int getRowCount() {
+			return users.size();
+		}
+
+		@Override
+		public int getColumnCount() {
+			return columns.length;
+		}
+		
+		@Override
+		public String getColumnName(int column) {
+			return columns[column];
+		}
+
+		@Override
+		public Object getValueAt(int rowIndex, int columnIndex) {
+			
+			User user = users.get(rowIndex);
+			
+			switch(columnIndex) {
+			case 0:
+				return user.getEmail();
+			case 1:
+				return user.getName();
+			case 2:
+				return user.getCareer();
+			case 3:
+				return user.getTurno();
+			case 4:
+				return user.getGrupo();
+			}
+			
+			return null;
+			
+		}
+
+}

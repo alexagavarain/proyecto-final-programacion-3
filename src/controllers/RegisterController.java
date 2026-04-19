@@ -15,12 +15,9 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.JTextComponent;
 
-import exceptions.InvalidEmailException;
-import exceptions.InvalidPasswordException;
 import models.User;
 import repository.UserRepository;
 import utils.AppColors;
-import utils.InputField;
 import views.HomeView;
 import views.LoginView;
 import views.RegisterView;
