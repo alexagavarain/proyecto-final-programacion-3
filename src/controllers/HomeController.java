@@ -13,6 +13,7 @@ import views.HomeView;
 public class HomeController {
 
 	private HomeView view;
+	private UserController userController;
 	
 	public HomeController(HomeView view) {
 		this.view = view;
@@ -25,27 +26,31 @@ public class HomeController {
 			showUsers();
 		});
 		
-		view.btnHome.addActionListener(e -> view.showView(HomeView.HOME));
+		view.btnHome.addActionListener(e -> {
+			view.showView(HomeView.HOME);
+			updateMenuState(HomeView.HOME);
+		});
 	}
 	
-	private void showUsers() {
-		UserController controller = new UserController(view.usersPanel);
-		UserRepository repository = new UserRepository();
-		
-		try {
-			List<User> users = repository.getUsers();
-			
-			UserTableModel model = new UserTableModel(users);
-			
-			view.usersPanel.setTableModel(model);
-			
-			view.showView(HomeView.USERS);
-			
-		}catch (IOException ex) {
-			JOptionPane.showMessageDialog(view, ex.getMessage());
+	private void showUsers() {	
+		if(userController == null) {
+			userController = new UserController(view.usersPanel);
 		}
+			
+		userController.loadUsers();
 		
+		view.showView(HomeView.USERS);
+		updateMenuState(HomeView.USERS);
 	}
+	
+	private void updateMenuState(String viewName) {
+		view.btnUsers.setEnabled(!viewName.equals(HomeView.USERS));
+		view.btnHome.setEnabled(!viewName.equals(HomeView.HOME));
+	}
+	
+	
+	
+	
 	private void handleClose() {
 		/*int option = view.confirmExit();
 		System.out.println(option);
