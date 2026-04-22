@@ -37,18 +37,38 @@ public class UserFormDialog extends JDialog{
 	
 	public UserFormDialog(JFrame parent, User user) { 
 		super(parent, true); 
-		this.user = user; setSize(400, 500); 
+		this.user = user; 
+		String title = user == null ? "Agregar usuario" : "Editar usuario";
+		
+		setSize(400, 500);
+    	setTitle(title);
 		setLocationRelativeTo(parent); 
 		setLayout(new BorderLayout()); 
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE); 
-		add(createTitlePanel(), BorderLayout.NORTH); 
+		add(createTitlePanel(title), BorderLayout.NORTH); 
 		add(createFormPanel(), BorderLayout.CENTER); 
 		add(createButtonPanel(), BorderLayout.SOUTH); 
 	} 
 	
-	private JPanel createTitlePanel() { 
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public boolean isSaved() {
+		return saved;
+	}
+
+	public void setSaved(boolean saved) {
+		this.saved = saved;
+	} 
+	
+	private JPanel createTitlePanel(String title) { 
 		JPanel panel = new JPanel(); 
-		panel.add(new JLabel("Formulario de Usuario")); 
+		panel.add(new JLabel(title)); 
 		return panel; 
 	} 
 	
@@ -56,24 +76,32 @@ public class UserFormDialog extends JDialog{
 		JPanel panel = new JPanel(); 
 		btnSave = new JButton("Guardar"); 
 		btnCancel = new JButton("Cancelar"); 
-		panel.add(btnSave); panel.add(btnCancel); 
-		//btnSave.addActionListener(e -> save()); 
+		
+		panel.add(btnSave); 
+		panel.add(btnCancel); 
+		
+		btnSave.addActionListener(e -> save()); 
 		btnCancel.addActionListener(e -> dispose()); 
+		
 		return panel;
 	} 
 	
 	private JPanel createField(String labelText, Component field) { 
 		Dimension fieldSize = new Dimension(250, 30); 
+		
 		JPanel panel = new JPanel(); 
 		panel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0)); 
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS)); 
 		panel.setAlignmentX(Component.CENTER_ALIGNMENT); 
+		
 		JLabel label = new JLabel(labelText); 
 		label.setMaximumSize(fieldSize); 
 		label.setHorizontalAlignment(SwingConstants.LEFT); 
 		label.setAlignmentX(Component.CENTER_ALIGNMENT); 
+		
 		panel.add(label); 
 		panel.add(field); 
+		
 		return panel; 
 	}
 	
@@ -111,6 +139,69 @@ public class UserFormDialog extends JDialog{
 			
 			 
 		return scroll; 
-	} 
+	}
+	
+	private void loadData() {
+    	if(user != null) {
+    		txtName.setText(user.getName());
+            txtEmail.setText(user.getEmail());
+            cboCountry.setSelectedItem(user.getCountry());
+
+            if (user.getGender() == 'M') {
+                rbtnMale.setSelected(true);
+            } else {
+                rbtnFemale.setSelected(true);
+            }
+
+            txtDescription.setText(user.getDescription());
+
+            List<String> langs = user.getLanguages();
+
+            int[] indices = new int[langs.size()];
+            int i = 0;
+
+            for (String lang : langs) {
+                if (lang.equals("Java")) indices[i++] = 0;
+                else if (lang.equals("C++")) indices[i++] = 1;
+                else if (lang.equals("Python")) indices[i++] = 2;
+                else if (lang.equals("JavaScript")) indices[i++] = 3;
+            }
+
+            lstLanguages.setSelectedIndices(indices);
+    	}
+    }
+	
+	private void save() {
+    	String name = txtName.getText();
+    	String email = txtEmail.getText();
+        String country = (String) cboCountry.getSelectedItem();
+
+        char gender = rbtnMale.isSelected() ? 'M' : 'F';
+
+        String description = txtDescription.getText();
+
+        List<String> languages = new ArrayList<>();
+
+        List<String> selected = lstLanguages.getSelectedValuesList();
+
+        for (String lang : selected) {
+            languages.add(lang);
+        }
+        
+        if(user == null) {
+        	user = new User(name, email, country, gender, description, languages);
+        }else {
+        	user.setName(name);
+        	user.setEmail(email);
+        	user.setCountry(country);
+            user.setGender(gender);
+            user.setDescription(description);
+            user.setLanguages(languages);
+        }
+        
+        saved = true;
+        dispose();
+    }
+	
 
 }

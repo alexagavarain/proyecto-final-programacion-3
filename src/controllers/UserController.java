@@ -24,9 +24,7 @@ public class UserController {
 		
 		this.view.getBtnAdd().addActionListener(e -> {
 			System.out.println("Agregar user");
-			UserFormDialog form = new UserFormDialog(null, null);
-			form.setVisible(true);
-//			openForm(null);
+			openForm(null);
 		});
 		
 		this.view.getBtnEdit().addActionListener(e -> {
@@ -37,10 +35,10 @@ public class UserController {
 			}
 			
 			System.out.println("Editar user");
-			
-//			openForm(model.getUserAt(row));
+			openForm(model.getUserAt(row));
 		});
 		
+		//TODO terminar funcionalidad
 		this.view.getBtnDelete().addActionListener(e -> {
 			int row = view.getSelectedRow();
 			if(row == -1) {
@@ -62,29 +60,29 @@ public class UserController {
 		});
 	}
 		
-//	public void openForm(User user) {
-//		UserFormDialog dialog = new UserFormDialog(null, user);
-//		dialog.setVisible(true);
-//		
-//		if(dialog.isSaved()) {
-//			User savedUser = dialog.getUser();
-//			
-//			try {
-//				if(user == null) {
-//					repo.save(savedUser);
-//				}else {
-//					int row = view.getSelectedRow();
-//					repo.update(row, savedUser);
-//				}
-//				
-//				loadUsers();
-//			}catch(Exception e) {
-//				e.printStackTrace();
-//				JOptionPane.showMessageDialog(view, e.getMessage());
-//			}
-//			
-//		}
-//	}
+	public void openForm(User user) {
+		UserFormDialog dialog = new UserFormDialog(null, user);
+		dialog.setVisible(true);
+		
+		if(dialog.isSaved()) {
+			User savedUser = dialog.getUser();
+			
+			try {
+				if(user == null) {
+					repo.save(savedUser);
+				}else {
+					int row = view.getSelectedRow();
+					repo.update(row, savedUser);
+				}
+				
+				loadUsers();
+			}catch(Exception e) {
+				e.printStackTrace();
+				JOptionPane.showMessageDialog(view, e.getMessage());
+			}
+			
+		}
+	}
 	
 	public void loadUsers() {	
 		System.out.println("Carga usuarios");

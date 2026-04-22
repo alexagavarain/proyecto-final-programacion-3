@@ -21,6 +21,7 @@ public class UserRepository {
 			try(BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(FILE, true), StandardCharsets.UTF_8))) {
 				writer.write(user.toCsv());
 				writer.newLine();
+				System.out.println("Se ha guardado a " + user.getName());
 			}
 			
 		}
