@@ -49,6 +49,7 @@ public class UserController {
 			int option = JOptionPane.showConfirmDialog(view, "¿Seguro de que quieres eliminar al usuario?");
 			
 			if (option == JOptionPane.YES_OPTION) {
+				deleteUser(model.getUserAt(row));
 				System.out.println("Se borro al usuario");
 				return;
 			}
@@ -81,6 +82,19 @@ public class UserController {
 				JOptionPane.showMessageDialog(view, e.getMessage());
 			}
 			
+		}
+	}
+	
+	public void deleteUser(User user) {
+		int row = view.getSelectedRow();
+		
+		try {
+			repo.delete(row);
+			System.out.println("Usuario borrado");
+			loadUsers();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
