@@ -10,6 +10,10 @@ public class User {
 	private String grupo;
 	private String password;
 	
+	public User() {
+		
+	}
+	
 	
 	public User(String email, String password) {
 		this.email = email;
