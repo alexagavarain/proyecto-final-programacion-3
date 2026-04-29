@@ -38,7 +38,6 @@ public class UserController {
 			openForm(model.getUserAt(row));
 		});
 		
-		//TODO terminar funcionalidad
 		this.view.getBtnDelete().addActionListener(e -> {
 			int row = view.getSelectedRow();
 			if(row == -1) {
@@ -93,7 +92,6 @@ public class UserController {
 			System.out.println("Usuario borrado");
 			loadUsers();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

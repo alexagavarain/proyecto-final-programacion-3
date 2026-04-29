@@ -41,13 +41,15 @@ public class UserFormDialog extends JDialog{
 		String title = user == null ? "Agregar usuario" : "Editar usuario";
 		
 		setSize(400, 500);
-    	setTitle(title);
+    		setTitle(title);
 		setLocationRelativeTo(parent); 
 		setLayout(new BorderLayout()); 
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE); 
 		add(createTitlePanel(title), BorderLayout.NORTH); 
 		add(createFormPanel(), BorderLayout.CENTER); 
 		add(createButtonPanel(), BorderLayout.SOUTH); 
+		
+		loadData();
 	} 
 	
 	public User getUser() {
@@ -80,7 +82,7 @@ public class UserFormDialog extends JDialog{
 		panel.add(btnSave); 
 		panel.add(btnCancel); 
 		
-//		btnSave.addActionListener(e -> save()); 
+		btnSave.addActionListener(e -> save()); 
 		btnCancel.addActionListener(e -> dispose()); 
 		
 		return panel;
@@ -141,67 +143,43 @@ public class UserFormDialog extends JDialog{
 		return scroll; 
 	}
 	
-//	private void loadData() {
-//    	if(user != null) {
-//    		txtName.setText(user.getName());
-//            txtEmail.setText(user.getEmail());
-//            cboCountry.setSelectedItem(user.getCountry());
-//
-//            if (user.getGender() == 'M') {
-//                rbtnMale.setSelected(true);
-//            } else {
-//                rbtnFemale.setSelected(true);
-//            }
-//
-//            txtDescription.setText(user.getDescription());
-//
-//            List<String> langs = user.getLanguages();
-//
-//            int[] indices = new int[langs.size()];
-//            int i = 0;
-//
-//            for (String lang : langs) {
-//                if (lang.equals("Java")) indices[i++] = 0;
-//                else if (lang.equals("C++")) indices[i++] = 1;
-//                else if (lang.equals("Python")) indices[i++] = 2;
-//                else if (lang.equals("JavaScript")) indices[i++] = 3;
-//            }
-//
-//            lstLanguages.setSelectedIndices(indices);
-//    	}
-//    }
+	private void loadData() {
+	    if (user != null) {
+	        txtName.setText(user.getName());
+	        txtEmail.setText(user.getEmail());
+
+	        cboCarrera.setSelectedItem(user.getCareer());
+	        cboGrupo.setSelectedItem(user.getGrupo());
+
+	        if (user.getTurno().equals("Matutino")) {
+	            rbtnMatutino.setSelected(true);
+	        } else {
+	            rbtnVespertino.setSelected(true);
+	        }
+	    }
+	}
 	
-//	private void save() {
-//    	String name = txtName.getText();
-//    	String email = txtEmail.getText();
-//        String country = (String) cboCountry.getSelectedItem();
-//
-//        char gender = rbtnMale.isSelected() ? 'M' : 'F';
-//
-//        String description = txtDescription.getText();
-//
-//        List<String> languages = new ArrayList<>();
-//
-//        List<String> selected = lstLanguages.getSelectedValuesList();
-//
-//        for (String lang : selected) {
-//            languages.add(lang);
-//        }
-//        
-//        if(user == null) {
-//        	user = new User(name, email, country, gender, description, languages);
-//        }else {
-//        	user.setName(name);
-//        	user.setEmail(email);
-//        	user.setCountry(country);
-//            user.setGender(gender);
-//            user.setDescription(description);
-//            user.setLanguages(languages);
-//        }
-//        
-//        saved = true;
-//        dispose();
-//    }
-	
+	private void save() {
+	    String name = txtName.getText();
+	    String email = txtEmail.getText();
+	    String career = (String) cboCarrera.getSelectedItem();
+	    String grupo = (String) cboGrupo.getSelectedItem();
+
+	    String turno = rbtnMatutino.isSelected() ? "Matutino" : "Vespertino";
+
+	    if (user == null) {
+	        user = new User(name, email, career, turno, grupo);
+	    } else {
+	        user.setName(name);
+	        user.setEmail(email);
+	        user.setCareer(career);
+	        user.setTurno(turno);
+	        user.setGrupo(grupo);
+	    }
+
+	    saved = true;
+	    dispose();
+	}
+
 
 }
