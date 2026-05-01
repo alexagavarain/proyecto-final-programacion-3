@@ -29,6 +29,7 @@ public class UsersView extends JPanel{
 	public UsersView() {
 		setLayout(new BorderLayout());
 		table = new JTable();
+		styleTable();
 		
 		add(new JScrollPane(table), BorderLayout.CENTER);
 		
@@ -47,23 +48,24 @@ public class UsersView extends JPanel{
 	}
 	
 	public void styleTable() {
-		table.setRowHeight(35);
+		table.setRowHeight(27);
 		table.setShowGrid(true);
+		//Lineas
 		table.setGridColor(new Color(230, 230, 230));
-		table.setBackground(AppColors.primaryAccent);
-		table.setForeground(Color.WHITE);
+		table.setBackground(AppColors.background);
+		table.setForeground(Color.BLACK);
 		table.setFont(CreateFont.DEFAULT.deriveFont(14f));
 		
-		table.setSelectionBackground(new Color(52, 152, 219));
-		table.setSelectionForeground(Color.WHITE);
+		table.setSelectionBackground(new Color(231, 238, 252));
+		table.setSelectionForeground(new Color(75, 116, 204));
 		
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		JTableHeader header = table.getTableHeader();
-		header.setBackground(AppColors.primaryAccent);
+		header.setBackground(AppColors.subtitle);
 		header.setForeground(Color.WHITE);
 		header.setFont(CreateFont.DEFAULT_BOLD.deriveFont(14f));
-		header.setPreferredSize(new Dimension(0, 40));
+		header.setPreferredSize(new Dimension(0, 30));
 		header.setReorderingAllowed(false);
 		
 		table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
@@ -84,23 +86,16 @@ public class UsersView extends JPanel{
                         hasFocus,
                         row,
                         column);
-                
-                if (!isSelected) {
-                    if (row % 2 == 0) {
-                        c.setBackground(Color.WHITE);
-                    } else {
-                        c.setBackground(new Color(245, 245, 245));
-                    }
-
-                    c.setForeground(Color.BLACK);
-                }
 				
-				if(column == 1) {
+				if(column == 0) {
 					c.setFont(CreateFont.DEFAULT_BOLD);
 					if(!isSelected) {
-						c.setForeground(new Color(41, 128, 185));
+						c.setForeground(AppColors.primaryAccent);
 					}
 				} else {
+					if (!isSelected) {
+						c.setForeground(Color.BLACK);
+					}
 					c.setFont(CreateFont.DEFAULT);
 				}
 			
@@ -115,25 +110,15 @@ public class UsersView extends JPanel{
 	public void setTableModel(UserTableModel model) {
 		table.setModel(model);
 		
-		if(table.getColumnCount() >= 1) {
-			table.getColumnModel().getColumn(0).setPreferredWidth(80);
-		}
-		
-		if(table.getColumnCount() >= 2) {
-			table.getColumnModel().getColumn(1).setPreferredWidth(200);
-		}
-		
-		if(table.getColumnCount() >= 3) {
-			table.getColumnModel().getColumn(2).setPreferredWidth(50);
-		}
-		
+		table.getColumnModel().getColumn(0).setPreferredWidth(200);
+		table.getColumnModel().getColumn(1).setPreferredWidth(250);	
+
 		DefaultTableCellRenderer center = new DefaultTableCellRenderer();
 		center.setHorizontalAlignment(SwingConstants.CENTER);
 		
-		if(table.getColumnCount() >= 1) {
-			table.getColumnModel().getColumn(0).setCellRenderer(center);
-		}
-		
+		table.getColumnModel().getColumn(2).setCellRenderer(center);
+		table.getColumnModel().getColumn(3).setCellRenderer(center);
+		table.getColumnModel().getColumn(4).setCellRenderer(center);
 	}
 	
 	public JTable getTable() {

@@ -1,1 +1,22 @@
-[ ]
+[ {
+  "name" : "Alexa Gavarain",
+  "email" : "a@dmadm",
+  "career" : "IDS",
+  "turno" : "Matutino",
+  "grupo" : "A",
+  "password" : null
+}, {
+  "name" : "Erandeni Trujillo",
+  "email" : "erandenit@uabcs",
+  "career" : "IDS",
+  "turno" : "Matutino",
+  "grupo" : "A",
+  "password" : null
+}, {
+  "name" : "Natanael Heraldez",
+  "email" : "nath@uabcs",
+  "career" : "IDS",
+  "turno" : "Matutino",
+  "grupo" : "A",
+  "password" : null
+} ]

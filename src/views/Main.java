@@ -7,6 +7,7 @@ import javax.swing.UIManager;
 
 import com.formdev.flatlaf.FlatLightLaf;
 
+import controllers.HomeController;
 import controllers.LoginController;
 import utils.CreateFont;
 
@@ -21,8 +22,10 @@ public class Main {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					LoginView frame = new LoginView();
-					new LoginController(frame);
+					HomeView frame = new HomeView();
+					new HomeController(frame);
+//					LoginView frame = new LoginView();
+//					new LoginController(frame);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
