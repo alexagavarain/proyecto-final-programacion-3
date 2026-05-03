@@ -1,6 +1,8 @@
 package controllers;
 
 import java.io.IOException;
+import java.awt.Desktop;
+import java.io.File;
 import java.util.List;
 
 import javax.swing.JOptionPane;
@@ -11,16 +13,19 @@ import tablemodel.UserTableModel;
 import views.RegisterView;
 import views.UserFormDialog;
 import views.UsersView;
+import services.PDFExporter;
 
 public class UserController {
 
 	private UsersView view;
 	private UserRepository repo;
 	private UserTableModel model;
+	private PDFExporter pdfExporter;
 	
 	public UserController(UsersView view) {
 		this.view = view;
 		repo = new UserRepository();
+		pdfExporter = new PDFExporter();
 		
 		this.view.getBtnAdd().addActionListener(e -> {
 			System.out.println("Agregar user");
@@ -36,8 +41,9 @@ public class UserController {
 			
 			System.out.println("Editar user");
 			openForm(model.getUserAt(row));
+			
 		});
-		
+		this.view.getBtnPdf().addActionListener(e -> generatePdf());
 		this.view.getBtnDelete().addActionListener(e -> {
 			int row = view.getSelectedRow();
 			if(row == -1) {
@@ -112,6 +118,26 @@ public class UserController {
 			JOptionPane.showMessageDialog(view, ex.getMessage());
 		}
 	}
+	public void generatePdf() {
+			
+			File file = view.selectPdfFile();
+			
+			if(file == null) {
+				return;
+			}
+			
+			try {
+				pdfExporter.exportUsers(repo.getUsers(), file);
+				if(Desktop.isDesktopSupported()) {
+					Desktop.getDesktop().open(file);
+				}
+			}catch(Exception ex) {
+				ex.printStackTrace();
+				JOptionPane.showMessageDialog(view, "Error al exportar");
+			}
+			
+			
+		}
 }
 
 
