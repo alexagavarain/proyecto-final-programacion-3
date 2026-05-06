@@ -12,7 +12,8 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog; 
 import javax.swing.JFrame; 
 import javax.swing.JLabel; 
-import javax.swing.JList; 
+import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel; 
 import javax.swing.JRadioButton; 
 import javax.swing.JScrollPane; 
@@ -159,26 +160,37 @@ public class UserFormDialog extends JDialog{
 	    }
 	}
 	
+	private boolean validateSave(String name, String email, String career, String grupo) {
+		return name.equals(" ") || email.equals(" ") || career.equals("Seleccione") || grupo.equals("Seleccione");
+	}
+	
 	private void save() {
 	    String name = txtName.getText();
 	    String email = txtEmail.getText();
 	    String career = (String) cboCarrera.getSelectedItem();
 	    String grupo = (String) cboGrupo.getSelectedItem();
+	   
 
 	    String turno = rbtnMatutino.isSelected() ? "Matutino" : "Vespertino";
 
-	    if (user == null) {
-	        user = new User(name, email, career, turno, grupo);
-	    } else {
-	        user.setName(name);
-	        user.setEmail(email);
-	        user.setCareer(career);
-	        user.setTurno(turno);
-	        user.setGrupo(grupo);
-	    }
+	    if (validateSave(name, email, career, grupo)) {
+	    	if (user == null) {
+		        user = new User(name, email, career, turno, grupo);
+		    } else {
+		        user.setName(name);
+		        user.setEmail(email);
+		        user.setCareer(career);
+		        user.setTurno(turno);
+		        user.setGrupo(grupo);
+		    }
 
-	    saved = true;
-	    dispose();
+		    saved = true;
+		    dispose();
+	    } else {
+	    	System.out.println("No validada");
+			JOptionPane.showMessageDialog(this, "No se han llenado todos los campos", "Editar usuario", JOptionPane.INFORMATION_MESSAGE);
+	    }
+	    
 	}
 
 

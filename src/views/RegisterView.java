@@ -84,7 +84,11 @@ public class RegisterView extends JFrame{
 		contentPane = createMainPanel();
 		setContentPane(contentPane);
 		
-		createSpace(100, contentPane);
+		createSpace(10, contentPane);
+		
+		BackButton = createBackButton();
+		
+		createSpace(80, contentPane);
 		
 		showAppName(contentPane, "Registro", 30);
 		createSpace(60, contentPane);
@@ -94,7 +98,7 @@ public class RegisterView extends JFrame{
 		contentPane.add(name);
 		contentPane.add(nameError);
 		
-		createSpace(10, contentPane);
+		createSpace(2, contentPane);
 		
 		createLabel(contentPane, "Correo electrónico", 14, 180);
 		
@@ -102,14 +106,14 @@ public class RegisterView extends JFrame{
 		contentPane.add(emailTextField);
 		contentPane.add(emailError);
 
-		createSpace(10, contentPane);
+		createSpace(2, contentPane);
 		createLabel(contentPane, "Contraseña", 14, 220);
 		passwordField = createPasswordField();
 		contentPane.add(passwordField);
 		contentPane.add(passwordError);
 				
 		
-		createSpace(10, contentPane);
+		createSpace(2, contentPane);
 		createLabel(contentPane, "Carrera", 14, 245);
 
 		listaCarreras = createListaCarreras();
@@ -117,7 +121,7 @@ public class RegisterView extends JFrame{
 		contentPane.add(carreraError);
 		
 	
-		createSpace(10, contentPane);
+		createSpace(2, contentPane);
 		secondaryPanel = createSecondaryPanel();
 		
 		turnoPanel = createListaTurno();
@@ -129,11 +133,9 @@ public class RegisterView extends JFrame{
 		contentPane.add(secondaryPanel);
 
 			
-		createSpace(30, contentPane);
+		createSpace(20, contentPane);
 		RegisterButton = createRegisterButton();
 		
-		createSpace(30, contentPane);
-		BackButton =createBackButton();
 	}
 	
 	public JPanel getContentPane() {
@@ -359,6 +361,7 @@ public class RegisterView extends JFrame{
 			listaCarreras.setSelectedIndex(0);
 			return listaCarreras;
 	}
+	
 	public JPanel createSecondaryPanel() {
 		JPanel secondaryPanel = new JPanel();
 		secondaryPanel.setOpaque(false);
@@ -372,12 +375,12 @@ public class RegisterView extends JFrame{
 		grupoPanel.setOpaque(false);
 		grupoPanel.setLayout(new BoxLayout(grupoPanel, BoxLayout.Y_AXIS));
 
-		createLabel(grupoPanel,"Grupo",13,0);
+		createLabel(grupoPanel, "Grupo", 13, 0);
 
 		String[] grupos = {"Selecciona", "A", "B"};
 		listaGrupos = new JComboBox<>(grupos);
-		listaGrupos.setPreferredSize(new Dimension(60,25));
-		listaGrupos.setMaximumSize(new Dimension(60,25));
+		listaGrupos.setPreferredSize(new Dimension(100,25));
+		listaGrupos.setMaximumSize(new Dimension(100,25));
 
 		grupoPanel.add(listaGrupos);
 		grupoPanel.add(grupoError);

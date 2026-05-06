@@ -116,8 +116,8 @@ public class LoginView extends JFrame {
 		contentPane.add(descText);
 		createSpace(25, contentPane);
 		
-		emailError = createErrorLabel("");
-		passwordError = createErrorLabel("");
+		emailError = createErrorLabel("", 175);
+		passwordError = createErrorLabel("", 175);
 		
 		createLoginFields(contentPane);
 		
@@ -208,14 +208,14 @@ public class LoginView extends JFrame {
 	}
 	
 	private JPanel createLoginFields(JPanel container) {
-		createLabel(container, "Correo electrónico", 14, 175);
+		createLabel(container, "Correo electrónico", 14, 185);
  		emailTextField = createEmailField("estudiante@alu.uabcs.mx");
 		container.add(emailTextField);
 		container.add(emailError);
 		
 		createSpace(10, container);
 		
-		createLabel(container, "Contraseña", 14, 220);
+		createLabel(container, "Contraseña", 14, 228);
 		passwordField = createPasswordField();
 		container.add(passwordField);
 		container.add(passwordError);
@@ -315,10 +315,10 @@ public class LoginView extends JFrame {
 		return registerButton;
 	}
 	
-	public Label createErrorLabel(String text) {
+	public Label createErrorLabel(String text, int align) {
 		Label errorLabel = new Label(text, 12, false);
 		errorLabel.setForeground(new Color(200, 10, 10));
-		errorLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 150));
+		errorLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, align));
 		errorLabel.setAlignmentX(CENTER_ALIGNMENT);
 		return errorLabel;
 	}

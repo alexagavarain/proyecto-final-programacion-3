@@ -23,7 +23,6 @@ public class LoginController {
 	public LoginController(LoginView view) {
 		this.view = view;
 	    loginListener();
-	    assignListeners();
  		validateEmailCharacters();	}
 	
 	private void loginListener() {
@@ -65,9 +64,9 @@ public class LoginController {
 			return false;
 		}
 		
-		if (!String.valueOf(view.getPasswordField().getPassword()).trim().isEmpty() && !String.valueOf(view.getPasswordField().getPassword()).equals("123")) {
-			throw new InvalidPasswordException("La contraseña no coindice");
-	    }
+//		if (!String.valueOf(view.getPasswordField().getPassword()).trim().isEmpty() && !String.valueOf(view.getPasswordField().getPassword()).equals("123")) {
+//			throw new InvalidPasswordException("La contraseña no coindice");
+//	    }
 
 	    return true;
 	}
