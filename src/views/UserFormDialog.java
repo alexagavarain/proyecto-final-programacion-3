@@ -269,7 +269,7 @@ public class UserFormDialog extends JDialog{
 		
 		panel.add(createField("Nombre:", txtName)); 
 		panel.add(nameError);
-		panel.add(createField("Email:", txtEmail)); 
+		panel.add(createField("Correo:", txtEmail)); 
 		panel.add(emailError);
 		panel.add(createField("Carrera:", cboCarrera)); 
 		panel.add(carreraError);
@@ -305,10 +305,11 @@ public class UserFormDialog extends JDialog{
 	}
 	
 	public Label createErrorLabel(String text) {
-		Label errorLabel = new Label(text, 12, false);
+		Label errorLabel = new Label("", 12, false);
 		errorLabel.setForeground(Color.RED);
+		errorLabel.setBackground(Color.BLUE);		
 		errorLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		errorLabel.setMaximumSize(new Dimension(300,20));
+		errorLabel.setMaximumSize(new Dimension(250,20));
 		errorLabel.setAlignmentX(CENTER_ALIGNMENT);
 		return errorLabel;
 	}
