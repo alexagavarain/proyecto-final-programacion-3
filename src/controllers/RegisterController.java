@@ -42,6 +42,7 @@ public class RegisterController {
 	private void RegisterListener() {
 		view.getRegisterButton().addActionListener(e -> Register(view.getContentPane()));
 	}
+	
 	private void BackListener() {
 	    view.getBackButton().addActionListener(e -> {
 	        new LoginView().setVisible(true);

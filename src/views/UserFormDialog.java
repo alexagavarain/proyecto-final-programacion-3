@@ -1,6 +1,7 @@
 package views;
 
-import java.awt.BorderLayout; 
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component; 
 import java.awt.Dimension; 
 import java.awt.FlowLayout; 
@@ -20,7 +21,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea; 
 import javax.swing.JTextField; 
 import javax.swing.SwingConstants; 
-import models.User; 
+import models.User;
+import utils.Label; 
 
 public class UserFormDialog extends JDialog{ 
 	
@@ -36,13 +38,20 @@ public class UserFormDialog extends JDialog{
 	private User user; 
 	private boolean saved = false; 
 	
+	private Label emailError = createErrorLabel("");
+	private Label passwordError = createErrorLabel("");
+	private Label nameError = createErrorLabel("");
+	private Label carreraError = createErrorLabel("");
+	private Label grupoError =  createErrorLabel("");
+	private Label turnoError = createErrorLabel("");
+	
 	public UserFormDialog(JFrame parent, User user) { 
 		super(parent, true); 
 		this.user = user; 
 		String title = user == null ? "Agregar usuario" : "Editar usuario";
 		
 		setSize(400, 500);
-    		setTitle(title);
+    	setTitle(title);
 		setLocationRelativeTo(parent); 
 		setLayout(new BorderLayout()); 
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE); 
@@ -53,6 +62,22 @@ public class UserFormDialog extends JDialog{
 		loadData();
 	} 
 	
+	public JButton getBtnSave() {
+		return btnSave;
+	}
+
+	public void setBtnSave(JButton btnSave) {
+		this.btnSave = btnSave;
+	}
+	
+	public JButton getBtnCancel() {
+		return btnCancel;
+	}
+
+	public void setBtnCancel(JButton btnCancel) {
+		this.btnCancel = btnCancel;
+	}
+
 	public User getUser() {
 		return user;
 	}
@@ -69,6 +94,110 @@ public class UserFormDialog extends JDialog{
 		this.saved = saved;
 	} 
 	
+	public JTextField getTxtName() {
+		return txtName;
+	}
+
+	public void setTxtName(JTextField txtName) {
+		this.txtName = txtName;
+	}
+
+	public JTextField getTxtEmail() {
+		return txtEmail;
+	}
+
+	public void setTxtEmail(JTextField txtEmail) {
+		this.txtEmail = txtEmail;
+	}
+
+	public JComboBox<String> getCboCarrera() {
+		return cboCarrera;
+	}
+
+	public void setCboCarrera(JComboBox<String> cboCarrera) {
+		this.cboCarrera = cboCarrera;
+	}
+
+	public JRadioButton getRbtnMatutino() {
+		return rbtnMatutino;
+	}
+
+	public void setRbtnMatutino(JRadioButton rbtnMatutino) {
+		this.rbtnMatutino = rbtnMatutino;
+	}
+
+	public JRadioButton getRbtnVespertino() {
+		return rbtnVespertino;
+	}
+
+	public void setRbtnVespertino(JRadioButton rbtnVespertino) {
+		this.rbtnVespertino = rbtnVespertino;
+	}
+
+	public ButtonGroup getTurnoGroup() {
+		return turnoGroup;
+	}
+
+	public void setTurnoGroup(ButtonGroup turnoGroup) {
+		this.turnoGroup = turnoGroup;
+	}
+
+	public JComboBox<String> getCboGrupo() {
+		return cboGrupo;
+	}
+
+	public void setCboGrupo(JComboBox<String> cboGrupo) {
+		this.cboGrupo = cboGrupo;
+	}
+
+	public Label getEmailError() {
+		return emailError;
+	}
+
+	public void setEmailError(Label emailError) {
+		this.emailError = emailError;
+	}
+
+	public Label getPasswordError() {
+		return passwordError;
+	}
+
+	public void setPasswordError(Label passwordError) {
+		this.passwordError = passwordError;
+	}
+
+	public Label getNameError() {
+		return nameError;
+	}
+
+	public void setNameError(Label nameError) {
+		this.nameError = nameError;
+	}
+
+	public Label getCarreraError() {
+		return carreraError;
+	}
+
+	public void setCarreraError(Label carreraError) {
+		this.carreraError = carreraError;
+	}
+
+	public Label getGrupoError() {
+		return grupoError;
+	}
+
+	public void setGrupoError(Label grupoError) {
+		this.grupoError = grupoError;
+	}
+
+	public Label getTurnoError() {
+		return turnoError;
+	}
+
+	public void setTurnoError(Label turnoError) {
+		this.turnoError = turnoError;
+	}
+
 	private JPanel createTitlePanel(String title) { 
 		JPanel panel = new JPanel(); 
 		panel.add(new JLabel(title)); 
@@ -83,7 +212,6 @@ public class UserFormDialog extends JDialog{
 		panel.add(btnSave); 
 		panel.add(btnCancel); 
 		
-		btnSave.addActionListener(e -> save()); 
 		btnCancel.addActionListener(e -> dispose()); 
 		
 		return panel;
@@ -112,34 +240,50 @@ public class UserFormDialog extends JDialog{
 		JPanel panel = new JPanel(); 
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS)); 
 		panel.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20)); 
+		
 		JScrollPane scroll = new JScrollPane(panel); 
 		scroll.setBorder(null); 
 		scroll.setHorizontalScrollBar(null); 
-		txtName = new JTextField(); 
-		txtEmail = new JTextField(); 
+		
 		Dimension fieldSize = new Dimension(250, 30); 
+
+		txtName = new JTextField(); 
 		txtName.setMaximumSize(fieldSize); 
-		txtEmail.setMaximumSize(fieldSize); 
+		
+		txtEmail = new JTextField(); 
+		txtEmail.setMaximumSize(fieldSize);
+		
 		cboCarrera = new JComboBox<>(new String[] { "Seleccione", "IDS", "LATI", "ITC" }); 
 		cboCarrera.setMaximumSize(fieldSize);
+		
 		rbtnMatutino = new JRadioButton("Matutino"); 
 		rbtnMatutino.setActionCommand("M"); 
 		rbtnVespertino = new JRadioButton("Vespertino"); 
-		rbtnVespertino.setActionCommand("V"); 
+		rbtnVespertino.setActionCommand("V");
 		turnoGroup = new ButtonGroup(); 
 		turnoGroup.add(rbtnMatutino); 
 		turnoGroup.add(rbtnVespertino); 
+		
 		cboGrupo = new JComboBox<>(new String[] { "Seleccione", "A", "B" });
 		cboGrupo.setMaximumSize(fieldSize);
+		
 		panel.add(createField("Nombre:", txtName)); 
+		panel.add(nameError);
 		panel.add(createField("Email:", txtEmail)); 
+		panel.add(emailError);
 		panel.add(createField("Carrera:", cboCarrera)); 
-		JPanel turnoPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));  
+		panel.add(carreraError);
+		
+		JPanel turnoPanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); 
+		turnoPanel.setMaximumSize(fieldSize);
+		turnoPanel.setPreferredSize(fieldSize);
 		turnoPanel.add(rbtnMatutino); 
 		turnoPanel.add(rbtnVespertino); 
-		panel.add(createField("Turno:", turnoPanel)); 
+		
+		panel.add(createField("Turno:", turnoPanel));
+		panel.add(turnoError);
 		panel.add(createField("Grupo:", cboGrupo));
-			
+		panel.add(grupoError);	
 			 
 		return scroll; 
 	}
@@ -160,37 +304,13 @@ public class UserFormDialog extends JDialog{
 	    }
 	}
 	
-	private boolean validateSave(String name, String email, String career, String grupo) {
-		return name.equals(" ") || email.equals(" ") || career.equals("Seleccione") || grupo.equals("Seleccione");
-	}
-	
-	private void save() {
-	    String name = txtName.getText();
-	    String email = txtEmail.getText();
-	    String career = (String) cboCarrera.getSelectedItem();
-	    String grupo = (String) cboGrupo.getSelectedItem();
-	   
-
-	    String turno = rbtnMatutino.isSelected() ? "Matutino" : "Vespertino";
-
-	    if (validateSave(name, email, career, grupo)) {
-	    	if (user == null) {
-		        user = new User(name, email, career, turno, grupo);
-		    } else {
-		        user.setName(name);
-		        user.setEmail(email);
-		        user.setCareer(career);
-		        user.setTurno(turno);
-		        user.setGrupo(grupo);
-		    }
-
-		    saved = true;
-		    dispose();
-	    } else {
-	    	System.out.println("No validada");
-			JOptionPane.showMessageDialog(this, "No se han llenado todos los campos", "Editar usuario", JOptionPane.INFORMATION_MESSAGE);
-	    }
-	    
+	public Label createErrorLabel(String text) {
+		Label errorLabel = new Label(text, 12, false);
+		errorLabel.setForeground(Color.RED);
+		errorLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
+		errorLabel.setMaximumSize(new Dimension(300,20));
+		errorLabel.setAlignmentX(CENTER_ALIGNMENT);
+		return errorLabel;
 	}
 
 

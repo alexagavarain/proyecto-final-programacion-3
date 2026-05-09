@@ -68,6 +68,7 @@ public class UserController {
 		
 	public void openForm(User user) {
 		UserFormDialog dialog = new UserFormDialog(null, user);
+		new UserFormDialogController(dialog);
 		dialog.setVisible(true);
 		
 		if(dialog.isSaved()) {

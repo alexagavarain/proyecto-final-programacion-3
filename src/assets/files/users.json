@@ -1,6 +1,6 @@
 [ {
   "name" : "Alexa Gavarain",
-  "email" : "a@dmadm",
+  "email" : "agavarain@uabcs",
   "career" : "IDS",
   "turno" : "Matutino",
   "grupo" : "A",
@@ -14,9 +14,23 @@
   "password" : null
 }, {
   "name" : "Natanael Heraldez",
-  "email" : "nath@uabcs",
+  "email" : "natherdz@uabcs",
   "career" : "LATI",
   "turno" : "Matutino",
   "grupo" : "A",
+  "password" : null
+}, {
+  "name" : "Ceyla Chavez",
+  "email" : "cchavez@uabcs",
+  "career" : "IDS",
+  "turno" : "Matutino",
+  "grupo" : "A",
+  "password" : null
+}, {
+  "name" : "Diego Yepiz Langarica",
+  "email" : "dyepiz@uabcs",
+  "career" : "IDS",
+  "turno" : "Vespertino",
+  "grupo" : "B",
   "password" : null
 } ]
