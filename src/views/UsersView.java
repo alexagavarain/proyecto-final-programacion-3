@@ -115,8 +115,9 @@ public class UsersView extends JPanel{
 	public void setTableModel(UserTableModel model) {
 		table.setModel(model);
 		
-		table.getColumnModel().getColumn(0).setPreferredWidth(200);
-		table.getColumnModel().getColumn(1).setPreferredWidth(250);	
+		table.getColumnModel().getColumn(0).setPreferredWidth(100);
+		table.getColumnModel().getColumn(1).setPreferredWidth(150);	
+		table.getColumnModel().getColumn(2).setPreferredWidth(200);	
 
 		DefaultTableCellRenderer center = new DefaultTableCellRenderer();
 		center.setHorizontalAlignment(SwingConstants.CENTER);

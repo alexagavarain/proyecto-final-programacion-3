@@ -23,10 +23,10 @@ public class Main {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-			//		HomeView frame = new HomeView();
-			//		new HomeController(frame);
-					LoginView frame = new LoginView();
-					new LoginController(frame);
+					HomeView frame = new HomeView();
+					new HomeController(frame);
+//					LoginView frame = new LoginView();
+//					new LoginController(frame);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

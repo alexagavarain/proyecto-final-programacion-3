@@ -1,50 +1,29 @@
 [ {
-  "name" : "Alexa Gavarain",
-  "email" : "agavarain@uabcs",
-  "career" : "IDS",
-  "turno" : "Matutino",
-  "grupo" : "A",
-  "password" : null
-}, {
-  "name" : "Erandeni Trujillo",
-  "email" : "erandenit@uabcs",
-  "career" : "IDS",
-  "turno" : "Matutino",
-  "grupo" : "A",
-  "password" : null
-}, {
-  "name" : "Natanael Heraldez",
-  "email" : "natherdz@uabcs",
-  "career" : "LATI",
-  "turno" : "Matutino",
-  "grupo" : "A",
-  "password" : null
-}, {
-  "name" : "Ceyla Chavez",
-  "email" : "cchavez@uabcs",
-  "career" : "IDS",
-  "turno" : "Matutino",
-  "grupo" : "A",
-  "password" : null
-}, {
-  "name" : "Diego Yepiz Langarica",
-  "email" : "dyepiz@uabcs",
-  "career" : "IDS",
-  "turno" : "Vespertino",
-  "grupo" : "B",
-  "password" : null
-}, {
-  "name" : "asas",
-  "email" : "asas",
+  "name" : " Natanael Heraldez",
+  "email" : "natsh@uabcs",
   "career" : "Licenciatura en Tecnologías de la Información (LATI)",
   "turno" : "Matutino",
   "grupo" : "A",
   "password" : "sasasas"
 }, {
-  "name" : "sasassasas",
-  "email" : "dsdsddsa@sassa",
+  "name" : "Alexa Gavarain",
+  "email" : "agaviz@uabcs",
   "career" : "Ingeniería en Desarrollo de Software (IDS)",
-  "turno" : "Vespertino",
+  "turno" : "Matutino",
   "grupo" : "A",
   "password" : "aaaaaa1111"
+}, {
+  "name" : "Erandeni Trujillo",
+  "email" : "erandenit@uabcs",
+  "career" : "Ingeniería en Desarrollo de Software (IDS)",
+  "turno" : "Vespertino",
+  "grupo" : "B",
+  "password" : null
+}, {
+  "name" : "Ceyla Chavez",
+  "email" : "cchavez@uabcs",
+  "career" : "Ingeniería en Tecnologia Computacional (ITC)",
+  "turno" : "Vespertino",
+  "grupo" : "A",
+  "password" : null
 } ]

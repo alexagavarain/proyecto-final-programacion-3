@@ -84,6 +84,7 @@ public class RegisterView extends JFrame{
 		contentPane = createMainPanel();
 		setContentPane(contentPane);
 		
+		createSpace(100, contentPane);
 		
 		showAppName(contentPane, "Registro", 30);
 		createSpace(60, contentPane);

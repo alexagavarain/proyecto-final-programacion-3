@@ -34,7 +34,7 @@ public class RegisterController {
 		this.view = view;
 	    RegisterListener();
 	    assignListeners();
-	    BackListener();
+//	    BackListener();
 	    validateNameCharacters();
  		validateEmailCharacters();
 	}
@@ -43,12 +43,12 @@ public class RegisterController {
 		view.getRegisterButton().addActionListener(e -> Register(view.getContentPane()));
 	}
 	
-	private void BackListener() {
-	    view.getBackButton().addActionListener(e -> {
-	        new LoginView().setVisible(true);
-	        view.dispose();
-	    });
-	}
+//	private void BackListener() {
+//	    view.getBackButton().addActionListener(e -> {
+//	        new LoginView().setVisible(true);
+//	        view.dispose();
+//	    });
+//	}
 	
 	private void Register(JPanel panel) {
 	    if (validateRegister()) {

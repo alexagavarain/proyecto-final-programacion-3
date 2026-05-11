@@ -253,7 +253,12 @@ public class UserFormDialog extends JDialog{
 		txtEmail = new JTextField(); 
 		txtEmail.setMaximumSize(fieldSize);
 		
-		cboCarrera = new JComboBox<>(new String[] { "Seleccione", "IDS", "LATI", "ITC" }); 
+		cboCarrera = new JComboBox<>(new String[] { 
+				"Seleccione", 
+				"Ingeniería en Desarrollo de Software (IDS)",
+			    "Licenciatura en Tecnologías de la Información (LATI)",
+			    "Ingeniería en Tecnologia Computacional (ITC)",
+			    "Ingeniería en Ciberseguridad"}); 
 		cboCarrera.setMaximumSize(fieldSize);
 		
 		rbtnMatutino = new JRadioButton("Matutino"); 
