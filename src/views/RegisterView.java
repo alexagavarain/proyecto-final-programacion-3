@@ -84,11 +84,6 @@ public class RegisterView extends JFrame{
 		contentPane = createMainPanel();
 		setContentPane(contentPane);
 		
-		createSpace(10, contentPane);
-		
-		BackButton = createBackButton();
-		
-		createSpace(80, contentPane);
 		
 		showAppName(contentPane, "Registro", 30);
 		createSpace(60, contentPane);
@@ -135,6 +130,11 @@ public class RegisterView extends JFrame{
 			
 		createSpace(20, contentPane);
 		RegisterButton = createRegisterButton();
+		createSpace(10, contentPane);
+		
+		BackButton = createBackButton();
+		
+		createSpace(80, contentPane);
 		
 	}
 	
