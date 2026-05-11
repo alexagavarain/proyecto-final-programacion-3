@@ -51,20 +51,20 @@ public class RegisterController {
 	}
 	
 	private void Register(JPanel panel) {
-		if (validateRegister()) {
-			JOptionPane.showMessageDialog(panel, "Te has registrado correctamente", "Registrado", JOptionPane.INFORMATION_MESSAGE);
-			String turno = view.getMatutino().isSelected() ? "Matutino" : "Vespertino";
+	    if (validateRegister()) {
 
-			User user = new User(
-			    view.getName(),
-			    view.getEmailTextField().getText(),
-			    view.getListaCarreras().getSelectedItem().toString(),
-			    turno,
-			    view.getListaGrupos().getSelectedItem().toString(),
-			    String.valueOf(view.getPasswordField().getPassword())
-			);
-			
-			try {
+	        String turno = view.getMatutino().isSelected() ? "Matutino" : "Vespertino";
+
+	        User user = new User(
+	            view.getName(),
+	            view.getEmailTextField().getText(),
+	            view.getListaCarreras().getSelectedItem().toString(),
+	            turno,
+	            view.getListaGrupos().getSelectedItem().toString(),
+	            String.valueOf(view.getPasswordField().getPassword())
+	        );
+
+	        try {
 	            repository.save(user); 
 	            JOptionPane.showMessageDialog(panel, "Te has registrado correctamente");
 
@@ -77,7 +77,7 @@ public class RegisterController {
 	            JOptionPane.showMessageDialog(panel, "Error al guardar usuario");
 	            e.printStackTrace();
 	        }
-		} else {
+	    } else {
 	        panel.revalidate();
 	        panel.repaint();
 	    }

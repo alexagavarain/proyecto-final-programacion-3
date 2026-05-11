@@ -388,32 +388,37 @@ public class RegisterView extends JFrame{
 	}
 	
 	public JPanel createListaTurno() {
-		JPanel turnoPanel = new JPanel();
-		turnoPanel.setOpaque(false);
-		turnoPanel.setLayout(new BoxLayout(turnoPanel, BoxLayout.Y_AXIS));
+	    JPanel turnoPanel = new JPanel();
+	    turnoPanel.setOpaque(false);
+	    turnoPanel.setLayout(new BoxLayout(turnoPanel, BoxLayout.Y_AXIS));
 
-		createLabel(turnoPanel,"Turno",13,0);
+	    createLabel(turnoPanel, "Turno", 13, 0);
 
-		JPanel radios = new JPanel();
-		radios.setOpaque(false);
+	    JPanel radios = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 0));
+	    radios.setOpaque(false);
+	    radios.setMaximumSize(new Dimension(100, 25));
+	    radios.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-		ButtonGroup grupoBotones = new ButtonGroup();
+	    ButtonGroup grupoBotones = new ButtonGroup();
 
-		matutino = new JRadioButton("M");
-		vespertino = new JRadioButton("V");
+	    matutino = new JRadioButton("M");
+	    vespertino = new JRadioButton("V");
 
-		matutino.setOpaque(false);
-		vespertino.setOpaque(false);
+	    matutino.setOpaque(false);
+	    vespertino.setOpaque(false);
 
-		grupoBotones.add(matutino);
-		grupoBotones.add(vespertino);
+	    grupoBotones.add(matutino);
+	    grupoBotones.add(vespertino);
 
-		radios.add(matutino);
-		radios.add(vespertino);
+	    radios.add(matutino);
+	    radios.add(vespertino);
 
-		turnoPanel.add(radios);
-		turnoPanel.add(turnoError);
-		return turnoPanel;
+	    turnoError.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+	    turnoPanel.add(radios);
+	    turnoPanel.add(turnoError);
+
+	    return turnoPanel;
 	}
 	
 	

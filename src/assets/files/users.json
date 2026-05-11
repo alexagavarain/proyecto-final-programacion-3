@@ -33,4 +33,18 @@
   "turno" : "Vespertino",
   "grupo" : "B",
   "password" : null
+}, {
+  "name" : "asas",
+  "email" : "asas",
+  "career" : "Licenciatura en Tecnologías de la Información (LATI)",
+  "turno" : "Matutino",
+  "grupo" : "A",
+  "password" : "sasasas"
+}, {
+  "name" : "sasassasas",
+  "email" : "dsdsddsa@sassa",
+  "career" : "Ingeniería en Desarrollo de Software (IDS)",
+  "turno" : "Vespertino",
+  "grupo" : "A",
+  "password" : "aaaaaa1111"
 } ]
