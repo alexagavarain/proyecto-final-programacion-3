@@ -26,7 +26,7 @@ public class Main {
 			//		HomeView frame = new HomeView();
 			//		new HomeController(frame);
 					LoginView frame = new LoginView();
-//					new LoginController(frame);
+					new LoginController(frame);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
