@@ -15,11 +15,13 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
+
+import config.Config;
+
 import javax.swing.filechooser.FileNameExtensionFilter;
 import tablemodel.UserTableModel;
 import utils.AppColors;
 import utils.CreateFont;
-import utils.Config;
 
 public class UsersView extends JPanel{
 

@@ -12,6 +12,8 @@ import javax.swing.event.DocumentListener;
 
 import exceptions.InvalidEmailException;
 import exceptions.InvalidPasswordException;
+import models.User;
+import repository.LoginRepository;
 import utils.InputField;
 import views.HomeView;
 import views.LoginView;
@@ -19,43 +21,74 @@ import views.LoginView;
 public class LoginController {
 	
 	private LoginView view;
+	private LoginRepository repository;
 	
 	public LoginController(LoginView view) {
 		this.view = view;
+		repository = new LoginRepository();
 	    loginListener();
  		validateEmailCharacters();	}
 	
 	private void loginListener() {
-		view.getLoginButton().addActionListener(e -> handleLogin(view.getContentPane()));
+		view.getLoginButton().addActionListener(e -> {
+			try {
+				handleLogin(view.getContentPane());
+			} catch (InvalidEmailException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
 	}
 	
-	private void handleLogin(JPanel panel) {
+	private void handleLogin(JPanel panel) throws InvalidEmailException {
+
+	    view.getEmailError().setText("");
+	    view.getPasswordError().setText("");
+
+	    if (!validateCredentials(
+	            new User(
+	                view.getEmailTextField().getText(),
+	                String.valueOf(view.getPasswordField().getPassword())
+	            )
+	        )) {
+	        return;
+	    }
+
+	    User user = repository.login(
+	        view.getEmailTextField().getText(),
+	        String.valueOf(view.getPasswordField().getPassword())
+	    );
+
+	    if(user == null) {
+	        view.getPasswordError().setText("Credenciales incorrectas");
+	        return;
+	    }
+
+	    new HomeController(new HomeView());
+
+	    view.dispose();
+	}
+	
+	private boolean validateCredentials(User user) throws InvalidEmailException {
 		view.getEmailError().setText("");;
 		view.getPasswordError().setText("");
-		
-		if (validateLogin()) {
-			HomeView home = new HomeView();
-			home.setVisible(true);
-			new HomeController(home);
-			view.dispose();
-		} else {
-			view.getPasswordError().setText("Credenciales incorrectas");
-		}
-	};
-	
-	private boolean validateLogin() {
-		boolean valid = false; 
-	    
-		try {
-			if(validateEmail() && validatePassword()) {
-				valid = true;
-			} 
-		} catch (InvalidEmailException | InvalidPasswordException e) {
-			view.getPasswordError().setText("Credenciales incorrectas");
-			System.out.println(e.getMessage());
-		}
 
-	    return valid;
+		boolean valid = true;
+
+		if (user.getEmail().trim().isEmpty()) {
+			view.getEmailError().setText("El correo es obligatorio");
+			valid = false;
+		} else if (!user.getEmail().contains("@")) {
+	        throw new InvalidEmailException("Correo inválido");
+	    }
+
+		if (user.getPassword().trim().isEmpty()) {
+			view.getPasswordError().setText("La contraseña es obligatoria");
+			valid = false;
+		}
+		
+
+		return valid;
 	}
 	
 	private boolean validatePassword() throws InvalidPasswordException {
@@ -63,10 +96,6 @@ public class LoginController {
 			view.getPasswordError().setText("La contraseña es obligatoria");
 			return false;
 		}
-		
-//		if (!String.valueOf(view.getPasswordField().getPassword()).trim().isEmpty() && !String.valueOf(view.getPasswordField().getPassword()).equals("123")) {
-//			throw new InvalidPasswordException("La contraseña no coindice");
-//	    }
 
 	    return true;
 	}
