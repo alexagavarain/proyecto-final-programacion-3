@@ -64,7 +64,9 @@ public class LoginController {
 	        return;
 	    }
 
-	    new HomeController(new HomeView());
+	    HomeView home = new HomeView();
+        home.setVisible(true);
+        new HomeController(home);
 
 	    view.dispose();
 	}
