@@ -132,7 +132,7 @@ public class UserFormDialogController {
 	    String email = view.getTxtEmail().getText();
 	    String career = (String) view.getCboCarrera().getSelectedItem();
 	    String grupo = (String) view.getCboGrupo().getSelectedItem();
-	    String turno = view.getRbtnMatutino().isSelected() ? "Matutino" : "Vespertino";
+	    String turno = view.getRbtnMatutino().isSelected() ? "M" : "V";
 
 	    user = view.getUser();
 	    
