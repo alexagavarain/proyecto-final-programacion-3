@@ -44,6 +44,7 @@ public class UserController {
 			
 		});
 		this.view.getBtnPdf().addActionListener(e -> generatePdf());
+		
 		this.view.getBtnDelete().addActionListener(e -> {
 			int row = view.getSelectedRow();
 			if(row == -1) {
@@ -54,8 +55,13 @@ public class UserController {
 			int option = JOptionPane.showConfirmDialog(view, "¿Seguro de que quieres eliminar al usuario?");
 			
 			if (option == JOptionPane.YES_OPTION) {
-				deleteUser(model.getUserAt(row));
-				System.out.println("Se borro al usuario");
+				boolean deleted = repo.delete(model.getUserAt(view.getSelectedRow()).getId());
+				if(deleted) {
+					//Eliminamos de la tabla
+					//TODO: Eliminar una sola fila
+					System.out.println("Se borro al usuario");
+					loadUsers();
+				}
 				return;
 			}
 			
@@ -91,17 +97,17 @@ public class UserController {
 		}
 	}
 	
-	public void deleteUser(User user) {
-		int row = view.getSelectedRow();
-		
-		try {
-			repo.delete(row);
-			System.out.println("Usuario borrado");
-			loadUsers();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
+//	public void deleteUser(User user) {
+//		int row = view.getSelectedRow();
+//		
+//		try {
+//			repo.delete(row);
+//			System.out.println("Usuario borrado");
+//			loadUsers();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//	}
 	
 	public void loadUsers() {	
 		System.out.println("Carga usuarios");

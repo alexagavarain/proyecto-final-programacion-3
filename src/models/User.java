@@ -10,6 +10,7 @@ public class User {
 	private String turno;
 	private String grupo;
 	private String password;
+	private int idGrupo;
 	
 	public User() {
 		
@@ -24,6 +25,14 @@ public class User {
 		this.id = id;
 		this.email = email;
 		this.password = password;
+	}
+	
+	public User(int id, String name, String email, int idGrupo) {
+		this.id = id;
+		this.email = email;
+		this.name = name;
+		this.idGrupo = idGrupo;
+
 	}
 	
 	public User(String name, String email, String career, String turno, String grupo) {
@@ -95,6 +104,14 @@ public class User {
 	public void setGrupo(String grupo) {
 		this.grupo = grupo;
 	}
+	
+	public int getidGrupo() {
+		return idGrupo;
+	}
+	public void setidGrupo(int idGrupo) {
+		this.idGrupo = idGrupo;
+	}
+	
 	public void setPassword(String password) {
 		this.password = password;
 	}
