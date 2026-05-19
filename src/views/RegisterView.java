@@ -351,7 +351,7 @@ public class RegisterView extends JFrame{
 			    "Ingeniería en Desarrollo de Software (IDS)",
 			    "Licenciatura en Tecnologías de la Información (LATI)",
 			    "Ingeniería en Tecnologia Computacional (ITC)",
-			    "Ingeniería en Ciberseguridad"
+			    "Ingeniería en Ciberseguridad (IC)"
 			};
 
 

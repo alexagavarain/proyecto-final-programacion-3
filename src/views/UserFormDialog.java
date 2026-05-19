@@ -258,7 +258,7 @@ public class UserFormDialog extends JDialog{
 				"Ingeniería en Desarrollo de Software (IDS)",
 			    "Licenciatura en Tecnologías de la Información (LATI)",
 			    "Ingeniería en Tecnologia Computacional (ITC)",
-			    "Ingeniería en Ciberseguridad"}); 
+			    "Ingeniería en Ciberseguridad (IC)"}); 
 		cboCarrera.setMaximumSize(fieldSize);
 		
 		rbtnMatutino = new JRadioButton("Matutino"); 
@@ -301,7 +301,8 @@ public class UserFormDialog extends JDialog{
 	        cboCarrera.setSelectedItem(user.getCareer());
 	        cboGrupo.setSelectedItem(user.getGrupo());
 
-	        if (user.getTurno().equals("Matutino")) {
+	        System.out.println("TURNO QUE SUPUESTAMENTE ES NULL: " + user.getTurno());
+	        if (user.getTurno().equals("M")) {
 	            rbtnMatutino.setSelected(true);
 	        } else {
 	            rbtnVespertino.setSelected(true);
