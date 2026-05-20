@@ -17,36 +17,40 @@ public class HomeController {
 	
 	public HomeController(HomeView view) {
 		this.view = view;
+		view.showView(HomeView.TASKS);
 		registerListeners();
 		
 	}
 	
 	public void registerListeners( ) {
-		view.btnUsers.addActionListener(e -> {
-			showUsers();
+		view.tasksBtn.addActionListener(e -> {
+			view.showView(HomeView.TASKS);
 		});
 		
-		view.btnHome.addActionListener(e -> {
-			view.showView(HomeView.HOME);
-			updateMenuState(HomeView.HOME);
+		view.classesBtn.addActionListener(e -> {
+			view.showView(HomeView.CLASSES);
+		});
+		
+		view.profileBtn.addActionListener(e -> {
+			view.showView(HomeView.PROFILE);
 		});
 	}
 	
-	private void showUsers() {	
-		if(userController == null) {
-			userController = new UserController(view.usersPanel);
-		}
-			
-		userController.loadUsers();
-		
-		view.showView(HomeView.USERS);
-		updateMenuState(HomeView.USERS);
-	}
+//	private void showUsers() {	
+//		if(userController == null) {
+//			userController = new UserController(view.usersPanel);
+//		}
+//			
+//		userController.loadUsers();
+//		
+//		view.showView(HomeView.USERS);
+////		updateMenuState(HomeView.USERS);
+//	}
 	
-	private void updateMenuState(String viewName) {
-		view.btnUsers.setEnabled(!viewName.equals(HomeView.USERS));
-		view.btnHome.setEnabled(!viewName.equals(HomeView.HOME));
-	}
+//	private void updateMenuState(String viewName) {
+//		view.btnUsers.setEnabled(!viewName.equals(HomeView.USERS));
+//		view.btnHome.setEnabled(!viewName.equals(HomeView.HOME));
+//	}
 	
 	
 	
