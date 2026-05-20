@@ -48,4 +48,12 @@ public class Task {
 		this.subject = subject;
 	}
 
+	@Override
+	public String toString() {
+		return "Task [id=" + id + ", title=" + title + ", description=" + description + ", deadline=" + deadline
+				+ ", completed=" + completed + ", user=" + user + ", subject=" + subject + "]";
+	}
+	
+	
+
 }

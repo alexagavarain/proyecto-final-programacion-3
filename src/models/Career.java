@@ -1,22 +1,22 @@
 package models;
 
-public class Subject {
+public class Career {
 	
 	private int id;
 	public String name;
 	
-	public Subject(int id, String name) {
+	public Career(int id, String name) {
 		this.id = id;
 		this.name = name;
 	}
 	
-	public Subject(String name) {
+	public Career(String name) {
 		this.name = name;
 	}
 
 	@Override
 	public String toString() {
-		return "Subject [id=" + id + ", name=" + name + "]";
+		return "Career [id=" + id + ", name=" + name + "]";
 	}
 	
 	

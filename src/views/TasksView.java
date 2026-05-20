@@ -12,6 +12,8 @@ public class TasksView extends JPanel {
 	public TasksView() { 
 		setLayout(new BorderLayout());
 		createTitle("Tareas", 25);
+		
+		add(new TaskComponent());
 	}
 	
 	public void createTitle(String name, float fontSize) {

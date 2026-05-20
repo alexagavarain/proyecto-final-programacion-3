@@ -44,20 +44,28 @@ public class LoginController {
 
 	    view.getEmailError().setText("");
 	    view.getPasswordError().setText("");
-
-	    if (!validateCredentials(
-	            new User(
-	                view.getEmailTextField().getText(),
-	                String.valueOf(view.getPasswordField().getPassword())
-	            )
-	        )) {
-	        return;
+	    
+	    boolean valid = false;
+	    
+	    try {
+	    	 if (!validateCredentials(
+	 	            new User(
+	 	                view.getEmailTextField().getText(),
+	 	                String.valueOf(view.getPasswordField().getPassword())
+	 	            )
+	 	        )) {
+	 		    return;
+	 	    }
+	    } catch(InvalidEmailException e) {
+    		view.getPasswordError().setText(e.getMessage());
+    		return;
 	    }
 
 	    User user = repository.login(
 	        view.getEmailTextField().getText(),
 	        String.valueOf(view.getPasswordField().getPassword())
 	    );
+	    
 
 	    if(user == null) {
 	        view.getPasswordError().setText("Credenciales incorrectas");
@@ -81,6 +89,7 @@ public class LoginController {
 			view.getEmailError().setText("El correo es obligatorio");
 			valid = false;
 		} else if (!user.getEmail().contains("@")) {
+	        valid = false;
 	        throw new InvalidEmailException("Correo inválido");
 	    }
 
@@ -89,7 +98,6 @@ public class LoginController {
 			valid = false;
 		}
 		
-
 		return valid;
 	}
 	
