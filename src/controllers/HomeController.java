@@ -19,7 +19,7 @@ public class HomeController {
 		this.view = view;
 		view.showView(HomeView.TASKS);
 		
-//		new TasksController(view.getTasksView());
+		new TasksController(view.getTasksView());
 		new ClassesController(view.getClassesView());
 		
 		registerListeners();
@@ -49,9 +49,9 @@ public class HomeController {
 //		userController.loadUsers();
 //		
 //		view.showView(HomeView.USERS);
-////		updateMenuState(HomeView.USERS);
+//			updateMenuState(HomeView.USERS);
 //	}
-	
+//	
 //	private void updateMenuState(String viewName) {
 //		view.btnUsers.setEnabled(!viewName.equals(HomeView.USERS));
 //		view.btnHome.setEnabled(!viewName.equals(HomeView.HOME));

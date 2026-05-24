@@ -3,13 +3,42 @@ package models;
 public class GroupSubject {
 	
 	private int id;
-	private int idGroup;
-	private int idSubject;
+	private Group group;
+	private Subject subject;
 	
-	public GroupSubject(int id, int idGroup, int idSubject) {
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
 		this.id = id;
-		this.idGroup = idGroup;
-		this.idSubject = idSubject;
+	}
+
+	public Group getGroup() {
+		return group;
+	}
+
+	public void setGroup(Group group) {
+		this.group = group;
+	}
+
+	public Subject getSubject() {
+		return subject;
+	}
+
+	public void setSubject(Subject subject) {
+		this.subject = subject;
+	}
+
+	public GroupSubject(int id, Group group, Subject subject) {
+		this.id = id;
+		this.group = group;
+		this.subject = subject;
+	}
+	
+	public GroupSubject(Group group, Subject subject) {
+		this.group = group;
+		this.subject = subject;
 	}
 
 }

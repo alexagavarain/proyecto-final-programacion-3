@@ -11,43 +11,43 @@ public class Task {
 	private LocalDateTime deadline;
 	private String status;
 	private User user;
-	private Subject subject;
+	private GroupSubject groupSubject;
 	private Color subjectColor;
 	
 	public Task(int id, String title, String description, LocalDateTime deadline,
-			String status, User user, Subject subject) {
+			String status, User user, GroupSubject groupSubject) {
 		this.id = id;
 		this.title = title;
 		this.description = description;
 		this.deadline = deadline;
 		this.status = status;
 		this.user = user;
-		this.subject = subject;
+		this.groupSubject = groupSubject;
 	}
 	
 	public Task(String title, String description, LocalDateTime deadline,
-			String status, User user, Subject subject) {
+			String status, User user, GroupSubject groupSubject) {
 		this.title = title;
 		this.description = description;
 		this.deadline = deadline;
 		this.status = status;
 		this.user = user;
-		this.subject = subject;
+		this.groupSubject = groupSubject;
 	}
 	
 	public Task(String title, LocalDateTime deadline,
-			String status, User user, Subject subject) {
+			String status, User user, GroupSubject groupSubject) {
 		this.title = title;
 		this.deadline = deadline;
 		this.status = status;
 		this.user = user;
-		this.subject = subject;
+		this.groupSubject = groupSubject;
 	}
 	
-	public Task(String title, User user, Subject subject) {
+	public Task(String title, User user, GroupSubject groupSubject) {
 		this.title = title;
 		this.user = user;
-		this.subject = subject;
+		this.groupSubject = groupSubject;
 	}
 
 	public String getTitle() {
@@ -90,12 +90,12 @@ public class Task {
 		this.user = user;
 	}
 
-	public Subject getSubject() {
-		return subject;
+	public GroupSubject getGroupSubject() {
+		return groupSubject;
 	}
 
-	public void setSubject(Subject subject) {
-		this.subject = subject;
+	public void setSubject(GroupSubject groupSubject) {
+		this.groupSubject = groupSubject;
 	}
 
 	public Color getSubjectColor() {
@@ -109,7 +109,7 @@ public class Task {
 	@Override
 	public String toString() {
 		return "Task [id=" + id + ", title=" + title + ", description=" + description + ", deadline=" + deadline
-				+ ", status=" + status + ", user=" + user + ", subject=" + subject + "]";
+				+ ", status=" + status + ", user=" + user + ", subject=" + groupSubject + "]";
 	}
 	
 	

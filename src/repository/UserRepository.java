@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 import config.DatabaseConnection;
+import models.Group;
 import models.User;
 
 public class UserRepository {
@@ -76,6 +77,40 @@ public class UserRepository {
 		} catch(SQLException ex) {
 			ex.printStackTrace();
 		}	
+	}
+	
+	public User getUser(int id) throws IOException {
+		User user = null;
+		
+		String sql = "SELECT * FROM usuario WHERE id_usuario = ?";
+		
+		try(Connection connection = DatabaseConnection.getConnection();
+			PreparedStatement pst = connection.prepareStatement(sql)) {
+			
+			pst.setInt(1, id);
+			
+			ResultSet rs = pst.executeQuery(); 
+			
+			if(rs.next()) {
+				
+				Group group = new Group(
+						rs.getInt("id_grupo")
+					);
+				
+				user = new User(
+					rs.getInt("id_usuario"), 
+					rs.getString("nombre"), 
+					rs.getString("correo"),
+					group
+				);
+			}
+			
+		}catch(SQLException ex ) {
+			ex.printStackTrace();
+		}
+		
+		return user;
+				
 	}
 	
 	public List<User> getUsers() throws IOException {

@@ -7,7 +7,7 @@ public class Session {
 	    private static User currentUser;
 	    
 	    private static List<Subject> currentSubjects;
-
+	    
 	    public static void setCurrentUser(User user) {
 	        currentUser = user;
 	    }

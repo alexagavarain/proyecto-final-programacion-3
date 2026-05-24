@@ -238,7 +238,6 @@ public class RegisterView extends JFrame{
 
 	    return list;
 	}
-	
 
 	private JPanel createMainPanel() {
 		JPanel contentPane = new JPanel();
@@ -348,8 +347,7 @@ public class RegisterView extends JFrame{
 		
 		return btnReturn;
 	}
-	
-	
+		
 	public JButton createButton(JPanel container, String name, int width, int length, Color background, Color foreground) {
 		JButton button = new JButton(name);
 		button.addActionListener(new ActionListener() {
@@ -384,7 +382,6 @@ public class RegisterView extends JFrame{
 		return secondaryPanel;
 	}
 	
-	
 	public InputField createEmailField() {
 		emailTextField = new InputField();
 		emailTextField.setMaximumSize(fieldSize);
@@ -392,6 +389,7 @@ public class RegisterView extends JFrame{
 		promptEmail.setForeground(AppColors.subtitle);
 		return emailTextField;
 	}
+	
 	public InputField createNameField() {
 		nameField = new InputField();
 		nameField.setMaximumSize(fieldSize);

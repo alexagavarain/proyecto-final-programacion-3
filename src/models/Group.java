@@ -47,6 +47,10 @@ public class Group {
 	public void setCareer(Career career) {
 		this.career = career;
 	}
+	
+	public Group(int id) {
+		this.id = id;
+	}
 
 	public Group(int id, String name, int semester, String shift, Career career) {
 		this.id = id;

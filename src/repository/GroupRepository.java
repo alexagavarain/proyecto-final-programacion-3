@@ -115,8 +115,6 @@ public class GroupRepository {
 		}
 		
 		return shifts;
-	}
-	
-	
+	}	
 
 }

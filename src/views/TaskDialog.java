@@ -4,23 +4,17 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
@@ -33,23 +27,60 @@ import models.Subject;
 import models.Task;
 import utils.AppColors;
 import utils.CreateFont;
+import utils.Label;
 
 public class TaskDialog extends JDialog {
 	
 	private Task task;
-	private JTextArea description;	
-	private JTextField title;
-	private JComboBox<Subject> subjectList;
-	private List<Subject> subjects;
-	private JButton saveButton;
-	private JSpinner dateSpinner;
 	
+	private JTextField title;
+	private JTextArea description;	
+	private JComboBox<Subject> subjectList;
+	private JSpinner dateSpinner;
+
+	private JButton saveButton;
+	
+	private Label titleError;
+	private Label subjectError;
+	
+	public JButton getSaveButton() {
+		return saveButton;
+	}
+
+	public Task getTask() {
+		return task;
+	}
+
+	public JTextArea getDescription() {
+		return description;
+	}
+
+	public JTextField getTitleField() {
+		return title;
+	}
+
+	public JComboBox<Subject> getSubjectList() {
+		return subjectList;
+	}
+
+	public JSpinner getDateSpinner() {
+		return dateSpinner;
+	}
+	
+	public Label getTitleError() {
+		return titleError;
+	}
+
+	public Label getSubjectError() {
+		return subjectError;
+	}
+
 	public TaskDialog(JFrame parent, Task task) {
 		super(parent, true); 
 		this.task = task;
 		String title = task == null ? "Agregar tarea" : "Editar tarea";
 
-		setSize(400, 550);
+		setSize(400, 600);
     	setTitle(title);
 		setLocationRelativeTo(parent); 
 		setLayout(new BorderLayout()); 
@@ -82,9 +113,10 @@ public class TaskDialog extends JDialog {
 		
 		title = new JTextField(); 
 		title.setMaximumSize(fieldSize);
+
+		titleError = createErrorLabel();
 		
 		description = new JTextArea();
-
 		description.setLineWrap(true);
 		description.setWrapStyleWord(true);
 
@@ -99,13 +131,10 @@ public class TaskDialog extends JDialog {
 		descriptionScroll.setMaximumSize(descFieldSize);
 		descriptionScroll.setMinimumSize(descFieldSize);
 		
-		subjects = Session.getCurrentSubjects();
 		subjectList = new JComboBox<>();
-
-	    for (Subject subject : subjects) {
-	        subjectList.addItem(subject);
-	    }
 	    subjectList.setMaximumSize(fieldSize);
+	    
+		subjectError = createErrorLabel();
 	    
 	    dateSpinner = new JSpinner(new SpinnerDateModel());
 	    
@@ -113,10 +142,12 @@ public class TaskDialog extends JDialog {
 
 	    dateSpinner.setEditor(editor);
 	    dateSpinner.setMaximumSize(fieldSize);
-	    
+	    	    
 		panel.add(createField("Titulo:", title)); 
+		panel.add(titleError);
 		panel.add(createField("Descripcion:", descriptionScroll));
 		panel.add(createField("Materia:", subjectList));
+		panel.add(subjectError);
 		panel.add(createField("Fecha de entrega:", dateSpinner));
 		panel.add((Box.createVerticalStrut(30)));
 		panel.add(createSaveButton());
@@ -143,6 +174,14 @@ public class TaskDialog extends JDialog {
 		return panel; 
 	}
 	
+	public Label createErrorLabel() {
+		Label errorLabel = new Label("", 12, false);
+		errorLabel.setForeground(Color.RED);
+		errorLabel.setMaximumSize(new Dimension(300, 16));
+		errorLabel.setAlignmentX(CENTER_ALIGNMENT);
+		return errorLabel;
+	}
+	
 	private JButton createSaveButton() {
 		saveButton = new JButton("Guardar");
 		saveButton.setMaximumSize(new Dimension(300, 30));
@@ -153,63 +192,5 @@ public class TaskDialog extends JDialog {
 		return saveButton;		
 	}
 
-	public JButton getSaveButton() {
-		return saveButton;
-	}
-
-	public void setSaveButton(JButton saveButton) {
-		this.saveButton = saveButton;
-	}
-
-	public Task getTask() {
-		return task;
-	}
-
-	public void setTask(Task task) {
-		this.task = task;
-	}
-
-	public JTextArea getDescription() {
-		return description;
-	}
-
-	public void setDescription(JTextArea description) {
-		this.description = description;
-	}
-
-	public JTextField getTitleField() {
-		return title;
-	}
-
-	public void setTitle(JTextField title) {
-		this.title = title;
-	}
-
-	public JComboBox<Subject> getSubjectList() {
-		return subjectList;
-	}
-
-	public void setSubjectList(JComboBox<Subject> subjectList) {
-		this.subjectList = subjectList;
-	}
-
-	public List<Subject> getSubjects() {
-		return subjects;
-	}
-
-	public void setSubjects(List<Subject> subjects) {
-		this.subjects = subjects;
-	}
-
-	public JSpinner getDateSpinner() {
-		return dateSpinner;
-	}
-
-	public void setDateSpinner(JSpinner dateSpinner) {
-		this.dateSpinner = dateSpinner;
-	}
-	
-	
-	
 	
 }

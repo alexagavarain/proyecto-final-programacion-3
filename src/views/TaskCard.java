@@ -42,7 +42,7 @@ public class TaskCard extends JPanel{
 		String date = task.getDeadline().format(formatter);
 		
 		subjectColor = task.getSubjectColor();
-		subjectHeader(task.getSubject().getName());
+		subjectHeader(task.getGroupSubject().getSubject().getName());
 		taskTitle(task.getTitle());
 		deadline(date);
 		description(task.getDescription());
