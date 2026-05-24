@@ -29,17 +29,22 @@ public class TaskDialogController {
 	
 	private ClassesRepository classesRepo;
 	private TaskRepository taskRepo;
+	private TasksController tasksController;
 	private TaskDialog view;
 	private User user;
+	private Task task;
 		
-	public TaskDialogController(TaskDialog view) {
+	public TaskDialogController(TaskDialog view, TasksController tasksController) {
 		this.view = view;
+		this.tasksController = tasksController;
 		classesRepo = new ClassesRepository();
 		taskRepo = new TaskRepository();
 		user = Session.getCurrentUser();
+		task = view.getTask();
 		saveListener();
 		loadSubjects();
 		assignListeners();
+		loadTaskData();
 	}
 	
 	private void saveListener() {
@@ -48,6 +53,7 @@ public class TaskDialogController {
 				if (save()) {
 					JOptionPane.showMessageDialog(view, "Se ha guardado la tarea");
 		            view.dispose();
+		            tasksController.reloadTasks();
 				} else {
 					JOptionPane.showMessageDialog(view, "No se pudo guardar la tarea");
 				}
@@ -68,6 +74,20 @@ public class TaskDialogController {
 	    }
 	}
 	
+	private void loadTaskData() {
+		if (task != null) {
+			System.out.println("load");
+			view.getTitleField().setText(task.getTitle());
+			view.getDescription().setText(task.getDescription());
+			view.getSubjectList().setSelectedItem(task.getGroupSubject().getSubject());
+			
+			LocalDateTime fecha = task.getDeadline();
+			Date date = Date.from(
+			    fecha.atZone(ZoneId.systemDefault()).toInstant()
+			);
+			view.getDateSpinner().setValue(date);
+		}
+	}
 	
 	private boolean save() {
 		JTextField titleField = view.getTitleField();
@@ -83,9 +103,9 @@ public class TaskDialogController {
 		
 		SubjectProfessor subjectProfessor = classesRepo.getSubjectProfessor(subject);
 		GroupSubject groupSubject = classesRepo.getGroupSubject(user, subjectProfessor);
-		
-		System.out.println("");
-		Task task = new Task(
+				
+		if (task == null) {
+			Task newTask = new Task(
 				title,
 				description,
 				dateTime,
@@ -93,8 +113,14 @@ public class TaskDialogController {
 				user,
 				groupSubject
 				);
-		
-		return taskRepo.saveTask(task, user);
+			return taskRepo.saveTask(newTask, user);
+		} else {
+			task.setTitle(title);
+			task.setDescription(description);
+			task.setDeadline(dateTime);
+			task.setSubject(groupSubject);
+			return taskRepo.updateTask(task, user);
+		}
 	}
 	
 	private boolean validate() {

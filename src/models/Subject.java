@@ -55,6 +55,23 @@ public class Subject {
 		return name;
 	}
 	
+	@Override
+	public boolean equals(Object obj) {
+	    if (this == obj) return true;
+
+	    if (obj == null || getClass() != obj.getClass())
+	        return false;
+
+	    Subject subject = (Subject) obj;
+
+	    return id == subject.id;
+	}
+
+	@Override
+	public int hashCode() {
+	    return Integer.hashCode(id);
+	}
+	
 	
 
 }

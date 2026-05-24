@@ -1,12 +1,13 @@
 package controllers;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.List;
-
-import javax.swing.Box;
-
 import models.Session;
 import models.Task;
 import models.User;
@@ -21,9 +22,7 @@ public class TasksController {
     private TaskRepository repo;
 
     public TasksController(TasksView view) {
-
         this.view = view;
-
         repo = new TaskRepository();
 
         addBtnListener();
@@ -33,7 +32,7 @@ public class TasksController {
     public void addBtnListener() {
     	view.getAddBtn().addActionListener(e -> {
 			TaskDialog dialog = new TaskDialog(null, null);
-			new TaskDialogController(dialog);
+			new TaskDialogController(dialog, this);
 			dialog.setVisible(true);
 		});
     }
@@ -48,22 +47,58 @@ public class TasksController {
         	task.setSubjectColor(new Color(121, 121, 121));
 
             TaskCard component = new TaskCard(task);
-            
-            component.addMouseListener(new MouseAdapter() {
+                        
+            MouseAdapter listener = new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
                     TaskDialog dialog = new TaskDialog(null, task);
+                    new TaskDialogController(dialog, TasksController.this);
                     dialog.setVisible(true);
                 }
-            });
 
-            view.getMonColumn().add(Box.createVerticalStrut(10));
-            view.getMonColumn().add(component);
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                    component.setCursor(
+                        Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)
+                    );
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                    component.setCursor(
+                        Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR)
+                    );
+                }
+            };
+
+            addListenerToAll(component, listener);
+
+            view.getTaskContainer().add(component);
             
         }
 
         view.revalidate();
         view.repaint();
+    }
+    
+    public void reloadTasks() {
+        view.getTaskContainer().removeAll();
+
+        loadTasks();
+
+        view.getTaskContainer().revalidate();
+        view.getTaskContainer().repaint();
+    }
+    
+    private void addListenerToAll(Component component, MouseListener listener) {
+        component.addMouseListener(listener);
+
+        if (component instanceof Container) {
+
+            for (Component child : ((Container) component).getComponents()) {
+                addListenerToAll(child, listener);
+            }
+        }
     }
 
 }

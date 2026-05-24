@@ -78,6 +78,7 @@ public class TaskDialog extends JDialog {
 	public TaskDialog(JFrame parent, Task task) {
 		super(parent, true); 
 		this.task = task;
+		System.out.println(task == null);
 		String title = task == null ? "Agregar tarea" : "Editar tarea";
 
 		setSize(400, 600);

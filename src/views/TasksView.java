@@ -20,21 +20,23 @@ import utils.CreateFont;
 
 public class TasksView extends JPanel {
 	
-	public JButton addBtn;
-	private JPanel monColumn;
-	private JPanel tueColumn;
-	private JPanel wedColumn;
-	private JPanel thuColumn;
-	private JPanel friColumn;
-
+	private JButton addBtn;
+	private JPanel taskContainer;
 	
+	public JButton getAddBtn() {
+		return addBtn;
+	}
+
+	public JPanel getTaskContainer() {
+		return taskContainer;
+	}
+
 	public TasksView() { 
 		setLayout(new BorderLayout());	
 		setBorder(BorderFactory.createEmptyBorder(30, 20, 0, 20));
 		header();
-		weekBoard();
+		createTaskContainer();
 	}
-	
 	
 	public JLabel createTitle(String name, float fontSize) {
 		JLabel title = new JLabel(name);
@@ -62,97 +64,10 @@ public class TasksView extends JPanel {
 		container.add(Box.createVerticalStrut(pixels));
 	}
 	
-	public void weekBoard() {
-		JPanel board = new JPanel(new GridLayout(1, 5, 10, 10));
-		
-		monColumn = createDayColumn("Lunes");
-		tueColumn = createDayColumn("Martes");
-		wedColumn = createDayColumn("Miércoles");
-		thuColumn = createDayColumn("Jueves");
-		friColumn = createDayColumn("Viernes");
-		
-		board.add(monColumn);
-		board.add(tueColumn);
-		board.add(wedColumn);
-		board.add(thuColumn);
-		board.add(friColumn);
-		
-		add(board, BorderLayout.CENTER);
-	}
-	
-	public JPanel createDayColumn(String day) {
-
-	    JPanel dayColumn = new JPanel();
-	    dayColumn.setLayout(new BoxLayout(dayColumn, BoxLayout.Y_AXIS));
-
-	    JLabel dayLbl = new JLabel(day, SwingConstants.LEFT);
-
-	    dayLbl.setFont(CreateFont.DEFAULT.deriveFont(13f));
-	    dayLbl.setOpaque(true);
-	    dayLbl.setBackground(AppColors.bluegray);
-
-	    dayLbl.setBorder(
-	        BorderFactory.createCompoundBorder(
-	            BorderFactory.createLineBorder(AppColors.bluegray),
-	            BorderFactory.createEmptyBorder(5, 10, 5, 0)
-	        )
-	    );
-
-	    dayLbl.setAlignmentX(Component.CENTER_ALIGNMENT);
-	    dayLbl.setMaximumSize(new Dimension(Integer.MAX_VALUE,
-	                                        dayLbl.getPreferredSize().height));
-
-	    dayColumn.add(dayLbl);
-
-	    return dayColumn;
+	public void createTaskContainer() {
+		taskContainer = new JPanel(new GridLayout(5, 5, 10, 10));
+		add(taskContainer, BorderLayout.CENTER);
 	}
 
-	public JButton getAddBtn() {
-		return addBtn;
-	}
-
-	public void setAddBtn(JButton addBtn) {
-		this.addBtn = addBtn;
-	}
-
-	public JPanel getMonColumn() {
-		return monColumn;
-	}
-
-	public void setMonColumn(JPanel monColumn) {
-		this.monColumn = monColumn;
-	}
-
-	public JPanel getTueColumn() {
-		return tueColumn;
-	}
-
-	public void setTueColumn(JPanel tueColumn) {
-		this.tueColumn = tueColumn;
-	}
-
-	public JPanel getWedColumn() {
-		return wedColumn;
-	}
-
-	public void setWedColumn(JPanel wedColumn) {
-		this.wedColumn = wedColumn;
-	}
-
-	public JPanel getThuColumn() {
-		return thuColumn;
-	}
-
-	public void setThuColumn(JPanel thuColumn) {
-		this.thuColumn = thuColumn;
-	}
-
-	public JPanel getFriColumn() {
-		return friColumn;
-	}
-
-	public void setFriColumn(JPanel friColumn) {
-		this.friColumn = friColumn;
-	}
 	
 }
