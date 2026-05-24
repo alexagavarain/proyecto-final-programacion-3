@@ -40,7 +40,7 @@ public class UserController {
 			}
 			
 			System.out.println("Editar user");
-			repo.returnGroupData(model.getUserAt(view.getSelectedRow()));
+//			repo.returnGroupData(model.getUserAt(view.getSelectedRow()));
 			openForm(model.getUserAt(row));
 			
 		});

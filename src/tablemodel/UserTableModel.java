@@ -46,11 +46,11 @@ public class UserTableModel extends AbstractTableModel {
 			case 1:
 				return user.getName();
 			case 2:
-				return user.getCareer();
+				return user.getGroup().getCareer().getName();
 			case 3:
-				return user.getTurno();
+				return user.getGroup().getShift();
 			case 4:
-				return user.getGrupo();
+				return user.getGroup().getName();
 			}
 			
 			return null;

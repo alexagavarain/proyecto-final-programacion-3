@@ -5,6 +5,7 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.JOptionPane;
 
+import models.Group;
 import models.User;
 import views.UserFormDialog;
 
@@ -15,14 +16,14 @@ public class UserFormDialogController {
 	
 	public UserFormDialogController(UserFormDialog view) {
 		this.view = view;
-		saveListener();
+//		saveListener();
 		validateEmailCharacters();
 		validateNameCharacters();
 	}
 	
-	private void saveListener() {
-		view.getBtnSave().addActionListener(e -> save());
-	}
+//	private void saveListener() {
+//		view.getBtnSave().addActionListener(e -> save());
+//	}
 	
 	private boolean validateRegister() {
 	    view.getNameError().setText("");
@@ -127,32 +128,32 @@ public class UserFormDialogController {
 		});
 	}
 	
-	private void save() {
-	    String name = view.getTxtName().getText();
-	    String email = view.getTxtEmail().getText();
-	    String career = (String) view.getCboCarrera().getSelectedItem();
-	    String grupo = (String) view.getCboGrupo().getSelectedItem();
-	    String turno = view.getRbtnMatutino().isSelected() ? "M" : "V";
-
-	    user = view.getUser();
-	    
-	    if (validateRegister()) {
-	    	if (user == null) {
-		        user = new User(name, email, career, turno, grupo);
-		    } else {
-		        user.setName(name);
-		        user.setEmail(email);
-		        user.setCareer(career);
-		        user.setTurno(turno);
-		        user.setGrupo(grupo);
-		    }
-	    	view.setUser(user);
-		    view.setSaved(true);
-		    view.dispose();
-	    } else {
-	    	System.out.println("No validada");
-	    }
-	    
-	}
+//	private void save() {
+//	    String name = view.getTxtName().getText();
+//	    String email = view.getTxtEmail().getText();
+//	    String career = (String) view.getCboCarrera().getSelectedItem();
+//	    String grupo = (String) view.getCboGrupo().getSelectedItem();
+//	    String turno = view.getRbtnMatutino().isSelected() ? "M" : "V";
+//
+//	    user = view.getUser();
+//	    
+//	    if (validateRegister()) {
+//	    	if (user == null) {
+//		        user = new User(name, email, career, turno, grupo);
+//		    } else {
+//		        user.setName(name);
+//		        user.setEmail(email);
+//		        user.setCareer(career);
+//		        user.setTurno(turno);
+//		        user.setGrupo(grupo);
+//		    }
+//	    	view.setUser(user);
+//		    view.setSaved(true);
+//		    view.dispose();
+//	    } else {
+//	    	System.out.println("No validada");
+//	    }
+//	    
+//	}
 
 }

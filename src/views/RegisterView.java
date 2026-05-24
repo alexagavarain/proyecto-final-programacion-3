@@ -30,6 +30,9 @@ import javax.swing.event.DocumentListener;
 import javax.swing.text.JTextComponent;
 
 import controllers.RegisterController;
+import models.Career;
+import models.Session;
+import models.Subject;
 import utils.AppColors;
 import utils.CreateFont;
 import utils.InputField;
@@ -37,31 +40,119 @@ import utils.Label;
 import utils.TextPrompt;
 
 public class RegisterView extends JFrame{
+	
 	boolean error = false;
-	InputField name;
+	InputField nameField;
 	InputField emailTextField;
 	JPasswordField passwordField;
 	private JPanel contentPane;
-	private JPanel secondaryPanel;
-	private JPanel grupoPanel;
-	private JPanel turnoPanel;
-	JComboBox<String> listaGrupos;
-	private JComboBox<String> listaCarreras;
-	private JRadioButton matutino;
-	private JRadioButton vespertino;
+			
+	private JComboBox<String> groups;
+	private JComboBox<Career> careers;
+	private JComboBox<Integer> semesters;
+	private JComboBox<String> shifts;
+	
 	private Label emailError = createErrorLabel("");
 	private Label passwordError = createErrorLabel("");
 	private Label nameError = createErrorLabel("");
-	private Label carreraError = createErrorLabel("");
-	private Label grupoError =  createErrorLabel("");
-	private Label turnoError = createErrorLabel("");
-	private JButton RegisterButton;
-	private JButton BackButton;
+	
+	private Label careerError;
+	
+	private JButton registerButton;
+	private JButton backButton;
+	
+	private Dimension fieldSize;
+	
+	public JPanel getContentPane() {
+		return contentPane;
+	}
+	
+	public Label getEmailError() {
+		return emailError;
+	}
+	
+	public Label getPasswordError() {
+		return passwordError;
+	}
+	
+	public Label getNameError() {
+		return nameError;
+	}
+
+	public JComboBox<Integer> getSemesters() {
+		return semesters;
+	}
+
+	public void setSemesters(JComboBox<Integer> semesters) {
+		this.semesters = semesters;
+	}
+
+	public Label getCareerError() {
+		return careerError;
+	}
+
+	public void setCareerError(Label careerError) {
+		this.careerError = careerError;
+	}
+
+
+	public void setGroups(JComboBox<String> groups) {
+		this.groups = groups;
+	}
+
+	public void setCareers(JComboBox<Career> careers) {
+		this.careers = careers;
+	}
+
+	public void setShifts(JComboBox<String> shifts) {
+		this.shifts = shifts;
+	}
+
+	public JButton getRegisterButton() {
+		return registerButton;
+	}
+	
+	public boolean isError() {
+		return error;
+	}
+	
+	public String getName() {
+		return nameField.getText();
+	}
+	
+	public InputField getNameField() {
+		return nameField;
+	}
+	
+	public InputField getEmailTextField() {
+		return emailTextField;
+	}
+	
+	public JPasswordField getPasswordField() {
+		return passwordField;
+	}
+	
+	public JComboBox<String> getGroups() {
+		return groups;
+	}
+	
+	public JComboBox<String> getShifts() {
+		return shifts;
+	}
+	
+	public JComboBox<Career> getCareers() {
+		return careers;
+	}
+	
+	public JButton getBackButton() {
+		return backButton;
+	}
 	
 	public RegisterView() {
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setTitle("Registro");
+		
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {
 				int option = JOptionPane.showConfirmDialog(
@@ -76,6 +167,7 @@ public class RegisterView extends JFrame{
 				}
 			}
 		});
+		
 		initializeComponents();
 		
 	}
@@ -84,14 +176,16 @@ public class RegisterView extends JFrame{
 		contentPane = createMainPanel();
 		setContentPane(contentPane);
 		
-		createSpace(100, contentPane);
-		
-		showAppName(contentPane, "Registro", 30);
 		createSpace(60, contentPane);
 		
+		showAppName(contentPane, "Registro", 30);
+		createSpace(40, contentPane);
+		
+		fieldSize = new Dimension (300, 40);
+		
 		createLabel(contentPane, "Nombre", 14, 245);
-		name = createNameField();
-		contentPane.add(name);
+		nameField = createNameField();
+		contentPane.add(nameField);
 		contentPane.add(nameError);
 		
 		createSpace(2, contentPane);
@@ -110,90 +204,41 @@ public class RegisterView extends JFrame{
 				
 		
 		createSpace(2, contentPane);
-		createLabel(contentPane, "Carrera", 14, 245);
-
-		listaCarreras = createListaCarreras();
-		contentPane.add(listaCarreras);
-		contentPane.add(carreraError);
 		
+		careerError = createErrorLabel("");
+
+		createLabel(contentPane, "Carrera", 14, 246);		
+		careers = createList(contentPane);
+		contentPane.add(careerError);
+		createLabel(contentPane, "Semestre", 14, 237);
+		semesters = createList(contentPane);
+		createLabel(contentPane, "Grupo", 14, 253);
+		groups = createList(contentPane);
+		createLabel(contentPane, "Turno", 14, 255);
+		shifts = createList(contentPane);
 	
-		createSpace(2, contentPane);
-		secondaryPanel = createSecondaryPanel();
-		
-		turnoPanel = createListaTurno();
-		grupoPanel = createListaGrupo();
-		// agregar ambos paneles
-		secondaryPanel.add(turnoPanel);
-		secondaryPanel.add(grupoPanel);
-
-		contentPane.add(secondaryPanel);
-
-			
 		createSpace(20, contentPane);
-		RegisterButton = createRegisterButton();
+		registerButton = createRegisterButton();
 		createSpace(10, contentPane);
 		
-		BackButton = createBackButton();
+		backButton = createBackButton();
 		
-		createSpace(80, contentPane);
+		createSpace(50, contentPane);
 		
 	}
 	
-	public JPanel getContentPane() {
-		return contentPane;
-	}
-	public Label getEmailError() {
-		return emailError;
-	}
-	public Label getPasswordError() {
-		return passwordError;
-	}
-	public Label getNameError() {
-		return nameError;
-	}
-	public Label getCarreraError() {
-		return carreraError;
-	}
-	public Label getGrupoError() {
-		return grupoError;
-	}
-	public Label getTurnoError() {
-		return turnoError;
-	}
-	public JButton getRegisterButton() {
-		return RegisterButton;
+	public <T> JComboBox<T> createList(JPanel container) {
+	    JComboBox<T> list = new JComboBox<>();
+	    list.setMaximumSize(new Dimension(300, 60));
+	    list.setAlignmentX(CENTER_ALIGNMENT);
+	    list.setBackground(Color.WHITE);
+
+	    container.add(list);
+	    createSpace(5, container);
+
+	    return list;
 	}
 	
-	public boolean isError() {
-		return error;
-	}
-	public String getName() {
-		return name.getText();
-	}
-	public InputField getNameField() {
-		return name;
-	}
-	public InputField getEmailTextField() {
-		return emailTextField;
-	}
-	public JPasswordField getPasswordField() {
-		return passwordField;
-	}
-	public JComboBox<String> getListaGrupos() {
-		return listaGrupos;
-	}
-	public JRadioButton getMatutino() {
-		return matutino;
-	}
-	public JRadioButton getVespertino() {
-		return vespertino;
-	}
-	public JComboBox<String> getListaCarreras() {
-		return listaCarreras;
-	}
-	public JButton getBackButton() {
-		return BackButton;
-	}
 
 	private JPanel createMainPanel() {
 		JPanel contentPane = new JPanel();
@@ -209,6 +254,7 @@ public class RegisterView extends JFrame{
 		label.setAlignmentX(CENTER_ALIGNMENT);
 		container.add(label);
 	}
+	
 	private JPasswordField createPasswordField() {
 		passwordField = new JPasswordField();
 		passwordField.setMaximumSize(new Dimension(300, 28));
@@ -260,7 +306,7 @@ public class RegisterView extends JFrame{
 	}
 	
 	private JButton createRegisterButton() {
-		JButton registerButton = createButton(contentPane, "Registrarme", 300, 30, AppColors.primaryAccent, Color.WHITE);
+		JButton registerButton = createButton(contentPane, "Registrarme", 300, 50, AppColors.primaryAccent, Color.WHITE);
 		registerButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		registerButton.setContentAreaFilled(true);
 		
@@ -283,21 +329,7 @@ public class RegisterView extends JFrame{
 	}
 	
 	private JButton createBackButton() {
-		JButton btnReturn = createButton(contentPane, "Regresar", 100, 20, AppColors.primaryAccent, Color.WHITE);
-		btnReturn.addActionListener(e -> {
-			int option = JOptionPane.showConfirmDialog(
-			        this,
-			        "¿Seguro que deseas regresar? Se perderán todos los datos",
-			        "Confirmar regreso",
-			        JOptionPane.YES_NO_OPTION
-			    );
-			
-			if(option == JOptionPane.YES_OPTION) {
-				new LoginView().setVisible(true);
-				dispose();
-			}
-		});
-		
+		JButton btnReturn = createButton(contentPane, "Regresar", 100, 30, AppColors.primaryAccent, Color.WHITE);
 		
 		btnReturn.addMouseListener(new MouseAdapter() {
 			public void mouseEntered(MouseEvent e) {
@@ -318,10 +350,6 @@ public class RegisterView extends JFrame{
 	}
 	
 	
-	private void resetErrorLabel(JLabel errorLabel) {
-		errorLabel.setText("");
-	}
-	
 	public JButton createButton(JPanel container, String name, int width, int length, Color background, Color foreground) {
 		JButton button = new JButton(name);
 		button.addActionListener(new ActionListener() {
@@ -337,6 +365,7 @@ public class RegisterView extends JFrame{
 		container.add(button);
 		return button;
 	}
+	
 	public Label createErrorLabel(String text) {
 		Label errorLabel = new Label(text, 12, false);
 		errorLabel.setForeground(Color.RED);
@@ -346,22 +375,6 @@ public class RegisterView extends JFrame{
 		return errorLabel;
 	}
 	
-	public JComboBox<String> createListaCarreras(){
-		String[] carreras = {
-			    "Ingeniería en Desarrollo de Software (IDS)",
-			    "Licenciatura en Tecnologías de la Información (LATI)",
-			    "Ingeniería en Tecnologia Computacional (ITC)",
-			    "Ingeniería en Ciberseguridad (IC)"
-			};
-
-
-			listaCarreras = new JComboBox<>(carreras);
-			listaCarreras.setMaximumSize(new Dimension(300, 30));
-			listaCarreras.setAlignmentX(CENTER_ALIGNMENT);
-			listaCarreras.insertItemAt("Selecciona tu carrera", 0);
-			listaCarreras.setSelectedIndex(0);
-			return listaCarreras;
-	}
 	
 	public JPanel createSecondaryPanel() {
 		JPanel secondaryPanel = new JPanel();
@@ -371,70 +384,20 @@ public class RegisterView extends JFrame{
 		return secondaryPanel;
 	}
 	
-	public JPanel createListaGrupo() {
-		JPanel grupoPanel = new JPanel();
-		grupoPanel.setOpaque(false);
-		grupoPanel.setLayout(new BoxLayout(grupoPanel, BoxLayout.Y_AXIS));
-
-		createLabel(grupoPanel, "Grupo", 13, 0);
-
-		String[] grupos = {"Selecciona", "A", "B"};
-		listaGrupos = new JComboBox<>(grupos);
-		listaGrupos.setPreferredSize(new Dimension(100,25));
-		listaGrupos.setMaximumSize(new Dimension(100,25));
-
-		grupoPanel.add(listaGrupos);
-		grupoPanel.add(grupoError);
-		return grupoPanel;
-	}
-	
-	public JPanel createListaTurno() {
-	    JPanel turnoPanel = new JPanel();
-	    turnoPanel.setOpaque(false);
-	    turnoPanel.setLayout(new BoxLayout(turnoPanel, BoxLayout.Y_AXIS));
-
-	    createLabel(turnoPanel, "Turno", 13, 0);
-
-	    JPanel radios = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 0));
-	    radios.setOpaque(false);
-	    radios.setMaximumSize(new Dimension(100, 25));
-	    radios.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-	    ButtonGroup grupoBotones = new ButtonGroup();
-
-	    matutino = new JRadioButton("M");
-	    vespertino = new JRadioButton("V");
-
-	    matutino.setOpaque(false);
-	    vespertino.setOpaque(false);
-
-	    grupoBotones.add(matutino);
-	    grupoBotones.add(vespertino);
-
-	    radios.add(matutino);
-	    radios.add(vespertino);
-
-	    turnoError.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-	    turnoPanel.add(radios);
-	    turnoPanel.add(turnoError);
-
-	    return turnoPanel;
-	}
-	
 	
 	public InputField createEmailField() {
 		emailTextField = new InputField();
-		
+		emailTextField.setMaximumSize(fieldSize);
 		TextPrompt promptEmail = new TextPrompt("estudiante@alu.uabcs.mx", emailTextField);
 		promptEmail.setForeground(AppColors.subtitle);
 		return emailTextField;
 	}
 	public InputField createNameField() {
-		name = new InputField();
-		TextPrompt namePrompt = new TextPrompt("nombre apellido", name);
+		nameField = new InputField();
+		nameField.setMaximumSize(fieldSize);
+		TextPrompt namePrompt = new TextPrompt("Nombre Apellido", nameField);
 		namePrompt.setForeground(AppColors.subtitle);
-		return name;
+		return nameField;
 	}
 	
 }

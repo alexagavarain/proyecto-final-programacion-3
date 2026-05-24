@@ -298,11 +298,10 @@ public class UserFormDialog extends JDialog{
 	        txtName.setText(user.getName());
 	        txtEmail.setText(user.getEmail());
 
-	        cboCarrera.setSelectedItem(user.getCareer());
-	        cboGrupo.setSelectedItem(user.getGrupo());
+	        cboCarrera.setSelectedItem(user.getGroup().getCareer().getName());
+	        cboGrupo.setSelectedItem(user.getGroup().getName());
 
-	        System.out.println("TURNO QUE SUPUESTAMENTE ES NULL: " + user.getTurno());
-	        if (user.getTurno().equals("M")) {
+	        if (user.getGroup().getShift().equals("M")) {
 	            rbtnMatutino.setSelected(true);
 	        } else {
 	            rbtnVespertino.setSelected(true);

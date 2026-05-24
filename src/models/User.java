@@ -6,11 +6,8 @@ public class User {
 	private int id;
 	private String name;
 	private String email;
-	private String career;
-	private String turno;
-	private String grupo;
 	private String password;
-	private int idGrupo;
+	private Group group;
 	
 	public User() {
 		
@@ -21,45 +18,51 @@ public class User {
 		this.password = password;
 	}
 	
+	public User(int id) {
+		this.id = id;
+	}
+	
 	public User(int id, String email, String password) {
 		this.id = id;
 		this.email = email;
 		this.password = password;
 	}
 	
-	public User(int id, String name, String email, int idGrupo) {
+	public User(int id, String name, String email, Group group) {
 		this.id = id;
 		this.email = email;
 		this.name = name;
-		this.idGrupo = idGrupo;
+		this.group = group;
 
 	}
 	
-	public User(String name, String email, String career, String turno, String grupo) {
+	public User(int id, String name, String email, int idGroup) {
+		this.id = id;
 		this.email = email;
 		this.name = name;
-		this.career= career;
-		this.turno = turno;
-		this.grupo = grupo;
 
 	}
 	
-	public User(String name, String email, String career, String turno, String grupo, String password) {
+	public User(String name, String email, Group group) {
+		this.email = email;
 		this.name = name;
-	    this.email = email;
-	    this.career = career;
-	    this.turno = turno;
-	    this.grupo = grupo;
-	    this.password = password;
+		this.group = group;
+
 	}
 	
-	public User(int id, String name, String email, String career, String turno, String grupo, String password) {
+	public User(String name, String email, String password, Group group) {
+		this.email = email;
+		this.name = name;
+		this.password = password;
+		this.group = group;
+
+	}
+	
+	public User(int id, String name, String email, Group group, String password) {
 	    this.id = id;
 		this.name = name;
 	    this.email = email;
-	    this.career = career;
-	    this.turno = turno;
-	    this.grupo = grupo;
+	    this.group = group;
 	    this.password = password;
 	}
 
@@ -86,30 +89,12 @@ public class User {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	public String getCareer() {
-		return career;
-	}
-	public void setCareer(String career) {
-		this.career = career;
-	}
-	public String getTurno() {
-		return turno;
-	}
-	public void setTurno(String turno) {
-		this.turno = turno;
-	}
-	public String getGrupo() {
-		return grupo;
-	}
-	public void setGrupo(String grupo) {
-		this.grupo = grupo;
-	}
 	
-	public int getidGrupo() {
-		return idGrupo;
+	public Group getGroup() {
+		return group;
 	}
-	public void setidGrupo(int idGrupo) {
-		this.idGrupo = idGrupo;
+	public void setGroup(Group group) {
+		this.group = group;
 	}
 	
 	public void setPassword(String password) {
@@ -119,34 +104,13 @@ public class User {
 		return password;
 	}
 	
+
 	public String toString() {
 		return "Nombre: " + name +
 		           "\nEmail: " + email +
-		           "\nCareer: " +  career +
-		           "\nTurno: " + turno +
-		           "\nGrupo: " + grupo;
+		           "\nCareer: " +  group.getCareer().getName() +
+		           "\nShift: " + group.getShift() +
+		           "\nGroup: " + group.getName();
 	}
-	
-//	public String toCsv() {
-//	    return name + "," +
-//	           email + "," +
-//	           career + "," +
-//	           turno + "," +
-//	           grupo + "," +
-//	           password;
-//	}
-//	
-//	public static User fromCsv(String userData) {
-//	    String data[] = userData.split(",");
-//
-//	    return new User(
-//	        data[0], // name
-//	        data[1], // email
-//	        data[2], // career
-//	        data[3], // turno
-//	        data[4], // grupo
-//	        data[5]  // password
-//	    );
-//	}
 
 }

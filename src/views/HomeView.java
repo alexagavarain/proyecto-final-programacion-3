@@ -3,6 +3,7 @@ package views;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Image;
@@ -10,6 +11,7 @@ import java.awt.event.KeyEvent;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -19,6 +21,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 import utils.AppColors;
 import utils.CreateFont;
@@ -29,19 +32,18 @@ public class HomeView extends JFrame{
 	public static final String CLASSES = "CLASSES";
 	public static final String TASKS = "TASKS";
 	
-	public JButton tasksBtn;
-	public JButton classesBtn;
-	public JButton profileBtn;
-	public ProfileView profileView;
-	public ClassesView classesView;
-	public TasksView tasksView;
+	private JButton tasksBtn;
+	private JButton classesBtn;
+	private JButton profileBtn;
+	private ProfileView profileView;
+	private ClassesView classesView;
+	private TasksView tasksView;
 	private CardLayout cardLayout;
 	private JPanel container;
 	
 	public HomeView() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
-		setBackground(AppColors.primaryAccent);
 		setTitle("Uni Tasks");
 		
 		createSideBar();
@@ -49,22 +51,50 @@ public class HomeView extends JFrame{
 	}
 	
 	public void createSideBar() {
-		JPanel sideBar = new JPanel();
-		sideBar.setBackground(AppColors.background);
-		sideBar.setPreferredSize(new Dimension (200, 200));
-		sideBar.setLayout(new BoxLayout (sideBar, BoxLayout.Y_AXIS));
-		sideBar.setBorder(
+	    JPanel sideBar = new JPanel();
+	    sideBar.setLayout(new BorderLayout());
+	    sideBar.setPreferredSize(new Dimension(250, getHeight()));
+	    sideBar.setBorder(
 			    BorderFactory.createCompoundBorder(
 			        BorderFactory.createLineBorder(AppColors.subtleAccent, 1, true),
-			        BorderFactory.createEmptyBorder(5, 5, 5, 5)
+			        BorderFactory.createEmptyBorder(30, 10, 0, 10)
 			    )
 			);
-		sideBar.add(createAppLogo("UniTasks", 20));
-		sideBar.add(tasksBtn());
-		sideBar.add(classesBtn());
-		sideBar.add(profileBtn());
-		
-		add(sideBar, BorderLayout.WEST);
+
+	    JPanel btnPanel = new JPanel();
+	    btnPanel.setLayout(new BoxLayout(btnPanel, BoxLayout.Y_AXIS));
+
+	    tasksBtn = createBtn("Tareas");
+	    classesBtn = createBtn("Clases");
+	    profileBtn = createBtn("Mi perfil");
+
+	    createSpace(20, btnPanel);
+	    btnPanel.add(tasksBtn);
+	    createSpace(10, btnPanel);
+	    btnPanel.add(classesBtn);
+	    createSpace(10, btnPanel);
+	    btnPanel.add(profileBtn);
+
+	    sideBar.add(createAppLogo("UniTasks", 26), BorderLayout.NORTH);
+	    sideBar.add(btnPanel, BorderLayout.CENTER);
+
+	    add(sideBar, BorderLayout.WEST);
+	}
+	
+	public JButton createBtn(String text) {
+	    JButton button = new JButton(text);
+	    button.setHorizontalAlignment(SwingConstants.LEFT);
+	    button.setPreferredSize(new Dimension(200, 30));
+	    button.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
+	    button.setMinimumSize(new Dimension(0, 30));
+
+	    button.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+	    return button;
+	}
+	
+	public void createSpace(int pixels, JPanel container) {
+		container.add(Box.createVerticalStrut(pixels));
 	}
 	
 	public void createTitle(JPanel container, String name, float fontSize) {
@@ -104,21 +134,6 @@ public class HomeView extends JFrame{
 		return null;
 	}	
 
-	public JButton tasksBtn() {
-		tasksBtn = new JButton("Tareas");
-		return tasksBtn;
-	}
-	
-	public JButton classesBtn() {
-		classesBtn = new JButton("Clases");
-		return classesBtn;
-	}
-	
-	public JButton profileBtn() {
-		profileBtn = new JButton("Mi perfil");
-		return profileBtn;
-	}
-	
 	private void createViews() {
 		cardLayout = new CardLayout();
 		container = new JPanel(cardLayout);
@@ -137,76 +152,70 @@ public class HomeView extends JFrame{
 	public void showView(String view) {
 		cardLayout.show(container, view);
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-//	public void createNavBar() {
-//		JPanel navbar = new JPanel(new FlowLayout(FlowLayout.LEFT));
-//		
-//		btnHome = new JButton("Inicio");
-//		btnUsers = new JButton("Usuarios");
-//		
-//		navbar.add(btnHome);
-//		navbar.add(btnUsers);
-//		
-//		add(navbar, BorderLayout.NORTH);
-//	}
-//	
-//	
-//	public void setMenu() {
-//
-//	    JMenuBar mb = new JMenuBar();
-//	    setJMenuBar(mb);
-//
-//	    JMenu menuFile = new JMenu("File");
-//	    menuFile.setMnemonic(KeyEvent.VK_F);
-//	    mb.add(menuFile);
-//
-//	    JMenuItem mItemOpen = new JMenuItem("Open");
-//	    mItemOpen.setMnemonic(KeyEvent.VK_O);
-//	    menuFile.add(mItemOpen);
-//
-//	    JMenuItem mItemSave = new JMenuItem("Save");
-//	    mItemSave.setMnemonic(KeyEvent.VK_S);
-//	    menuFile.add(mItemSave);
-//
-//	    menuFile.addSeparator();
-//
-//	    mItemExit = new JMenuItem("Exit");
-//	    mItemExit.setMnemonic(KeyEvent.VK_E);
-//	    menuFile.add(mItemExit);
-//
-//	    JMenu menuOtherOption = new JMenu("Other Option");
-//	    menuOtherOption.setMnemonic(KeyEvent.VK_O);
-//	    mb.add(menuOtherOption);
-//
-//	    JMenu menuOption1 = new JMenu("Option 1");
-//	    menuOtherOption.add(menuOption1);
-//
-//	    JMenuItem mItemOption3 = new JMenuItem("Option 3");
-//	    menuOption1.add(mItemOption3);
-//
-//	    JMenuItem mItemOption2 = new JMenuItem("Option 2");
-//	    menuOtherOption.add(mItemOption2);
-//
-//	}
-//	
-//
-//	
-//	public void createTitle(JPanel container, String name, float fontSize) {
-//		JLabel appName = new JLabel(name);
-//		appName.setToolTipText("");
-//		appName.setFont(CreateFont.DEFAULT_BOLD.deriveFont(fontSize));		
-//		appName.setAlignmentX(CENTER_ALIGNMENT);
-//		container.add(appName);
-//	}
-	
-	
+
+	public JButton getTasksBtn() {
+		return tasksBtn;
+	}
+
+	public void setTasksBtn(JButton tasksBtn) {
+		this.tasksBtn = tasksBtn;
+	}
+
+	public JButton getClassesBtn() {
+		return classesBtn;
+	}
+
+	public void setClassesBtn(JButton classesBtn) {
+		this.classesBtn = classesBtn;
+	}
+
+	public JButton getProfileBtn() {
+		return profileBtn;
+	}
+
+	public void setProfileBtn(JButton profileBtn) {
+		this.profileBtn = profileBtn;
+	}
+
+	public ProfileView getProfileView() {
+		return profileView;
+	}
+
+	public void setProfileView(ProfileView profileView) {
+		this.profileView = profileView;
+	}
+
+	public ClassesView getClassesView() {
+		return classesView;
+	}
+
+	public void setClassesView(ClassesView classesView) {
+		this.classesView = classesView;
+	}
+
+	public TasksView getTasksView() {
+		return tasksView;
+	}
+
+	public void setTasksView(TasksView tasksView) {
+		this.tasksView = tasksView;
+	}
+
+	public CardLayout getCardLayout() {
+		return cardLayout;
+	}
+
+	public void setCardLayout(CardLayout cardLayout) {
+		this.cardLayout = cardLayout;
+	}
+
+	public JPanel getContainer() {
+		return container;
+	}
+
+	public void setContainer(JPanel container) {
+		this.container = container;
+	}
 	
 
 }

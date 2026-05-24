@@ -12,6 +12,7 @@ import javax.swing.event.DocumentListener;
 
 import exceptions.InvalidEmailException;
 import exceptions.InvalidPasswordException;
+import models.Session;
 import models.User;
 import repository.LoginRepository;
 import utils.InputField;
@@ -57,7 +58,7 @@ public class LoginController {
 	 		    return;
 	 	    }
 	    } catch(InvalidEmailException e) {
-    		view.getPasswordError().setText(e.getMessage());
+    		view.getEmailError().setText(e.getMessage() + "             ");
     		return;
 	    }
 
@@ -71,6 +72,8 @@ public class LoginController {
 	        view.getPasswordError().setText("Credenciales incorrectas");
 	        return;
 	    }
+	    
+	    Session.setCurrentUser(user);
 
 	    HomeView home = new HomeView();
         home.setVisible(true);

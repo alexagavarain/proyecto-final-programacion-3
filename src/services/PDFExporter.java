@@ -108,13 +108,13 @@ public class PDFExporter {
                         .add(new Paragraph(u.getEmail())));
 
                 table.addCell(new Cell().setTextAlignment(TextAlignment.CENTER)
-                        .add(new Paragraph(u.getCareer())));
+                        .add(new Paragraph(u.getGroup().getCareer().getName())));
 
                 table.addCell(new Cell().setTextAlignment(TextAlignment.CENTER)
-                        .add(new Paragraph(u.getTurno())));
+                        .add(new Paragraph(u.getGroup().getShift())));
                 
                 table.addCell(new Cell().setTextAlignment(TextAlignment.CENTER)
-                        .add(new Paragraph(u.getGrupo())));
+                        .add(new Paragraph(u.getGroup().getName())));
                 
                 indice++;
 			}

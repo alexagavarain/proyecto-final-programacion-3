@@ -18,20 +18,25 @@ public class HomeController {
 	public HomeController(HomeView view) {
 		this.view = view;
 		view.showView(HomeView.TASKS);
+		
+//		new TasksController(view.getTasksView());
+		new ClassesController(view.getClassesView());
+		
 		registerListeners();
 		
 	}
 	
 	public void registerListeners( ) {
-		view.tasksBtn.addActionListener(e -> {
+		view.getTasksBtn().addActionListener(e -> {
 			view.showView(HomeView.TASKS);
 		});
 		
-		view.classesBtn.addActionListener(e -> {
+		view.getClassesBtn().addActionListener(e -> {
 			view.showView(HomeView.CLASSES);
+
 		});
 		
-		view.profileBtn.addActionListener(e -> {
+		view.getProfileBtn().addActionListener(e -> {
 			view.showView(HomeView.PROFILE);
 		});
 	}

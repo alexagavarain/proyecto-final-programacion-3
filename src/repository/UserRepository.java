@@ -26,19 +26,17 @@ import models.User;
 public class UserRepository {
 	
 	public void save(User user) throws IOException {		
-		String sql = "INSERT INTO usuario (nombre, correo, id_grupo) "
+		String sql = "INSERT INTO usuario (nombre, correo, id_grupo, contraseña) "
 				+ "VALUES(?, ?, ?)";
 		
 		
 		try(Connection connection = DatabaseConnection.getConnection();
 			PreparedStatement pst = connection.prepareStatement(sql)) {
-			
-			int groupId = getGroupId(user);
-			System.out.println("grupoid: " + groupId);
+
 			
 			pst.setString(1, user.getName());
 			pst.setString(2, user.getEmail());
-			pst.setInt(3, groupId);
+			pst.setInt(3, user.getGroup().getId());
 			
 			int affectedRows = pst.executeUpdate();
 			
@@ -50,9 +48,34 @@ public class UserRepository {
 			
 		} catch(SQLException ex) {
 			ex.printStackTrace();
-		}
+		}	
+		
+	}
+	
+	public void saveRegister(User user) throws IOException {		
+		String sql = "INSERT INTO usuario (nombre, correo, id_grupo, contrasena) "
+				+ "VALUES(?, ?, ?, ?)";
 		
 		
+		try(Connection connection = DatabaseConnection.getConnection();
+			PreparedStatement pst = connection.prepareStatement(sql)) {
+
+			pst.setString(1, user.getName());
+			pst.setString(2, user.getEmail());
+			pst.setInt(3, user.getGroup().getId());
+			pst.setString(4, user.getPassword());
+			
+			int affectedRows = pst.executeUpdate();
+			
+			if(affectedRows > 0) {
+				System.out.println("Usuario guardado");
+			}else {
+				System.out.println("No se guardó al usuario");
+			}
+			
+		} catch(SQLException ex) {
+			ex.printStackTrace();
+		}	
 	}
 	
 	public List<User> getUsers() throws IOException {
@@ -115,7 +138,7 @@ public class UserRepository {
 			
 			pst.setString(1, updatedUser.getName());
 			pst.setString(2, updatedUser.getEmail());
-			pst.setInt(3, updatedUser.getidGrupo());
+			pst.setInt(3, updatedUser.getGroup().getId());
 			pst.setInt(4, updatedUser.getId());
 			
 			int affectedRows = pst.executeUpdate();
@@ -141,7 +164,7 @@ public class UserRepository {
 		try (Connection connection = DatabaseConnection.getConnection();
 				PreparedStatement pst = connection.prepareStatement(sql)) {
 			
-			pst.setString(1, user.getCareer());
+			pst.setString(1, user.getGroup().getCareer().getName());
 			
 			ResultSet rs = pst.executeQuery(); 
 			
@@ -172,9 +195,9 @@ public class UserRepository {
 		try (Connection connection = DatabaseConnection.getConnection();
 				PreparedStatement pst = connection.prepareStatement(sql)) {
 			
-			pst.setString(1, user.getGrupo());
+			pst.setString(1, user.getGroup().getName());
 			pst.setInt(2, 1);
-			pst.setString(3, user.getTurno());
+			pst.setString(3, user.getGroup().getName());
 			pst.setInt(4, careerId);
 			
 			ResultSet rs = pst.executeQuery(); 
@@ -190,38 +213,39 @@ public class UserRepository {
 		return groupId;
 	}
 	
-	public void returnGroupData(User user) {
-		
-		int userGroup = user.getidGrupo();
-		System.out.println("ID GRUPO: " + userGroup);
-		
-		String sql = "SELECT grupo.nombre AS grupo, "
-		        + "grupo.semestre, "
-		        + "grupo.turno, "
-		        + "carrera.nombre AS carrera "
-		        + "FROM grupo "
-		        + "INNER JOIN carrera "
-		        + "ON grupo.id_carrera = carrera.id_carrera "
-		        + "WHERE grupo.id_grupo =  ?";
-		
-		try (Connection connection = DatabaseConnection.getConnection();
-			PreparedStatement pst = connection.prepareStatement(sql))
-		{
-			pst.setInt(1, userGroup);
-			
-			ResultSet rs = pst.executeQuery(); 
-			
-			if (rs.next()) {
-					System.out.println("Turno: " + rs.getString("turno"));
-					user.setGrupo(rs.getString("grupo"));
-					user.setTurno(rs.getString("turno"));
-					user.setCareer(rs.getString("carrera"));
-			}
-			
-		} catch(SQLException ex ) {
-			ex.printStackTrace();
-		}
-	}
+//	public void returnGroupData(User user) {
+//		
+//		int idGroup = user.getIdGroup();
+//				
+//		String sql = "SELECT grupo.nombre AS grupo, "
+//		        + "grupo.semestre, "
+//		        + "grupo.turno, "
+//		        + "carrera.nombre AS carrera "
+//		        + "FROM grupo "
+//		        + "INNER JOIN carrera "
+//		        + "ON grupo.id_carrera = carrera.id_carrera "
+//		        + "WHERE grupo.id_grupo =  ?";
+//		
+//		try (Connection connection = DatabaseConnection.getConnection();
+//			PreparedStatement pst = connection.prepareStatement(sql))
+//		{
+//			pst.setInt(1, idGroup);
+//			
+//			ResultSet rs = pst.executeQuery(); 
+//			
+//			if (rs.next()) {
+//					
+//					
+//					System.out.println("Turno: " + rs.getString("turno"));
+//					user.setGrupo(rs.getString("grupo"));
+//					user.setTurno(rs.getString("turno"));
+//					user.setCareer(rs.getString("carrera"));
+//			}
+//			
+//		} catch(SQLException ex ) {
+//			ex.printStackTrace();
+//		}
+//	}
 
 			
 }

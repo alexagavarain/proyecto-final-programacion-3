@@ -3,9 +3,25 @@ package models;
 public class Professor {
 	
 	private int id;
-	public String name;
-	public String cedula;
+	private String name;
+	private String cedula;
 	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getCedula() {
+		return cedula;
+	}
+
+	public void setCedula(String cedula) {
+		this.cedula = cedula;
+	}
+
 	public Professor(int id, String name, String cedula) {
 		this.id = id;
 		this.name = name;
