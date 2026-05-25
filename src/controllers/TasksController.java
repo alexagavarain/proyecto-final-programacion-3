@@ -31,7 +31,7 @@ public class TasksController {
     
     public void addBtnListener() {
     	view.getAddBtn().addActionListener(e -> {
-			TaskDialog dialog = new TaskDialog(null, null);
+			TaskDialog dialog = new TaskDialog(Session.getMainFrame(), null);
 			new TaskDialogController(dialog, this);
 			dialog.setVisible(true);
 		});
@@ -51,7 +51,7 @@ public class TasksController {
             MouseAdapter listener = new MouseAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    TaskDialog dialog = new TaskDialog(null, task);
+                    TaskDialog dialog = new TaskDialog(Session.getMainFrame(), task);
                     new TaskDialogController(dialog, TasksController.this);
                     dialog.setVisible(true);
                 }

@@ -14,6 +14,45 @@ public class Task {
 	private GroupSubject groupSubject;
 	private Color subjectColor;
 	
+	public Task() {
+	}
+	
+	public Task(int id, String title, String description, LocalDateTime deadline,
+			String status, User user, GroupSubject groupSubject) {
+		this.id = id;
+		this.title = title;
+		this.description = description;
+		this.deadline = deadline;
+		this.status = status;
+		this.user = user;
+		this.groupSubject = groupSubject;
+	}
+	
+	public Task(String title, String description, LocalDateTime deadline,
+			String status, User user, GroupSubject groupSubject) {
+		this.title = title;
+		this.description = description;
+		this.deadline = deadline;
+		this.status = status;
+		this.user = user;
+		this.groupSubject = groupSubject;
+	}
+	
+	public Task(String title, LocalDateTime deadline,
+			String status, User user, GroupSubject groupSubject) {
+		this.title = title;
+		this.deadline = deadline;
+		this.status = status;
+		this.user = user;
+		this.groupSubject = groupSubject;
+	}
+	
+	public Task(String title, User user, GroupSubject groupSubject) {
+		this.title = title;
+		this.user = user;
+		this.groupSubject = groupSubject;
+	}
+	
 	public int getId() {
 		return id;
 	}
@@ -82,46 +121,6 @@ public class Task {
 		this.subjectColor = subjectColor;
 	}
 	
-	public Task() {
-		
-	}
-	
-	public Task(int id, String title, String description, LocalDateTime deadline,
-			String status, User user, GroupSubject groupSubject) {
-		this.id = id;
-		this.title = title;
-		this.description = description;
-		this.deadline = deadline;
-		this.status = status;
-		this.user = user;
-		this.groupSubject = groupSubject;
-	}
-	
-	public Task(String title, String description, LocalDateTime deadline,
-			String status, User user, GroupSubject groupSubject) {
-		this.title = title;
-		this.description = description;
-		this.deadline = deadline;
-		this.status = status;
-		this.user = user;
-		this.groupSubject = groupSubject;
-	}
-	
-	public Task(String title, LocalDateTime deadline,
-			String status, User user, GroupSubject groupSubject) {
-		this.title = title;
-		this.deadline = deadline;
-		this.status = status;
-		this.user = user;
-		this.groupSubject = groupSubject;
-	}
-	
-	public Task(String title, User user, GroupSubject groupSubject) {
-		this.title = title;
-		this.user = user;
-		this.groupSubject = groupSubject;
-	}
-
 	@Override
 	public String toString() {
 		return title;

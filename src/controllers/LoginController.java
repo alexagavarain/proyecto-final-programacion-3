@@ -78,6 +78,8 @@ public class LoginController {
 	    HomeView home = new HomeView();
         home.setVisible(true);
         new HomeController(home);
+        
+        Session.setMainFrame(home);
 
 	    view.dispose();
 	}

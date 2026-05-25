@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 
@@ -13,10 +14,12 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 
 import utils.AppColors;
 import utils.CreateFont;
+import utils.WrapLayout;
 
 public class TasksView extends JPanel {
 	
@@ -34,7 +37,7 @@ public class TasksView extends JPanel {
 	public TasksView() { 
 		setLayout(new BorderLayout());	
 		setBorder(BorderFactory.createEmptyBorder(30, 20, 0, 20));
-		header();
+		createHeader();
 		createTaskContainer();
 	}
 	
@@ -52,7 +55,7 @@ public class TasksView extends JPanel {
 		return addBtn;
 	}
 	
-	public void header() {
+	public void createHeader() {
 		JPanel header = new JPanel(new BorderLayout());
 		header.add(createTitle("Tareas", 23), BorderLayout.WEST);
 		header.add(createAddBtn(), BorderLayout.EAST);
@@ -65,8 +68,23 @@ public class TasksView extends JPanel {
 	}
 	
 	public void createTaskContainer() {
-		taskContainer = new JPanel(new GridLayout(5, 5, 10, 10));
-		add(taskContainer, BorderLayout.CENTER);
+		taskContainer = new JPanel(new WrapLayout(FlowLayout.LEFT, 20, 20));
+		
+		JScrollPane scroll = new JScrollPane(taskContainer);
+
+	    scroll.setBorder(null);
+
+	    scroll.setHorizontalScrollBarPolicy(
+	        JScrollPane.HORIZONTAL_SCROLLBAR_NEVER
+	    );
+
+	    scroll.setVerticalScrollBarPolicy(
+	        JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED
+	    );
+
+	    scroll.getVerticalScrollBar().setUnitIncrement(16);
+
+	    add(scroll, BorderLayout.CENTER);
 	}
 
 	

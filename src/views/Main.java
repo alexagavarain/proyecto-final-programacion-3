@@ -40,6 +40,7 @@ public class Main {
 					
 					HomeView frame = new HomeView();
 					new HomeController(frame);
+		            Session.setMainFrame(frame);
 //					LoginView frame = new LoginView();
 //					new LoginController(frame);
 					frame.setVisible(true);

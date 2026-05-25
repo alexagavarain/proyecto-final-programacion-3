@@ -33,7 +33,7 @@ public class ClassesController {
         		        	
             SubjectCard card = new SubjectCard(subject);
 
-            view.addCard(card);
+            view.getContainer().add(card);
         }
 
         view.revalidate();

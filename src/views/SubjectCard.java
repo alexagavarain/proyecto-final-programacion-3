@@ -20,9 +20,10 @@ public class SubjectCard extends JPanel{
 	public SubjectCard(Subject subject) {
 	    setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
 
-	    setPreferredSize(new Dimension(200, 120));
-	    setMinimumSize(new Dimension(200, 120));
-	    setMaximumSize(new Dimension(200, 120));
+	    Dimension size = new Dimension (200, 170);
+		setPreferredSize(size);
+		setMaximumSize(size);
+        setMinimumSize(size);
 
 	    setBackground(AppColors.gray);
 

@@ -20,4 +20,10 @@ public class Label extends JLabel {
 		setForeground(color);
 		setAlignmentX(CENTER_ALIGNMENT);
 	}
+	
+	public void setFontSize(float size) {
+	    Font currentFont = getFont();
+
+	    setFont(currentFont.deriveFont(size));
+	}
 }

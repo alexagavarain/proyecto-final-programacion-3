@@ -6,6 +6,17 @@ public class SubjectProfessor {
 	private Subject subject;
 	private Professor professor;
 	
+	public SubjectProfessor(int id, Subject subject, Professor professor) {
+		this.id = id;
+		this.subject = subject;
+		this.professor = professor;
+	}
+	
+	public SubjectProfessor(Subject subject, Professor professor) {
+		this.subject = subject;
+		this.professor = professor;
+	}
+	
 	public int getId() {
 		return id;
 	}
@@ -30,15 +41,5 @@ public class SubjectProfessor {
 		this.professor = professor;
 	}
 
-	public SubjectProfessor(int id, Subject subject, Professor professor) {
-		this.id = id;
-		this.subject = subject;
-		this.professor = professor;
-	}
-	
-	public SubjectProfessor(Subject subject, Professor professor) {
-		this.subject = subject;
-		this.professor = professor;
-	}
 
 }

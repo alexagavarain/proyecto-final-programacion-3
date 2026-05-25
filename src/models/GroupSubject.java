@@ -6,6 +6,17 @@ public class GroupSubject {
 	private Group group;
 	private Subject subject;
 	
+	public GroupSubject(int id, Group group, Subject subject) {
+		this.id = id;
+		this.group = group;
+		this.subject = subject;
+	}
+	
+	public GroupSubject(Group group, Subject subject) {
+		this.group = group;
+		this.subject = subject;
+	}
+	
 	public int getId() {
 		return id;
 	}
@@ -30,15 +41,5 @@ public class GroupSubject {
 		this.subject = subject;
 	}
 
-	public GroupSubject(int id, Group group, Subject subject) {
-		this.id = id;
-		this.group = group;
-		this.subject = subject;
-	}
-	
-	public GroupSubject(Group group, Subject subject) {
-		this.group = group;
-		this.subject = subject;
-	}
 
 }

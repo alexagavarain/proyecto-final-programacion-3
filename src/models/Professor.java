@@ -6,22 +6,6 @@ public class Professor {
 	private String name;
 	private String cedula;
 	
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getCedula() {
-		return cedula;
-	}
-
-	public void setCedula(String cedula) {
-		this.cedula = cedula;
-	}
-
 	public Professor(int id, String name, String cedula) {
 		this.id = id;
 		this.name = name;
@@ -39,6 +23,22 @@ public class Professor {
 	
 	public Professor(String name, String cedula) {
 		this.name = name;
+		this.cedula = cedula;
+	}
+	
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getCedula() {
+		return cedula;
+	}
+
+	public void setCedula(String cedula) {
 		this.cedula = cedula;
 	}
 

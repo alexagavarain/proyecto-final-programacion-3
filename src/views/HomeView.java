@@ -50,6 +50,35 @@ public class HomeView extends JFrame{
 		createViews();
 	}
 	
+	public JButton getTasksBtn() {
+		return tasksBtn;
+	}
+
+	public JButton getClassesBtn() {
+		return classesBtn;
+	}
+
+	public JButton getProfileBtn() {
+		return profileBtn;
+	}
+
+	public ProfileView getProfileView() {
+		return profileView;
+	}
+
+
+	public ClassesView getClassesView() {
+		return classesView;
+	}
+
+	public TasksView getTasksView() {
+		return tasksView;
+	}
+
+	public CardLayout getCardLayout() {
+		return cardLayout;
+	}
+	
 	public void createSideBar() {
 	    JPanel sideBar = new JPanel();
 	    sideBar.setLayout(new BorderLayout());
@@ -152,70 +181,5 @@ public class HomeView extends JFrame{
 	public void showView(String view) {
 		cardLayout.show(container, view);
 	}
-
-	public JButton getTasksBtn() {
-		return tasksBtn;
-	}
-
-	public void setTasksBtn(JButton tasksBtn) {
-		this.tasksBtn = tasksBtn;
-	}
-
-	public JButton getClassesBtn() {
-		return classesBtn;
-	}
-
-	public void setClassesBtn(JButton classesBtn) {
-		this.classesBtn = classesBtn;
-	}
-
-	public JButton getProfileBtn() {
-		return profileBtn;
-	}
-
-	public void setProfileBtn(JButton profileBtn) {
-		this.profileBtn = profileBtn;
-	}
-
-	public ProfileView getProfileView() {
-		return profileView;
-	}
-
-	public void setProfileView(ProfileView profileView) {
-		this.profileView = profileView;
-	}
-
-	public ClassesView getClassesView() {
-		return classesView;
-	}
-
-	public void setClassesView(ClassesView classesView) {
-		this.classesView = classesView;
-	}
-
-	public TasksView getTasksView() {
-		return tasksView;
-	}
-
-	public void setTasksView(TasksView tasksView) {
-		this.tasksView = tasksView;
-	}
-
-	public CardLayout getCardLayout() {
-		return cardLayout;
-	}
-
-	public void setCardLayout(CardLayout cardLayout) {
-		this.cardLayout = cardLayout;
-	}
-
-	public JPanel getContainer() {
-		return container;
-	}
-
-	public void setContainer(JPanel container) {
-		this.container = container;
-	}
 	
-
 }

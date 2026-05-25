@@ -33,7 +33,6 @@ public class TaskCard extends JPanel{
 		setPreferredSize(size);
 		setMaximumSize(size);
         setMinimumSize(size);
-        
 		setBackground(AppColors.gray);
 		setVisible(true);
 		
@@ -109,10 +108,12 @@ public class TaskCard extends JPanel{
 	    description.setFocusable(false);
 
 	    description.setBorder(
-	        BorderFactory.createEmptyBorder(5, 10, 10, 10)
+	        BorderFactory.createEmptyBorder(5, 10, 5, 10)
 	    );
 
-	    description.setMaximumSize(new Dimension(200, Integer.MAX_VALUE));
+	    description.setPreferredSize(new Dimension(200, 74));
+	    description.setMaximumSize(new Dimension(200, 74));
+	    description.setMinimumSize(new Dimension(200, 74));
 
 	    add(description);
 	}

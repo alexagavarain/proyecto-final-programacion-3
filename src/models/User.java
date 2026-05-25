@@ -65,7 +65,7 @@ public class User {
 	    this.group = group;
 	    this.password = password;
 	}
-
+	
 	public String getName() {
 		return name;
 	}
@@ -101,11 +101,11 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
 	public String getPassword() {
 		return password;
 	}
 	
-
 	public String toString() {
 		return "Nombre: " + name +
 		           "\nEmail: " + email +

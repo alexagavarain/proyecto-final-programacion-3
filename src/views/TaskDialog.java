@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.util.List;
 
 import javax.swing.BorderFactory;
@@ -14,6 +16,7 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
@@ -42,6 +45,38 @@ public class TaskDialog extends JDialog {
 	
 	private Label titleError;
 	private Label subjectError;
+	
+	public TaskDialog(JFrame parent, Task task) {
+		super(parent, true); 
+		this.task = task;
+		System.out.println(task == null);
+		String title = task == null ? "Agregar tarea" : "Editar tarea";
+
+		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		addWindowListener(new WindowAdapter() {
+	        @Override
+	        public void windowClosing(WindowEvent e) {
+
+	            int option = JOptionPane.showConfirmDialog(
+	                TaskDialog.this,
+	                "¿Seguro que deseas cancelar?",
+	                "Cancelar tarea",
+	                JOptionPane.YES_NO_OPTION
+	            );
+
+	            if (option == JOptionPane.YES_OPTION) {
+	                dispose();
+	            }
+	        }
+	    });
+		
+		setSize(400, 600);
+    	setTitle(title);
+		setLocationRelativeTo(parent); 
+		setLayout(new BorderLayout()); 
+		add(createTitlePanel(title, 20), BorderLayout.NORTH); 
+		add(createFormPanel(), BorderLayout.CENTER);
+	}
 	
 	public JButton getSaveButton() {
 		return saveButton;
@@ -73,21 +108,6 @@ public class TaskDialog extends JDialog {
 
 	public Label getSubjectError() {
 		return subjectError;
-	}
-
-	public TaskDialog(JFrame parent, Task task) {
-		super(parent, true); 
-		this.task = task;
-		System.out.println(task == null);
-		String title = task == null ? "Agregar tarea" : "Editar tarea";
-
-		setSize(400, 600);
-    	setTitle(title);
-		setLocationRelativeTo(parent); 
-		setLayout(new BorderLayout()); 
-		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE); 
-		add(createTitlePanel(title, 20), BorderLayout.NORTH); 
-		add(createFormPanel(), BorderLayout.CENTER);
 	}
 	
 	private JPanel createTitlePanel(String title, float fontSize) { 

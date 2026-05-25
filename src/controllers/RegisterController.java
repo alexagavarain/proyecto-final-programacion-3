@@ -38,7 +38,6 @@ public class RegisterController {
     private RegisterView view;
 
     public RegisterController(RegisterView view) {
-
         this.view = view;
 
         disableCombos();
@@ -82,6 +81,8 @@ public class RegisterController {
 	            HomeView home = new HomeView();
 	            new HomeController(home);
 	            home.setVisible(true);
+	            
+	            Session.setMainFrame(home);
 	            view.dispose();
 
 	        } catch (Exception e) {

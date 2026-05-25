@@ -66,136 +66,68 @@ public class UserFormDialog extends JDialog{
 		return btnSave;
 	}
 
-	public void setBtnSave(JButton btnSave) {
-		this.btnSave = btnSave;
-	}
-	
 	public JButton getBtnCancel() {
 		return btnCancel;
-	}
-
-	public void setBtnCancel(JButton btnCancel) {
-		this.btnCancel = btnCancel;
 	}
 
 	public User getUser() {
 		return user;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
-	}
-
 	public boolean isSaved() {
 		return saved;
 	}
 
-	public void setSaved(boolean saved) {
-		this.saved = saved;
-	} 
-	
 	public JTextField getTxtName() {
 		return txtName;
-	}
-
-	public void setTxtName(JTextField txtName) {
-		this.txtName = txtName;
 	}
 
 	public JTextField getTxtEmail() {
 		return txtEmail;
 	}
 
-	public void setTxtEmail(JTextField txtEmail) {
-		this.txtEmail = txtEmail;
-	}
-
 	public JComboBox<String> getCboCarrera() {
 		return cboCarrera;
-	}
-
-	public void setCboCarrera(JComboBox<String> cboCarrera) {
-		this.cboCarrera = cboCarrera;
 	}
 
 	public JRadioButton getRbtnMatutino() {
 		return rbtnMatutino;
 	}
 
-	public void setRbtnMatutino(JRadioButton rbtnMatutino) {
-		this.rbtnMatutino = rbtnMatutino;
-	}
-
 	public JRadioButton getRbtnVespertino() {
 		return rbtnVespertino;
-	}
-
-	public void setRbtnVespertino(JRadioButton rbtnVespertino) {
-		this.rbtnVespertino = rbtnVespertino;
 	}
 
 	public ButtonGroup getTurnoGroup() {
 		return turnoGroup;
 	}
 
-	public void setTurnoGroup(ButtonGroup turnoGroup) {
-		this.turnoGroup = turnoGroup;
-	}
-
 	public JComboBox<String> getCboGrupo() {
 		return cboGrupo;
-	}
-
-	public void setCboGrupo(JComboBox<String> cboGrupo) {
-		this.cboGrupo = cboGrupo;
 	}
 
 	public Label getEmailError() {
 		return emailError;
 	}
 
-	public void setEmailError(Label emailError) {
-		this.emailError = emailError;
-	}
-
 	public Label getPasswordError() {
 		return passwordError;
-	}
-
-	public void setPasswordError(Label passwordError) {
-		this.passwordError = passwordError;
 	}
 
 	public Label getNameError() {
 		return nameError;
 	}
 
-	public void setNameError(Label nameError) {
-		this.nameError = nameError;
-	}
-
 	public Label getCarreraError() {
 		return carreraError;
-	}
-
-	public void setCarreraError(Label carreraError) {
-		this.carreraError = carreraError;
 	}
 
 	public Label getGrupoError() {
 		return grupoError;
 	}
 
-	public void setGrupoError(Label grupoError) {
-		this.grupoError = grupoError;
-	}
-
 	public Label getTurnoError() {
 		return turnoError;
-	}
-
-	public void setTurnoError(Label turnoError) {
-		this.turnoError = turnoError;
 	}
 
 	private JPanel createTitlePanel(String title) { 
