@@ -14,19 +14,20 @@ import exceptions.InvalidEmailException;
 import exceptions.InvalidPasswordException;
 import models.Session;
 import models.User;
-import repository.LoginRepository;
+import repository.UserRepository;
 import utils.InputField;
+import views.AdminView;
 import views.HomeView;
 import views.LoginView;
 
 public class LoginController {
 	
 	private LoginView view;
-	private LoginRepository repository;
+	private UserRepository repository;
 	
 	public LoginController(LoginView view) {
 		this.view = view;
-		repository = new LoginRepository();
+		repository = new UserRepository();
 	    loginListener();
  		validateEmailCharacters();	}
 	
@@ -74,12 +75,18 @@ public class LoginController {
 	    }
 	    
 	    Session.setCurrentUser(user);
-
-	    HomeView home = new HomeView();
-        home.setVisible(true);
-        new HomeController(home);
-        
-        Session.setMainFrame(home);
+	    
+	    if (user.getRole() != null && user.getRole().equals("Administrador")) {
+	    	AdminView adminView = new AdminView();
+	    	adminView.setVisible(true);
+	    	Session.setMainFrame(adminView);
+	    } else {
+		    HomeView home = new HomeView();
+	        new HomeController(home);
+	        home.setVisible(true);
+	        
+	        Session.setMainFrame(home);
+	    }
 
 	    view.dispose();
 	}

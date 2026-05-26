@@ -26,18 +26,55 @@ import models.User;
 
 public class UserRepository {
 	
+	public User login(String email, String password) {
+		
+		String sql = "SELECT id_usuario, nombre, correo, rol, id_grupo FROM usuario "
+				+ "WHERE correo = ? AND contrasena = ?";
+		
+		try (
+			Connection conn = DatabaseConnection.getConnection();
+			PreparedStatement stmt = conn.prepareStatement(sql);
+		){
+			
+			stmt.setString(1, email);
+			stmt.setString(2, password);
+			ResultSet rs = stmt.executeQuery();
+			
+			if(rs.next()) {
+				Group group = new Group(
+						rs.getInt("id_grupo")
+				);
+				
+				User user = new User(
+						rs.getInt("id_usuario"),
+						rs.getString("nombre"),
+						rs.getString("correo"),
+						rs.getString("rol"),
+						group);
+				return user;
+			}
+			
+			
+		} catch(SQLException ex) {
+			ex.printStackTrace();
+		}
+		
+		return null;
+	}
+	
 	public void save(User user) throws IOException {		
-		String sql = "INSERT INTO usuario (nombre, correo, id_grupo, contraseña) "
-				+ "VALUES(?, ?, ?)";
+		String sql = "INSERT INTO usuario (nombre, correo, id_grupo, contrasena, rol) "
+				+ "VALUES(?, ?, ?, ?)";
 		
 		
 		try(Connection connection = DatabaseConnection.getConnection();
 			PreparedStatement pst = connection.prepareStatement(sql)) {
-
-			
+	
 			pst.setString(1, user.getName());
 			pst.setString(2, user.getEmail());
 			pst.setInt(3, user.getGroup().getId());
+			pst.setString(4, user.getPassword());
+			pst.setString(4, user.getRole());
 			
 			int affectedRows = pst.executeUpdate();
 			
@@ -69,9 +106,9 @@ public class UserRepository {
 			int affectedRows = pst.executeUpdate();
 			
 			if(affectedRows > 0) {
-				System.out.println("Usuario guardado");
+				System.out.println("Usuario registrado");
 			}else {
-				System.out.println("No se guardó al usuario");
+				System.out.println("No se registró al usuario");
 			}
 			
 		} catch(SQLException ex) {
@@ -101,6 +138,7 @@ public class UserRepository {
 					rs.getInt("id_usuario"), 
 					rs.getString("nombre"), 
 					rs.getString("correo"),
+					rs.getString("rol"),
 					group
 				);
 			}

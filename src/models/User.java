@@ -8,6 +8,7 @@ public class User {
 	private String email;
 	private String password;
 	private Group group;
+	private String role;
 	
 	public User() {
 		
@@ -33,7 +34,14 @@ public class User {
 		this.email = email;
 		this.name = name;
 		this.group = group;
-
+	}
+	
+	public User(int id, String name, String email, String role, Group group) {
+		this.id = id;
+		this.email = email;
+		this.name = name;
+		this.group = group;
+		this.role = role;
 	}
 	
 	public User(int id, String name, String email, int idGroup) {
@@ -104,6 +112,10 @@ public class User {
 
 	public String getPassword() {
 		return password;
+	}
+
+	public String getRole() {
+		return role;
 	}
 	
 	public String toString() {

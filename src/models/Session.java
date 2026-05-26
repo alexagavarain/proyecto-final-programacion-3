@@ -1,22 +1,21 @@
 package models;
 
 import java.util.List;
-
-import views.HomeView;
+import javax.swing.JFrame;
 
 public class Session {
 	
-	private static HomeView mainFrame;
+	private static JFrame mainFrame;
 
     private static User currentUser;
     
     private static List<Subject> currentSubjects;
     
-    public static HomeView getMainFrame() {
+    public static JFrame getMainFrame() {
 		return mainFrame;
 	}
 
-	public static void setMainFrame(HomeView main) {
+	public static void setMainFrame(JFrame main) {
 		Session.mainFrame = main;
 	}
 
