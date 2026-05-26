@@ -27,8 +27,6 @@ public class ClassesController {
     public void loadClasses() {
         List<Subject> classes = repo.getClasses(currentUser);
         
-        Session.setCurrentSubjects(classes);
-
         for(Subject subject : classes) {
         		        	
             SubjectCard card = new SubjectCard(subject);

@@ -1,5 +1,7 @@
 package controllers;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -37,6 +39,14 @@ public class TaskDialogController {
 	public TaskDialogController(TaskDialog view, TasksController tasksController) {
 		this.view = view;
 		this.tasksController = tasksController;
+		
+		view.addWindowListener(new WindowAdapter() {
+	        @Override
+	        public void windowClosing(WindowEvent e) {
+	        	handleClose();
+	        }
+	    });
+		
 		classesRepo = new ClassesRepository();
 		taskRepo = new TaskRepository();
 		user = Session.getCurrentUser();
@@ -173,6 +183,19 @@ public class TaskDialogController {
 		 view.getSubjectList().addActionListener(e -> {
 	                validateSubject();
 		 });
+	}
+	
+	private void handleClose() {
+		int option = JOptionPane.showConfirmDialog(
+                view,
+                "¿Seguro que deseas cancelar?",
+                "Cancelar tarea",
+                JOptionPane.YES_NO_OPTION
+            );
+
+            if (option == JOptionPane.YES_OPTION) {
+                view.dispose();
+            }
 	}
 	
 

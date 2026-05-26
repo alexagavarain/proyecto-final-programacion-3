@@ -1,32 +1,42 @@
 package controllers;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.List;
 
 import javax.swing.JOptionPane;
 
+import models.Session;
 import models.User;
 import repository.UserRepository;
 import tablemodel.UserTableModel;
 import views.HomeView;
+import views.LoginView;
+import views.TaskDialog;
 
 public class HomeController {
 
 	private HomeView view;
-	private UserController userController;
 	
 	public HomeController(HomeView view) {
 		this.view = view;
 		view.showView(HomeView.TASKS);
 		
+		view.addWindowListener(new WindowAdapter() {
+	        @Override
+	        public void windowClosing(WindowEvent e) {
+	        	handleClose();
+	        }
+	    });
+		
 		new TasksController(view.getTasksView());
 		new ClassesController(view.getClassesView());
 		
-		registerListeners();
-		
+		menuListeners();	
 	}
 	
-	public void registerListeners( ) {
+	public void menuListeners( ) {
 		view.getTasksBtn().addActionListener(e -> {
 			view.showView(HomeView.TASKS);
 		});
@@ -39,35 +49,40 @@ public class HomeController {
 		view.getProfileBtn().addActionListener(e -> {
 			view.showView(HomeView.PROFILE);
 		});
+		
+		view.getLogoutBtn().addActionListener(e -> {
+			logout();		
+		});
 	}
 	
-//	private void showUsers() {	
-//		if(userController == null) {
-//			userController = new UserController(view.usersPanel);
-//		}
-//			
-//		userController.loadUsers();
-//		
-//		view.showView(HomeView.USERS);
-//			updateMenuState(HomeView.USERS);
-//	}
-//	
-//	private void updateMenuState(String viewName) {
-//		view.btnUsers.setEnabled(!viewName.equals(HomeView.USERS));
-//		view.btnHome.setEnabled(!viewName.equals(HomeView.HOME));
-//	}
-	
-	
-	
+	private void logout() {
+		int option = JOptionPane.showConfirmDialog(
+                view,
+                "¿Seguro que deseas cerrar sesión?",
+                "Cerrar sesión",
+                JOptionPane.YES_NO_OPTION
+            );
+
+            if (option == JOptionPane.YES_OPTION) {
+            	LoginView login = new LoginView();
+            	new LoginController(login);
+            	Session.setCurrentUser(null);
+                view.dispose();
+            	login.setVisible(true);
+            }
+	}
 	
 	private void handleClose() {
-		/*int option = view.confirmExit();
-		System.out.println(option);
+		int option = JOptionPane.showConfirmDialog(
+                view,
+                "¿Seguro que deseas salir?",
+                "Cerrar aplicación",
+                JOptionPane.YES_NO_OPTION
+            );
 
-		if (option == JOptionPane.YES_OPTION) {
-			new LoginController(new LoginWindow().getLoginView());*/
-			view.dispose();
-		//}
+            if (option == JOptionPane.YES_OPTION) {
+                view.dispose();
+            }
 	}
 	
 }

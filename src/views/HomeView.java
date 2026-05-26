@@ -35,6 +35,8 @@ public class HomeView extends JFrame{
 	private JButton tasksBtn;
 	private JButton classesBtn;
 	private JButton profileBtn;
+	private JButton logoutBtn;
+	
 	private ProfileView profileView;
 	private ClassesView classesView;
 	private TasksView tasksView;
@@ -42,7 +44,7 @@ public class HomeView extends JFrame{
 	private JPanel container;
 	
 	public HomeView() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setTitle("Uni Tasks");
 		
@@ -56,6 +58,10 @@ public class HomeView extends JFrame{
 
 	public JButton getClassesBtn() {
 		return classesBtn;
+	}
+	
+	public JButton getLogoutBtn() {
+		return logoutBtn;
 	}
 
 	public JButton getProfileBtn() {
@@ -96,6 +102,7 @@ public class HomeView extends JFrame{
 	    tasksBtn = createBtn("Tareas");
 	    classesBtn = createBtn("Clases");
 	    profileBtn = createBtn("Mi perfil");
+	    logoutBtn = createBtn("Cerrar sesión");
 
 	    createSpace(20, btnPanel);
 	    btnPanel.add(tasksBtn);
@@ -103,6 +110,8 @@ public class HomeView extends JFrame{
 	    btnPanel.add(classesBtn);
 	    createSpace(10, btnPanel);
 	    btnPanel.add(profileBtn);
+	    createSpace(450, btnPanel);
+	    btnPanel.add(logoutBtn);
 
 	    sideBar.add(createAppLogo("UniTasks", 26), BorderLayout.NORTH);
 	    sideBar.add(btnPanel, BorderLayout.CENTER);
