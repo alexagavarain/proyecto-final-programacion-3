@@ -125,6 +125,8 @@ public class TaskRepository {
 		try(Connection connection = DatabaseConnection.getConnection();
 			PreparedStatement pst = connection.prepareStatement(sql)) {
 			
+			System.out.println(user.getId());
+			
 			pst.setString(1, task.getTitle());
 			pst.setString(2, task.getDescription());
 			pst.setTimestamp(3, Timestamp.valueOf(task.getDeadline()));

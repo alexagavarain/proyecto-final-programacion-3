@@ -44,6 +44,7 @@ public class TaskDialogController {
 	        @Override
 	        public void windowClosing(WindowEvent e) {
 	        	handleClose();
+	        	System.out.println("aqui");
 	        }
 	    });
 		

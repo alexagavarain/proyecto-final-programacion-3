@@ -53,22 +53,6 @@ public class TaskDialog extends JDialog {
 		String title = task == null ? "Agregar tarea" : "Editar tarea";
 
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-		addWindowListener(new WindowAdapter() {
-	        @Override
-	        public void windowClosing(WindowEvent e) {
-
-	            int option = JOptionPane.showConfirmDialog(
-	                TaskDialog.this,
-	                "¿Seguro que deseas cancelar?",
-	                "Cancelar tarea",
-	                JOptionPane.YES_NO_OPTION
-	            );
-
-	            if (option == JOptionPane.YES_OPTION) {
-	                dispose();
-	            }
-	        }
-	    });
 		
 		setSize(400, 600);
     	setTitle(title);

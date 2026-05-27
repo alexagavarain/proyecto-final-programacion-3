@@ -76,13 +76,11 @@ public class RegisterController {
 	        try {
 	            repository.saveRegister(user); 
 	            JOptionPane.showMessageDialog(panel, "Te has registrado correctamente");
-	            Session.setCurrentUser(user);
 	            
-	            HomeView home = new HomeView();
-	            new HomeController(home);
-	            home.setVisible(true);
+	            LoginView login = new LoginView();
+	            new LoginController(login);
+	            login.setVisible(true);
 	            
-	            Session.setMainFrame(home);
 	            view.dispose();
 
 	        } catch (Exception e) {

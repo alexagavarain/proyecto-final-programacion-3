@@ -34,14 +34,14 @@ public class Main {
 				try {
 //					RegisterView frame = new RegisterView();
 //					new RegisterController(frame);
-//					Session.setCurrentUser(repo.getUser(1));
+					Session.setCurrentUser(repo.getUser(1));
 //					System.out.println(Session.getCurrentUser().getGroup().getId());
 //					
 //					
-//					HomeView frame = new HomeView();
-//					new HomeController(frame);
-					LoginView frame = new LoginView();
-					new LoginController(frame);
+					HomeView frame = new HomeView();
+					new HomeController(frame);
+//					LoginView frame = new LoginView();
+//					new LoginController(frame);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
