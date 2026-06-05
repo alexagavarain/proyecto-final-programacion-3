@@ -9,6 +9,8 @@ public class User {
 	private String password;
 	private Group group;
 	private String role;
+	private int pendingTasks;
+	private int completedTasks;
 	
 	public User() {
 		
@@ -116,6 +118,22 @@ public class User {
 
 	public String getRole() {
 		return role;
+	}
+	
+	public void setPendingTasks(int pendingTasks) {
+		this.pendingTasks = pendingTasks;
+	}
+	
+	public void setCompletedTasks(int completedTasks) {
+		this.completedTasks = completedTasks;
+	}
+	
+	public int getPendingTasks() {
+		return pendingTasks;
+	}
+	
+	public int getCompletedTasks() {
+		return completedTasks;
 	}
 	
 	public String toString() {

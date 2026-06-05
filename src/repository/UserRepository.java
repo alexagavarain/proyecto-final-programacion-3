@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 import config.DatabaseConnection;
+import models.Career;
 import models.Group;
 import models.User;
 
@@ -119,7 +120,7 @@ public class UserRepository {
 	public User getUser(int id) throws IOException {
 		User user = null;
 		
-		String sql = "SELECT * FROM usuario WHERE id_usuario = ?";
+		String sql = "SELECT * FROM user_data WHERE id_usuario = ?";
 		
 		try(Connection connection = DatabaseConnection.getConnection();
 			PreparedStatement pst = connection.prepareStatement(sql)) {
@@ -130,8 +131,17 @@ public class UserRepository {
 			
 			if(rs.next()) {
 				
+				Career career = new Career(
+						rs.getInt("id_carrera"),
+						rs.getString("carrera")
+						);
+				
 				Group group = new Group(
-						rs.getInt("id_grupo")
+						rs.getInt("id_grupo"),
+						rs.getString("grupo"),
+						rs.getInt("semestre"),
+						rs.getString("turno"),
+						career	
 					);
 				
 				user = new User(

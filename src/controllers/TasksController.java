@@ -20,10 +20,12 @@ public class TasksController {
 
     private TasksView view;
     private TaskRepository repo;
+    private User user;
 
     public TasksController(TasksView view) {
         this.view = view;
         repo = new TaskRepository();
+        user = Session.getCurrentUser();
 
         addBtnListener();
         loadTasks();
@@ -41,6 +43,9 @@ public class TasksController {
         User currentUser = Session.getCurrentUser();
 
         List<Task> tasks = repo.getTasks(currentUser);
+        
+        int pendingTasks = 0;
+        int completedTasks = 0;
 
         for(Task task : tasks) {
         	        	
@@ -72,22 +77,37 @@ public class TasksController {
             };
 
             addListenerToAll(component, listener);
-
-            view.getTaskContainer().add(component);
             
+            if(task.getStatus().equals("Pendiente")) {
+            	pendingTasks++;
+                view.getPendingTasksPnl().add(component);
+            } else {
+            	completedTasks++;
+            	view.getCompletedTasksPnl().add(component);
+            }    
         }
 
+        user.setPendingTasks(pendingTasks);
+        user.setCompletedTasks(completedTasks);
+        
+        System.out.println(pendingTasks + ", " + completedTasks);
+        
+        view.getTasksCount().setText(user.getPendingTasks() + " pendientes · " + user.getCompletedTasks() + " completadas");
+        
         view.revalidate();
         view.repaint();
     }
     
     public void reloadTasks() {
-        view.getTaskContainer().removeAll();
+        view.getPendingTasksPnl().removeAll();
+        view.getCompletedTasksPnl().removeAll();
 
         loadTasks();
 
-        view.getTaskContainer().revalidate();
-        view.getTaskContainer().repaint();
+        view.getCompletedTasksPnl().revalidate();
+        view.getCompletedTasksPnl().repaint();
+        view.getPendingTasksPnl().revalidate();
+        view.getPendingTasksPnl().repaint();
     }
     
     private void addListenerToAll(Component component, MouseListener listener) {

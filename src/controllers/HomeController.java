@@ -26,7 +26,8 @@ public class HomeController {
 		view.addWindowListener(new WindowAdapter() {
 	        @Override
 	        public void windowClosing(WindowEvent e) {
-	        	handleClose();
+	        	view.dispose();
+//	        	handleClose();
 	        }
 	    });
 		

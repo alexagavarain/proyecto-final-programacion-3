@@ -5,50 +5,38 @@ import javax.swing.JPanel;
 
 import utils.AppColors;
 import utils.CreateFont;
+import utils.IconLoader;
 import utils.InputField;
 import utils.Label;
 import utils.TextPrompt;
 
 import javax.swing.SwingConstants;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.text.JTextComponent;
 
-import controllers.RegisterController;
-import exceptions.InvalidEmailException;
-import exceptions.InvalidPasswordException;
 
-import javax.imageio.ImageIO;
+import controllers.RegisterController;
+
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-
-import java.awt.Image;
 
 import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.awt.event.ActionEvent;
 
 public class LoginView extends JFrame {
@@ -133,7 +121,7 @@ public class LoginView extends JFrame {
 		
 		createSpace(10, contentPane);
 		
-		JButton registerButton = createRegisterBtn();
+		createRegisterBtn();
 	}
 	
 	private JPanel createMainPanel() {
@@ -155,10 +143,9 @@ public class LoginView extends JFrame {
 	}
 	
 	private void createLogoImage(JPanel container) {
-		JLabel lblLogo = new JLabel();
-		lblLogo.setBounds(145, 50, 100, 100);
-		lblLogo.setIcon(uploadIcon("/assets/img/logo.png", 30, 30));
-		container.add(lblLogo);
+	    JLabel lblLogo = new JLabel();
+	    lblLogo.setIcon(IconLoader.getIcon("/assets/img/logo.svg", 40, 40));  
+	    container.add(lblLogo);
 	}
 	
 	private JPanel createAlignPanel() {
@@ -345,19 +332,6 @@ public class LoginView extends JFrame {
 		container.add(button);
 		return button;
 	}
-	
-	private ImageIcon uploadIcon(String ruta, int w, int h) {
-
-		try {
-			Image icono = ImageIO.read(getClass().getResource(ruta));
-			icono = icono.getScaledInstance(w, h, Image.SCALE_SMOOTH);
-			return new ImageIcon(icono);
-		} catch(Exception ex) {
-			System.out.println("Image not found");
-		}
-		
-		return null;
-	}	
 	
 	private void fieldFocus(JTextComponent field) {
 		addWindowListener(new WindowAdapter() {

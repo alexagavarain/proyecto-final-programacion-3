@@ -40,6 +40,7 @@ public class TaskDialog extends JDialog {
 	private JTextArea description;	
 	private JComboBox<Subject> subjectList;
 	private JSpinner dateSpinner;
+	private JComboBox<String> statusList;
 
 	private JButton saveButton;
 	
@@ -84,6 +85,10 @@ public class TaskDialog extends JDialog {
 
 	public JSpinner getDateSpinner() {
 		return dateSpinner;
+	}
+	
+	public JComboBox<String> getStatusList() {
+		return statusList;
 	}
 	
 	public Label getTitleError() {
@@ -147,13 +152,19 @@ public class TaskDialog extends JDialog {
 
 	    dateSpinner.setEditor(editor);
 	    dateSpinner.setMaximumSize(fieldSize);
+	    
+	    statusList = new JComboBox<>();
+	    statusList.setMaximumSize(fieldSize);
+	    statusList.addItem("Pendiente");
+	    statusList.addItem("Completada");
 	    	    
-		panel.add(createField("Titulo:", title)); 
+		panel.add(createField("Titulo", title)); 
 		panel.add(titleError);
-		panel.add(createField("Descripcion:", descriptionScroll));
-		panel.add(createField("Materia:", subjectList));
+		panel.add(createField("Descripcion", descriptionScroll));
+		panel.add(createField("Materia", subjectList));
 		panel.add(subjectError);
-		panel.add(createField("Fecha de entrega:", dateSpinner));
+		panel.add(createField("Fecha de entrega", dateSpinner));
+		panel.add(createField("Estado", statusList));
 		panel.add((Box.createVerticalStrut(30)));
 		panel.add(createSaveButton());
 			 

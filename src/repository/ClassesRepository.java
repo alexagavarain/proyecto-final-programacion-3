@@ -10,10 +10,8 @@ import java.util.List;
 import config.DatabaseConnection;
 import models.GroupSubject;
 import models.Professor;
-import models.Session;
 import models.Subject;
 import models.SubjectProfessor;
-import models.Task;
 import models.User;
 
 public class ClassesRepository {

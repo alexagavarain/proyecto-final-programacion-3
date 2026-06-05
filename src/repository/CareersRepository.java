@@ -15,7 +15,6 @@ public class CareersRepository {
 	public List<Career> getCareers() {
 		List<Career> careers = new ArrayList<Career>();
 
-		
 		try(Connection connection = DatabaseConnection.getConnection();
 			Statement st = connection.createStatement();
 			ResultSet rs = st.executeQuery("SELECT * FROM carrera"); ) {
