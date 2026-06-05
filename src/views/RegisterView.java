@@ -31,12 +31,12 @@ import javax.swing.text.JTextComponent;
 
 import controllers.RegisterController;
 import models.Career;
-import models.Session;
 import models.Subject;
 import utils.AppColors;
 import utils.CreateFont;
 import utils.InputField;
 import utils.Label;
+import utils.Session;
 import utils.TextPrompt;
 
 public class RegisterView extends JFrame{

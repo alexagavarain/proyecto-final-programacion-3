@@ -25,12 +25,12 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
 import javax.swing.SwingConstants;
 
-import models.Session;
 import models.Subject;
 import models.Task;
 import utils.AppColors;
 import utils.CreateFont;
 import utils.Label;
+import utils.Session;
 
 public class TaskDialog extends JDialog {
 	
@@ -51,7 +51,7 @@ public class TaskDialog extends JDialog {
 		super(parent, true); 
 		this.task = task;
 		System.out.println(task == null);
-		String title = task == null ? "Agregar tarea" : "Editar tarea";
+		String title = task == null ? "Nueva tarea" : "Editar tarea";
 
 		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
 		

@@ -18,9 +18,9 @@ import javax.swing.event.DocumentListener;
 import models.User;
 import repository.ClassesRepository;
 import repository.TaskRepository;
+import utils.Session;
 import models.Career;
 import models.GroupSubject;
-import models.Session;
 import models.Subject;
 import models.SubjectProfessor;
 import models.Task;
@@ -44,7 +44,6 @@ public class TaskDialogController {
 	        @Override
 	        public void windowClosing(WindowEvent e) {
 	        	handleClose();
-	        	System.out.println("aqui");
 	        }
 	    });
 		
@@ -64,7 +63,7 @@ public class TaskDialogController {
 				if (save()) {
 					JOptionPane.showMessageDialog(view, "Se ha guardado la tarea");
 		            view.dispose();
-		            tasksController.reloadTasks();
+//		            tasksController.reloadTasks();
 				} else {
 					JOptionPane.showMessageDialog(view, "No se pudo guardar la tarea");
 				}

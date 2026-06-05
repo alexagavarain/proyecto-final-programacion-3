@@ -11,10 +11,10 @@ import java.util.List;
 import config.DatabaseConnection;
 import models.GroupSubject;
 import models.Professor;
-import models.Session;
 import models.Subject;
 import models.Task;
 import models.User;
+import utils.Session;
 
 public class TaskRepository {
 		
@@ -43,6 +43,48 @@ public class TaskRepository {
 						professor
 						);
 								
+				GroupSubject groupSubject = new GroupSubject(
+						rs.getInt("id_grupo_materia"),
+						user.getGroup(),						
+						subject
+				);
+				
+				Task task = new Task(
+					rs.getInt("id_tarea"), 
+					rs.getString("titulo"), 
+					rs.getString("descripcion"),
+					rs.getTimestamp("fecha_entrega").toLocalDateTime(),
+					rs.getString("estado"),
+					user,
+					groupSubject
+				);
+				
+				tasks.add(task);
+			}
+			
+		} catch(SQLException ex) {
+			ex.printStackTrace();
+		}
+		
+		return tasks;
+	}
+	
+	public List<Task> getSubjectTasks(User user, Subject subject) {
+		List<Task> tasks = new ArrayList<Task>();
+
+		String sql = "SELECT * FROM vista_tarea WHERE id_usuario = ? AND id_materia = ? "
+				+ "ORDER BY fecha_entrega ASC";
+		
+		try(Connection connection = DatabaseConnection.getConnection();
+			PreparedStatement pst = connection.prepareStatement(sql)) {
+			
+			pst.setInt(1, user.getId());
+			pst.setInt(2, subject.getId());
+			
+			ResultSet rs = pst.executeQuery(); 
+			
+			while(rs.next()) {
+							
 				GroupSubject groupSubject = new GroupSubject(
 						rs.getInt("id_grupo_materia"),
 						user.getGroup(),						
@@ -124,9 +166,7 @@ public class TaskRepository {
 		
 		try(Connection connection = DatabaseConnection.getConnection();
 			PreparedStatement pst = connection.prepareStatement(sql)) {
-			
-			System.out.println(user.getId());
-			
+						
 			pst.setString(1, task.getTitle());
 			pst.setString(2, task.getDescription());
 			pst.setTimestamp(3, Timestamp.valueOf(task.getDeadline()));

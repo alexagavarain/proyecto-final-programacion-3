@@ -6,13 +6,12 @@ import java.awt.EventQueue;
 import javax.swing.UIManager;
 
 import com.formdev.flatlaf.FlatLightLaf;
-import com.formdev.flatlaf.extras.FlatSVGIcon;
 
 import controllers.HomeController;
 import controllers.LoginController;
-import models.Session;
 import repository.UserRepository;
 import utils.CreateFont;
+import utils.Session;
 
 public class Main {
 
@@ -36,9 +35,7 @@ public class Main {
 //					new RegisterController(frame);
 					
 					Session.setCurrentUser(repo.getUser(1));
-//					System.out.println(Session.getCurrentUser().getGroup().getCareer());
-//					
-//					
+				
 					HomeView frame = new HomeView();
 					new HomeController(frame);
 //					LoginView frame = new LoginView();

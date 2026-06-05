@@ -23,7 +23,8 @@ public class CareersRepository {
 			
 				Career career = new Career(
 					rs.getInt("id_carrera"),
-					rs.getString("nombre")
+					rs.getString("nombre"),
+					rs.getString("siglas")
 				);
 				
 				careers.add(career);

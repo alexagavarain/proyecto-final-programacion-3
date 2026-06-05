@@ -3,7 +3,14 @@ package models;
 public class Career {
 	
 	private int id;
-	public String name;
+	private String name;
+	private String abb;
+	
+	public Career(int id, String name, String abb) {
+		this.id = id;
+		this.name = name;
+		this.abb = abb;
+	}
 	
 	public Career(int id, String name) {
 		this.id = id;
@@ -28,6 +35,10 @@ public class Career {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public String getAbb() {
+		return abb;
 	}
 
 	@Override

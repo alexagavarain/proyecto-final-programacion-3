@@ -2,10 +2,10 @@ package controllers;
 
 import java.util.List;
 
-import models.Session;
 import models.Subject;
 import models.User;
 import repository.ClassesRepository;
+import utils.Session;
 import views.ClassesView;
 import views.SubjectCard;
 

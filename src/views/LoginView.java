@@ -87,7 +87,7 @@ public class LoginView extends JFrame {
 		
 		JPanel appLogo = createAppLogo("UniTasks", 28);
 		contentPane.add(appLogo);
-		createSpace(60, contentPane);
+		createSpace(50, contentPane);
 		
 		JPanel descText = createAlignPanel();
 		
@@ -109,7 +109,7 @@ public class LoginView extends JFrame {
 		
 		createLoginFields(contentPane);
 		
-		createSpace(6, contentPane);
+		createSpace(12, contentPane);
 		
 		JPanel secondaryOptionPanel = createSecondaryOptionPanel();
 		

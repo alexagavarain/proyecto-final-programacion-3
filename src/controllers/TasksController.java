@@ -8,10 +8,17 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.List;
-import models.Session;
+
+import javax.swing.JButton;
+
+import models.Subject;
 import models.Task;
 import models.User;
+import repository.ClassesRepository;
 import repository.TaskRepository;
+import utils.Session;
+import utils.SubjectButton;
+import utils.SubjectColors;
 import views.TaskDialog;
 import views.TaskCard;
 import views.TasksView;
@@ -20,15 +27,19 @@ public class TasksController {
 
     private TasksView view;
     private TaskRepository repo;
+    private ClassesRepository classesRepo;
     private User user;
 
     public TasksController(TasksView view) {
         this.view = view;
         repo = new TaskRepository();
+        classesRepo = new ClassesRepository();
         user = Session.getCurrentUser();
 
         addBtnListener();
-        loadTasks();
+        loadSubjectMenu();
+        subjectBtnListeners();
+        loadTasks(null);
     }
     
     public void addBtnListener() {
@@ -38,19 +49,48 @@ public class TasksController {
 			dialog.setVisible(true);
 		});
     }
+    
+    public void loadSubjectMenu() {
+    	view.addAllTasksBtn();
+    	
+    	List<Subject> subjects = classesRepo.getClasses(user);
+    	
+    	for (Subject subject : subjects) { 
+    		assignSubjectColors(subject);
+    		view.addSubjectBtn(subject);
+    	}
+   
+    	Session.setCurrentSubjects(subjects);
 
-    public void loadTasks() {
-        User currentUser = Session.getCurrentUser();
+    }
+    
+    public void subjectBtnListeners() {
+    	List<SubjectButton> subjectBtns = view.getSubjectBtns();
+    	    	
+    	for (SubjectButton btn : subjectBtns) {
+    		btn.addActionListener(e -> {
+    			loadTasks(btn.getSubject());
+    		});
+    	}
+    }
 
-        List<Task> tasks = repo.getTasks(currentUser);
-        
-        int pendingTasks = 0;
+    public void loadTasks(Subject subject) {
+    	int pendingTasks = 0;
         int completedTasks = 0;
+        
+    	view.getPendingTasksPnl().removeAll();
+    	view.getCompletedTasksPnl().removeAll();
+    	
+    	List<Task> tasks;
+
+    	if (subject == null) {
+            tasks = repo.getTasks(user);
+    	} else {
+            tasks = repo.getSubjectTasks(user, subject);
+    	}
 
         for(Task task : tasks) {
-        	        	
-        	task.setSubjectColor(new Color(121, 121, 121));
-
+        	        
             TaskCard component = new TaskCard(task);
                         
             MouseAdapter listener = new MouseAdapter() {
@@ -95,17 +135,17 @@ public class TasksController {
         view.repaint();
     }
     
-    public void reloadTasks() {
-        view.getPendingTasksPnl().removeAll();
-        view.getCompletedTasksPnl().removeAll();
-
-        loadTasks();
-
-        view.getCompletedTasksPnl().revalidate();
-        view.getCompletedTasksPnl().repaint();
-        view.getPendingTasksPnl().revalidate();
-        view.getPendingTasksPnl().repaint();
-    }
+//    public void reloadTasks() {
+//        view.getPendingTasksPnl().removeAll();
+//        view.getCompletedTasksPnl().removeAll();
+//
+//        loadTasks();
+//
+//        view.getCompletedTasksPnl().revalidate();
+//        view.getCompletedTasksPnl().repaint();
+//        view.getPendingTasksPnl().revalidate();
+//        view.getPendingTasksPnl().repaint();
+//    }
     
     private void addListenerToAll(Component component, MouseListener listener) {
         component.addMouseListener(listener);
@@ -117,5 +157,38 @@ public class TasksController {
             }
         }
     }
+    
+    public void assignSubjectColors(Subject subject) {
+		switch(subject.getName()) {
+		case "Inglés IV":
+			subject.setColor(SubjectColors.ENG_COLOR);
+			subject.setSubColor(SubjectColors.ENG_SUBCOLOR);
+			break;
+		case "Estructura de Datos II":
+			subject.setColor(SubjectColors.DS_COLOR);
+			subject.setSubColor(SubjectColors.DS_SUBCOLOR);
+			break;
+		case "Interacción Humano-Computadora":
+			subject.setColor(SubjectColors.HCI_COLOR);
+			subject.setSubColor(SubjectColors.HCI_SUBCOLOR);
+			break;
+		case "Base de Datos I":
+			subject.setColor(SubjectColors.DB_COLOR);
+			subject.setSubColor(SubjectColors.DB_SUBCOLOR);
+			break;
+		case "Métodos Numéricos":
+			subject.setColor(SubjectColors.NUM_COLOR);
+			subject.setSubColor(SubjectColors.NUM_SUBCOLOR);
+			break;
+		case "Paradigmas de Programación":
+			subject.setColor(SubjectColors.PDGM_COLOR);
+			subject.setSubColor(SubjectColors.PDGM_SUBCOLOR);
+			break;
+		case "Programación III":
+			subject.setColor(SubjectColors.PROG_COLOR);
+			subject.setSubColor(SubjectColors.PROG_SUBCOLOR);
+			break;
+		}
+	}
 
 }

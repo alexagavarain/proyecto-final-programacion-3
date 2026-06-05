@@ -4,10 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -16,11 +14,12 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-import models.Session;
+
 import utils.AppColors;
 import utils.CreateFont;
 import utils.IconLoader;
 import utils.Label;
+import utils.Session;
 
 public class HomeView extends JFrame{
 		
@@ -87,7 +86,7 @@ public class HomeView extends JFrame{
 	    sideBar.setPreferredSize(new Dimension(250, getHeight()));
 	    sideBar.setBackground(AppColors.sideBar);
 
-	    createSpace(20, sideBar);
+	    createSpace(30, sideBar);
 	    JPanel logo = createAppLogo();
 	    JPanel summary = createUserSummary();
 	    JPanel buttons = createBtnPanel();
@@ -122,25 +121,22 @@ public class HomeView extends JFrame{
 	    userSummary.setMaximumSize(new Dimension(Integer.MAX_VALUE, 80));
 	    userSummary.setBorder(BorderFactory.createCompoundBorder(
 	    		BorderFactory.createMatteBorder(1, 0, 1, 0, AppColors.iceGrey), 
-	    		BorderFactory.createEmptyBorder(10, 0, 10, 0)));
+	    		BorderFactory.createEmptyBorder(12, 5, 10, 0)));
 	    userSummary.setOpaque(false);
 	    
 	    JPanel userInfo = new JPanel();
 	    userInfo.setLayout(new BoxLayout(userInfo, BoxLayout.Y_AXIS));
 	    userInfo.setOpaque(false);
 	    
-	    Label username = new Label(Session.getCurrentUser().getName(), 11, false);
-	    Label userCareer = new Label(Session.getCurrentUser().getGroup().getCareer().getName(), 11, true, AppColors.menuItem);
-	    Label userSemester = new Label("Semestre " + Session.getCurrentUser().getGroup().getSemester(), 11, true, AppColors.menuItem);
+	    Label username = new Label(Session.getCurrentUser().getName(), 12, false);
+	    Label userCareer = new Label(Session.getCurrentUser().getGroup().getCareer().getAbb() + " · Sem. " + Session.getCurrentUser().getGroup().getSemester(), 12, true, AppColors.menuItem);
 	    username.setAlignmentX(Component.LEFT_ALIGNMENT);
 	    userCareer.setAlignmentX(Component.LEFT_ALIGNMENT);
-	    userSemester.setAlignmentX(Component.LEFT_ALIGNMENT);
 	    
 	    userInfo.add(username);
 	    userInfo.add(Box.createVerticalStrut(4));
 	    userInfo.add(userCareer);
 	    userInfo.add(Box.createVerticalStrut(4));
-	    userInfo.add(userSemester);
 	    
 	    JButton pfp = new JButton(IconLoader.getIcon("/assets/img/pfp.svg", 30, 30));
 	    pfp.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));	    
@@ -170,6 +166,7 @@ public class HomeView extends JFrame{
 	    button.putClientProperty("JButton.buttonType", "roundRect");
 	    button.putClientProperty("JButton.arc", 12);
 	    button.setIconTextGap(12);
+		button.setCursor(new Cursor(Cursor.HAND_CURSOR));
 	    return button;
 	}
 

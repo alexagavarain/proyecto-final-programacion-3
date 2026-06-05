@@ -1,7 +1,7 @@
 package controllers;
 
-import models.Session;
 import models.User;
+import utils.Session;
 import views.ProfileView;
 
 public class ProfileController {

@@ -33,7 +33,8 @@ public class UserRepository {
 				
 				Career career = new Career(
 						rs.getInt("id_carrera"),
-						rs.getString("carrera")
+						rs.getString("carrera"),
+						rs.getString("siglas")
 						);
 				
 				Group group = new Group(
@@ -127,10 +128,11 @@ public class UserRepository {
 			ResultSet rs = pst.executeQuery(); 
 			
 			if(rs.next()) {
-				
+								
 				Career career = new Career(
 						rs.getInt("id_carrera"),
-						rs.getString("carrera")
+						rs.getString("carrera"),
+						rs.getString("siglas")
 						);
 				
 				Group group = new Group(
@@ -153,7 +155,7 @@ public class UserRepository {
 		}catch(SQLException ex ) {
 			ex.printStackTrace();
 		}
-		
+				
 		return user;
 				
 	}
@@ -250,7 +252,6 @@ public class UserRepository {
 			
 			if (rs.next()) {
 					carreerId = rs.getInt("id_carrera");
-					System.out.println(carreerId);
 				}
 			
 		} catch(SQLException ex ) {
@@ -259,73 +260,6 @@ public class UserRepository {
 		
 		return carreerId;
 	}
-	
-	public int getGroupId(User user) throws SQLException {
-		//TODO: agregar semestre
-		
-		int groupId = -1;
-		int careerId = getCarreerId(user);
-		
-		String sql = "SELECT id_grupo FROM grupo  "
-				+ "WHERE nombre = ? "
-				+ "AND semestre = ? "
-				+ "AND turno = ? "
-				+ "AND id_carrera = ?";
-		
-		try (Connection connection = DatabaseConnection.getConnection();
-				PreparedStatement pst = connection.prepareStatement(sql)) {
-			
-			pst.setString(1, user.getGroup().getName());
-			pst.setInt(2, 1);
-			pst.setString(3, user.getGroup().getName());
-			pst.setInt(4, careerId);
-			
-			ResultSet rs = pst.executeQuery(); 
-			
-			if (rs.next()) {
-					groupId = rs.getInt("id_grupo");
-				}
-			
-		} catch(SQLException ex ) {
-			ex.printStackTrace();
-		}
-		
-		return groupId;
-	}
-	
-//	public void returnGroupData(User user) {
-//		
-//		int idGroup = user.getIdGroup();
-//				
-//		String sql = "SELECT grupo.nombre AS grupo, "
-//		        + "grupo.semestre, "
-//		        + "grupo.turno, "
-//		        + "carrera.nombre AS carrera "
-//		        + "FROM grupo "
-//		        + "INNER JOIN carrera "
-//		        + "ON grupo.id_carrera = carrera.id_carrera "
-//		        + "WHERE grupo.id_grupo =  ?";
-//		
-//		try (Connection connection = DatabaseConnection.getConnection();
-//			PreparedStatement pst = connection.prepareStatement(sql))
-//		{
-//			pst.setInt(1, idGroup);
-//			
-//			ResultSet rs = pst.executeQuery(); 
-//			
-//			if (rs.next()) {
-//					
-//					
-//					System.out.println("Turno: " + rs.getString("turno"));
-//					user.setGrupo(rs.getString("grupo"));
-//					user.setTurno(rs.getString("turno"));
-//					user.setCareer(rs.getString("carrera"));
-//			}
-//			
-//		} catch(SQLException ex ) {
-//			ex.printStackTrace();
-//		}
-//	}
 
 			
 }

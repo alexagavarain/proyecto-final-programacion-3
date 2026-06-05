@@ -12,10 +12,10 @@ import javax.swing.event.DocumentListener;
 
 import exceptions.InvalidEmailException;
 import exceptions.InvalidPasswordException;
-import models.Session;
 import models.User;
 import repository.UserRepository;
 import utils.InputField;
+import utils.Session;
 import views.AdminView;
 import views.HomeView;
 import views.LoginView;
@@ -75,7 +75,6 @@ public class LoginController {
 	    }
 	    
 	    Session.setCurrentUser(user);
-	    System.out.println(Session.getCurrentUser().getGroup().getCareer());
 	    
 	    if (user.getRole() != null && user.getRole().equals("Administrador")) {
 	    	AdminView adminView = new AdminView();

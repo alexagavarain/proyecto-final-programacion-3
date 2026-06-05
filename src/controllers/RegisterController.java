@@ -19,12 +19,12 @@ import javax.swing.text.JTextComponent;
 
 import models.Career;
 import models.Group;
-import models.Session;
 import models.User;
 import repository.CareersRepository;
 import repository.GroupRepository;
 import repository.UserRepository;
 import utils.AppColors;
+import utils.Session;
 import views.HomeView;
 import views.LoginView;
 import views.RegisterView;
