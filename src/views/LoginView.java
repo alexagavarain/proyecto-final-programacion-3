@@ -85,27 +85,27 @@ public class LoginView extends JFrame {
 		contentPane = createMainPanel();
 		setContentPane(contentPane);
 		
-		JPanel appLogo = createAppLogo("UniTasks", 30);
+		JPanel appLogo = createAppLogo("UniTasks", 28);
 		contentPane.add(appLogo);
 		createSpace(60, contentPane);
 		
 		JPanel descText = createAlignPanel();
 		
-		Label welcomeMessage = new Label ("Bienvenid@", 18, false);
+		Label welcomeMessage = new Label ("Bienvenid@", 16, false);
 		descText.add(welcomeMessage);
 		createSpace(15, contentPane);
 		
 		descText.add(Box.createHorizontalStrut(100));
 		
-		Label message = new Label ("Inicia sesión para continuar", 14, true);
+		Label message = new Label ("Inicia sesión para continuar", 13, true);
 		message.setForeground(AppColors.subtitle);
 		descText.add(message);
 		
 		contentPane.add(descText);
 		createSpace(25, contentPane);
 		
-		emailError = createErrorLabel("", 175);
-		passwordError = createErrorLabel("", 175);
+		emailError = createErrorLabel("", 174);
+		passwordError = createErrorLabel("", 147);
 		
 		createLoginFields(contentPane);
 		
@@ -133,7 +133,7 @@ public class LoginView extends JFrame {
 	}
 	
 	private JPanel createAppLogo(String appName, int fontSize) {
-		JPanel appLogo = new JPanel(new FlowLayout(FlowLayout.LEFT, 15, 0));
+		JPanel appLogo = new JPanel(new FlowLayout(FlowLayout.LEFT, 13, 0));
 		createLogoImage(appLogo);
 		createTitle(appLogo, appName, fontSize);
 		appLogo.setMaximumSize(new Dimension(330, 50));
@@ -144,7 +144,7 @@ public class LoginView extends JFrame {
 	
 	private void createLogoImage(JPanel container) {
 	    JLabel lblLogo = new JLabel();
-	    lblLogo.setIcon(IconLoader.getIcon("/assets/img/logo.svg", 40, 40));  
+	    lblLogo.setIcon(IconLoader.getIcon("/assets/img/logo.svg", 45, 45));  
 	    container.add(lblLogo);
 	}
 	
@@ -159,7 +159,7 @@ public class LoginView extends JFrame {
 	public void createLabel(JPanel container, String containerName, float fontSize, int rightBorder) {
 		JLabel lbl = new JLabel(containerName);
 		lbl.setFont(CreateFont.DEFAULT.deriveFont(fontSize));		
-		lbl.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, rightBorder));
+		lbl.setBorder(BorderFactory.createEmptyBorder(0, 0, 3, rightBorder));
 		lbl.setAlignmentX(CENTER_ALIGNMENT);
 		container.add(lbl);
 	}
@@ -195,14 +195,14 @@ public class LoginView extends JFrame {
 	}
 	
 	private JPanel createLoginFields(JPanel container) {
-		createLabel(container, "Correo electrónico", 14, 185);
+		createLabel(container, "Correo electrónico", 12, 193);
  		emailTextField = createEmailField("estudiante@alu.uabcs.mx");
 		container.add(emailTextField);
 		container.add(emailError);
 		
 		createSpace(10, container);
 		
-		createLabel(container, "Contraseña", 14, 228);
+		createLabel(container, "Contraseña", 12, 233);
 		passwordField = createPasswordField();
 		container.add(passwordField);
 		container.add(passwordError);
@@ -303,7 +303,7 @@ public class LoginView extends JFrame {
 	}
 	
 	public Label createErrorLabel(String text, int align) {
-		Label errorLabel = new Label(text, 12, false);
+		Label errorLabel = new Label(text, 11, true);
 		errorLabel.setForeground(new Color(200, 10, 10));
 		errorLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, align));
 		errorLabel.setAlignmentX(CENTER_ALIGNMENT);
@@ -316,10 +316,6 @@ public class LoginView extends JFrame {
 	
 	public JButton createButton(JPanel container, String name, int width, int length, Color background, Color foreground) {
 		JButton button = new JButton(name);
-		button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 		button.setMaximumSize(new Dimension(width, length));
 		button.setPreferredSize(new Dimension(width, length));
 		button.setBackground(background);

@@ -19,6 +19,7 @@ import javax.swing.SwingConstants;
 
 import utils.AppColors;
 import utils.CreateFont;
+import utils.IconLoader;
 import utils.WrapLayout;
 
 public class TasksView extends JPanel {
@@ -60,6 +61,7 @@ public class TasksView extends JPanel {
 	
 	public JButton createAddBtn() {
 		addBtn = new JButton ("Nueva tarea");
+	    addBtn.setIcon(IconLoader.getIcon("/assets/img/add.svg", 20, 20));  
 		addBtn.setBackground(AppColors.primaryAccent);
 		addBtn.setForeground(Color.WHITE);
 		return addBtn;
@@ -83,17 +85,17 @@ public class TasksView extends JPanel {
 		titlePanel.add(tasksCount);
 		
 		container.add(titlePanel, BorderLayout.WEST);
-
 	}
 	
 	public void createSpace(JPanel container, int pixels) {
 		container.add(Box.createVerticalStrut(pixels));
 	}
 	
-	private JPanel subtitlePnl(String text) {
+	private JPanel subtitlePnl(String text, String iconPath) {
 		JPanel container = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		container.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
 		JLabel subtitle = new JLabel(text);
+		subtitle.setIcon(IconLoader.getIcon(iconPath, 10, 10));
 		container.add(subtitle);
 		return container;
 	}
@@ -106,10 +108,10 @@ public class TasksView extends JPanel {
 				
 		completedTasksPnl = new JPanel(new WrapLayout(FlowLayout.LEFT, 20, 20));
 				
-		taskContainer.add(subtitlePnl("PENDIENTES"));
+		taskContainer.add(subtitlePnl("PENDIENTES", "/assets/img/pending.svg"));
 		taskContainer.add(pendingTasksPnl);
 		
-		taskContainer.add(subtitlePnl("COMPLETADAS"));
+		taskContainer.add(subtitlePnl("COMPLETADAS", "/assets/img/completed.svg"));
 		taskContainer.add(completedTasksPnl);
 		
 		JScrollPane scroll = new JScrollPane(taskContainer);

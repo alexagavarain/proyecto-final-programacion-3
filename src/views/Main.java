@@ -18,13 +18,17 @@ public class Main {
 
 	public static void main(String[] args) {
 		
+		try {
+	        FlatLightLaf.setup();
+	        UIManager.put("Panel.background", Color.WHITE);
+	    } catch (Exception e) {
+	        System.err.println("No se pudo inicializar FlatLaf");
+	    }
+		
 		UserRepository repo = new UserRepository();
-				
-		FlatLightLaf.setup();
-		UIManager.put("Panel.background", Color.WHITE);
-		
+			
 		CreateFont.loadFont();
-		
+
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {

@@ -59,7 +59,7 @@ public class LoginController {
 	 		    return;
 	 	    }
 	    } catch(InvalidEmailException e) {
-    		view.getEmailError().setText(e.getMessage() + "             ");
+    		view.getEmailError().setText(e.getMessage());
     		return;
 	    }
 
@@ -70,11 +70,12 @@ public class LoginController {
 	    
 
 	    if(user == null) {
-	        view.getPasswordError().setText("Credenciales incorrectas");
+	        view.getPasswordError().setText("Credenciales incorrectas" + "      ");
 	        return;
 	    }
 	    
 	    Session.setCurrentUser(user);
+	    System.out.println(Session.getCurrentUser().getGroup().getCareer());
 	    
 	    if (user.getRole() != null && user.getRole().equals("Administrador")) {
 	    	AdminView adminView = new AdminView();
@@ -102,7 +103,7 @@ public class LoginController {
 			valid = false;
 		} else if (!user.getEmail().contains("@")) {
 	        valid = false;
-	        throw new InvalidEmailException("Correo inválido");
+	        throw new InvalidEmailException("Correo inválido" + "             ");
 	    }
 
 		if (user.getPassword().trim().isEmpty()) {

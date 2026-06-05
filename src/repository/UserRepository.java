@@ -1,13 +1,6 @@
 package repository;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.nio.charset.StandardCharsets;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,10 +9,6 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationFeature;
-
 import config.DatabaseConnection;
 import models.Career;
 import models.Group;
@@ -27,40 +16,48 @@ import models.User;
 
 public class UserRepository {
 	
-	public User login(String email, String password) {
+	public User login(String email, String password) {	
+		User user = null;
 		
-		String sql = "SELECT id_usuario, nombre, correo, rol, id_grupo FROM usuario "
-				+ "WHERE correo = ? AND contrasena = ?";
+		String sql = "SELECT * FROM user_data WHERE correo = ? and contrasena = ?";
 		
-		try (
-			Connection conn = DatabaseConnection.getConnection();
-			PreparedStatement stmt = conn.prepareStatement(sql);
-		){
+		try(Connection connection = DatabaseConnection.getConnection();
+			PreparedStatement pst = connection.prepareStatement(sql)) {
+					
+			pst.setString(1, email);
+			pst.setString(2, password);
 			
-			stmt.setString(1, email);
-			stmt.setString(2, password);
-			ResultSet rs = stmt.executeQuery();
+			ResultSet rs = pst.executeQuery(); 
 			
 			if(rs.next()) {
-				Group group = new Group(
-						rs.getInt("id_grupo")
-				);
 				
-				User user = new User(
-						rs.getInt("id_usuario"),
-						rs.getString("nombre"),
-						rs.getString("correo"),
-						rs.getString("rol"),
-						group);
-				return user;
+				Career career = new Career(
+						rs.getInt("id_carrera"),
+						rs.getString("carrera")
+						);
+				
+				Group group = new Group(
+						rs.getInt("id_grupo"),
+						rs.getString("grupo"),
+						rs.getInt("semestre"),
+						rs.getString("turno"),
+						career	
+					);
+				
+				user = new User(
+					rs.getInt("id_usuario"), 
+					rs.getString("nombre"), 
+					rs.getString("correo"),
+					rs.getString("rol"),
+					group
+				);
 			}
 			
-			
-		} catch(SQLException ex) {
+		} catch(SQLException ex ) {
 			ex.printStackTrace();
 		}
 		
-		return null;
+		return user;
 	}
 	
 	public void save(User user) throws IOException {		

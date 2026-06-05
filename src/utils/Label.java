@@ -9,14 +9,14 @@ public class Label extends JLabel {
 	public Label(String text, float fontSize, boolean plain) {
 		setToolTipText("");
 		setText(text);
-		setFont(CreateFont.DEFAULT.deriveFont(fontSize));		
+		setFont(plain ? CreateFont.DEFAULT.deriveFont(fontSize) : CreateFont.DEFAULT_BOLD.deriveFont(fontSize));		
 		setAlignmentX(CENTER_ALIGNMENT);
 	}
 	
 	public Label(String text, float fontSize, boolean plain, Color color) {
 		setToolTipText("");
 		setText(text);
-		setFont(CreateFont.DEFAULT.deriveFont(fontSize));		
+		setFont(plain ? CreateFont.DEFAULT.deriveFont(fontSize) : CreateFont.DEFAULT_BOLD.deriveFont(fontSize));		
 		setForeground(color);
 		setAlignmentX(CENTER_ALIGNMENT);
 	}

@@ -6,29 +6,21 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Image;
-import java.awt.event.KeyEvent;
-
-import javax.imageio.ImageIO;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JMenu;
-import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
-
-import com.formdev.flatlaf.extras.FlatSVGIcon;
-
 import models.Session;
 import utils.AppColors;
 import utils.CreateFont;
 import utils.IconLoader;
+import utils.Label;
 
 public class HomeView extends JFrame{
 		
@@ -93,10 +85,10 @@ public class HomeView extends JFrame{
 	    JPanel sideBar = new JPanel();
 	    sideBar.setLayout(new BoxLayout(sideBar, BoxLayout.Y_AXIS));
 	    sideBar.setPreferredSize(new Dimension(250, getHeight()));
-	    sideBar.setBorder(BorderFactory.createLineBorder(AppColors.subtleAccent, 1, true));
+	    sideBar.setBackground(AppColors.sideBar);
 
 	    createSpace(20, sideBar);
-	    JPanel logo = createAppLogo("UniTasks", 26);
+	    JPanel logo = createAppLogo();
 	    JPanel summary = createUserSummary();
 	    JPanel buttons = createBtnPanel();
 
@@ -113,63 +105,93 @@ public class HomeView extends JFrame{
 	    add(sideBar, BorderLayout.WEST);
 	}
 	
+	private JPanel createAppLogo() {
+		JPanel container = new JPanel(new BorderLayout());
+	    container.setAlignmentX(Component.LEFT_ALIGNMENT);
+	    container.setMaximumSize(new Dimension(Integer.MAX_VALUE, 50));
+	    container.setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 0));
+	    container.setOpaque(false);
+	    container.add(createLogoImage(), BorderLayout.WEST);
+	    container.add(createTitle(), BorderLayout.CENTER);
+	    return container;
+	}
+	
 	public JPanel createUserSummary() {
-	    JPanel userSummary = new JPanel();
-	    userSummary.setLayout(new BoxLayout(userSummary, BoxLayout.Y_AXIS)); 
+	    JPanel userSummary = new JPanel(new BorderLayout());
 	    userSummary.setAlignmentX(Component.LEFT_ALIGNMENT);
 	    userSummary.setMaximumSize(new Dimension(Integer.MAX_VALUE, 80));
-	    userSummary.setBorder(BorderFactory.createLineBorder(AppColors.subtleAccent, 1, true));
+	    userSummary.setBorder(BorderFactory.createCompoundBorder(
+	    		BorderFactory.createMatteBorder(1, 0, 1, 0, AppColors.iceGrey), 
+	    		BorderFactory.createEmptyBorder(10, 0, 10, 0)));
+	    userSummary.setOpaque(false);
 	    
-	    JLabel username = new JLabel(Session.getCurrentUser().getName());
-	    JLabel userSemester = new JLabel("Sem. " + Session.getCurrentUser().getGroup().getSemester());
-	    JLabel userCareer = new JLabel(Session.getCurrentUser().getGroup().getCareer().getName());
+	    JPanel userInfo = new JPanel();
+	    userInfo.setLayout(new BoxLayout(userInfo, BoxLayout.Y_AXIS));
+	    userInfo.setOpaque(false);
 	    
+	    Label username = new Label(Session.getCurrentUser().getName(), 11, false);
+	    Label userCareer = new Label(Session.getCurrentUser().getGroup().getCareer().getName(), 11, true, AppColors.menuItem);
+	    Label userSemester = new Label("Semestre " + Session.getCurrentUser().getGroup().getSemester(), 11, true, AppColors.menuItem);
 	    username.setAlignmentX(Component.LEFT_ALIGNMENT);
-	    userSemester.setAlignmentX(Component.LEFT_ALIGNMENT);
 	    userCareer.setAlignmentX(Component.LEFT_ALIGNMENT);
+	    userSemester.setAlignmentX(Component.LEFT_ALIGNMENT);
 	    
-	    userSummary.add(username);
-	    userSummary.add(userSemester);
-	    userSummary.add(userCareer);
+	    userInfo.add(username);
+	    userInfo.add(Box.createVerticalStrut(4));
+	    userInfo.add(userCareer);
+	    userInfo.add(Box.createVerticalStrut(4));
+	    userInfo.add(userSemester);
+	    
+	    JButton pfp = new JButton(IconLoader.getIcon("/assets/img/pfp.svg", 30, 30));
+	    pfp.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));	    
+	    pfp.setContentAreaFilled(false);
+	    pfp.setFocusable(false);
+	    
+	    pfp.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
+	     
+	    userSummary.add(pfp, BorderLayout.WEST);
+	    userSummary.add(userInfo, BorderLayout.CENTER);
 	    return userSummary;
 	}
 	
-	public JButton createBtn(String text) {
+	public JButton createBtn(String text, String iconPath) {
 	    JButton button = new JButton(text);
 	    button.setHorizontalAlignment(SwingConstants.LEFT);
-	    button.setPreferredSize(new Dimension(200, 30));
-	    button.setMaximumSize(new Dimension(Integer.MAX_VALUE, 30));
-	    button.setMinimumSize(new Dimension(0, 30));
-	    button.setAlignmentX(Component.LEFT_ALIGNMENT);
+	    Dimension fixedSize = new Dimension(250, 40);
+	    button.setPreferredSize(fixedSize);
+	    button.setMaximumSize(fixedSize);
+	    button.setMinimumSize(fixedSize);
+	    button.setAlignmentX(Component.CENTER_ALIGNMENT);
+	    button.setBorder(BorderFactory.createEmptyBorder(0, 15, 0, 15));
+	    button.setBackground(AppColors.sideBar);
+	    button.setForeground(AppColors.menuItem);
+	    button.setFont(CreateFont.DEFAULT_BOLD.deriveFont(14f));
+	    button.setIcon(IconLoader.getIcon(iconPath, 17, 17));
+	    button.putClientProperty("JButton.buttonType", "roundRect");
+	    button.putClientProperty("JButton.arc", 12);
+	    button.setIconTextGap(12);
 	    return button;
 	}
-	
-	public JButton createLogoutBtn(String text) {
-		JButton button = createBtn(text);
-	    button.setBackground(AppColors.primaryAccent);
-	    button.setForeground(Color.WHITE);
-	    button.setHorizontalAlignment(SwingConstants.CENTER);
-	    return button;
-	}
-	
+
 	public JPanel createBtnPanel() {
 	    JPanel btnPanel = new JPanel();
-	    btnPanel.setLayout(new BoxLayout(btnPanel, BoxLayout.Y_AXIS));
-	    btnPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
+	    btnPanel.setLayout(new BoxLayout(btnPanel, BoxLayout.Y_AXIS)); 
+	    btnPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 	    btnPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
-        btnPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
+	    btnPanel.setOpaque(false);
 
-
-	    tasksBtn = createBtn("Tareas");
-	    classesBtn = createBtn("Clases");
-	    profileBtn = createBtn("Mi perfil");
-	    logoutBtn = createLogoutBtn("Cerrar sesión");
-
-	    createSpace(20, btnPanel);
+	    tasksBtn = createBtn("Tareas", "/assets/img/tasks.svg");
+	    classesBtn = createBtn("Clases", "/assets/img/classes.svg");
+	    profileBtn = createBtn("Mi perfil", "/assets/img/profile.svg");
+	    logoutBtn = createBtn("Cerrar sesión", "/assets/img/logout.svg");
+	    logoutBtn.setBorder(BorderFactory.createCompoundBorder(
+	            BorderFactory.createMatteBorder(1, 0, 0, 0, AppColors.iceGrey),
+	            BorderFactory.createEmptyBorder(0, 15, 0, 15)
+	        ));
 	    btnPanel.add(tasksBtn);
-	    createSpace(10, btnPanel);
+	    createSpace(3, btnPanel);
 	    btnPanel.add(classesBtn);
-	    createSpace(10, btnPanel);
+	    createSpace(3, btnPanel);
 	    btnPanel.add(profileBtn);
 	    btnPanel.add(Box.createVerticalGlue());
 	    btnPanel.add(logoutBtn);
@@ -182,30 +204,26 @@ public class HomeView extends JFrame{
 		container.add(Box.createVerticalStrut(pixels));
 	}
 	
-	public void createTitle(JPanel container, String name, float fontSize) {
-		JLabel appName = new JLabel(name);
-		appName.setToolTipText("");
-		appName.setFont(CreateFont.DEFAULT_BOLD.deriveFont(fontSize));		
+	private JPanel createTitle() {
+		JPanel container = new JPanel();
+		container.setLayout(new BoxLayout(container, BoxLayout.Y_AXIS));
+		container.setOpaque(false);
+		
+		Label appName = new Label("UniTasks", 17, false);
+		Label slogan = new Label("Gestión académica", 13, true, AppColors.menuItem);
+	    appName.setAlignmentX(Component.LEFT_ALIGNMENT);
+	    slogan.setAlignmentX(Component.LEFT_ALIGNMENT);
+	    
 		container.add(appName);
+		container.add(slogan);
+		return container;
 	}
 	
-	private JPanel createAppLogo(String appName, int fontSize) {
-	    JPanel appLogo = new JPanel(new FlowLayout(FlowLayout.LEFT, 15, 0));
-	    appLogo.setAlignmentX(Component.LEFT_ALIGNMENT);
-	    
-	    createLogoImage(appLogo);
-	    createTitle(appLogo, appName, fontSize);
-	    
-	    appLogo.setMaximumSize(new Dimension(Integer.MAX_VALUE, 50));
-	    appLogo.setBackground(AppColors.background);
-	    
-	    return appLogo;
-	}
-	
-	private void createLogoImage(JPanel container) {
+	private JLabel createLogoImage() {
 	    JLabel lblLogo = new JLabel();
-	    lblLogo.setIcon(IconLoader.getIcon("/assets/img/logo.svg", 32, 32));  
-	    container.add(lblLogo);
+	    lblLogo.setIcon(IconLoader.getIcon("/assets/img/logo.svg", 37, 37));  
+	    lblLogo.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 10));
+	    return lblLogo;
 	}
 
 	private void createViews() {
@@ -225,6 +243,38 @@ public class HomeView extends JFrame{
 	
 	public void showView(String view) {
 		cardLayout.show(container, view);
+	}
+	
+	public void activeBtnStyle(JButton activeBtn) {
+		JButton[] btns = {tasksBtn, classesBtn, profileBtn};
+
+	    for (JButton btn : btns) {
+	        if (btn == activeBtn) {
+	            btn.setBackground(AppColors.primaryAccent);
+	            btn.setForeground(Color.WHITE);
+	            
+	            if (btn == tasksBtn) {
+	        	    btn.setIcon(IconLoader.getIcon("/assets/img/activeTasks.svg", 17, 17));
+	    	    } else if (btn == classesBtn) {
+	        	    btn.setIcon(IconLoader.getIcon("/assets/img/activeClasses.svg", 17, 17));
+	    	    } else if (btn == profileBtn) {
+	        	    btn.setIcon(IconLoader.getIcon("/assets/img/activeProfile.svg", 17, 17));
+	    	    }
+	        } else {
+	            btn.setBackground(AppColors.sideBar);
+	            btn.setForeground(AppColors.menuItem);
+	            
+	            if (btn == tasksBtn) {
+	        	    btn.setIcon(IconLoader.getIcon("/assets/img/tasks.svg", 17, 17));
+	    	    } else if (btn == classesBtn) {
+	        	    btn.setIcon(IconLoader.getIcon("/assets/img/classes.svg", 17, 17));
+	    	    } else if (btn == profileBtn) {
+	        	    btn.setIcon(IconLoader.getIcon("/assets/img/profile.svg", 17, 17));
+	    	    }
+	        }
+	    }
+	    
+	    
 	}
 	
 }

@@ -89,11 +89,8 @@ public class TasksController {
 
         user.setPendingTasks(pendingTasks);
         user.setCompletedTasks(completedTasks);
-        
-        System.out.println(pendingTasks + ", " + completedTasks);
-        
+            
         view.getTasksCount().setText(user.getPendingTasks() + " pendientes · " + user.getCompletedTasks() + " completadas");
-        
         view.revalidate();
         view.repaint();
     }

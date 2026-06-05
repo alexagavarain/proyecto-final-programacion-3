@@ -2,18 +2,12 @@ package controllers;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.IOException;
-import java.util.List;
 
 import javax.swing.JOptionPane;
 
 import models.Session;
-import models.User;
-import repository.UserRepository;
-import tablemodel.UserTableModel;
 import views.HomeView;
 import views.LoginView;
-import views.TaskDialog;
 
 public class HomeController {
 
@@ -22,6 +16,7 @@ public class HomeController {
 	public HomeController(HomeView view) {
 		this.view = view;
 		view.showView(HomeView.TASKS);
+		view.activeBtnStyle(view.getTasksBtn());
 		
 		view.addWindowListener(new WindowAdapter() {
 	        @Override
@@ -40,15 +35,18 @@ public class HomeController {
 	public void menuListeners( ) {
 		view.getTasksBtn().addActionListener(e -> {
 			view.showView(HomeView.TASKS);
+			view.activeBtnStyle(view.getTasksBtn());
 		});
 		
 		view.getClassesBtn().addActionListener(e -> {
 			view.showView(HomeView.CLASSES);
+			view.activeBtnStyle(view.getClassesBtn());
 
 		});
 		
 		view.getProfileBtn().addActionListener(e -> {
 			view.showView(HomeView.PROFILE);
+			view.activeBtnStyle(view.getProfileBtn());
 		});
 		
 		view.getLogoutBtn().addActionListener(e -> {
