@@ -13,5 +13,7 @@ public class AppColors {
 	public static Color sideBar = new Color(240, 245, 255);
 	public static Color menuItem = new Color(100, 118, 154);
 	public static Color iceGrey = new Color(224, 230, 240);
+	public static Color taskInfo = new Color(177, 185, 197);
+	public static Color darkBlue = new Color(15, 23, 42);
 
 }

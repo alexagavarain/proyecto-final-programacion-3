@@ -16,6 +16,7 @@ import models.Task;
 import models.User;
 import repository.ClassesRepository;
 import repository.TaskRepository;
+import utils.IconLoader;
 import utils.Session;
 import utils.SubjectButton;
 import utils.SubjectColors;
@@ -70,6 +71,8 @@ public class TasksController {
     	for (SubjectButton btn : subjectBtns) {
     		btn.addActionListener(e -> {
     			loadTasks(btn.getSubject());
+    			view.activeSubjectBtn(btn);
+    			Session.setCurrentSubjectSection(btn.getSubject());
     		});
     	}
     }
@@ -88,42 +91,34 @@ public class TasksController {
     	} else {
             tasks = repo.getSubjectTasks(user, subject);
     	}
+    	
+    	if (tasks == null || tasks.isEmpty()) {
+    		view.showView("EMPTY_TASKS");
+    	} else {
+    		view.showView("SHOW_TASKS");
+    	}
 
         for(Task task : tasks) {
+        	
+        	assignSubjectColors(task.getGroupSubject().getSubject());
         	        
-            TaskCard component = new TaskCard(task);
-                        
-            MouseAdapter listener = new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    TaskDialog dialog = new TaskDialog(Session.getMainFrame(), task);
-                    new TaskDialogController(dialog, TasksController.this);
-                    dialog.setVisible(true);
-                }
-
-                @Override
-                public void mouseEntered(MouseEvent e) {
-                    component.setCursor(
-                        Cursor.getPredefinedCursor(Cursor.HAND_CURSOR)
-                    );
-                }
-
-                @Override
-                public void mouseExited(MouseEvent e) {
-                    component.setCursor(
-                        Cursor.getPredefinedCursor(Cursor.DEFAULT_CURSOR)
-                    );
-                }
-            };
-
-            addListenerToAll(component, listener);
+            TaskCard taskCard = new TaskCard(task);
+                  
+            if (!task.isCompleted()) {
+                taskCard.getCheckBtn().setIcon(IconLoader.getIcon("/assets/img/checkbox.svg", 22, 22));
+            } else {
+                taskCard.getCheckBtn().setIcon(IconLoader.getIcon("/assets/img/checkedCheckbox.svg", 22, 22));
+            }
+            
+            editBtnListener(taskCard, task);     
+            checkListeners(taskCard, task);       
             
             if(task.getStatus().equals("Pendiente")) {
             	pendingTasks++;
-                view.getPendingTasksPnl().add(component);
+                view.getPendingTasksPnl().add(taskCard);
             } else {
             	completedTasks++;
-            	view.getCompletedTasksPnl().add(component);
+            	view.getCompletedTasksPnl().add(taskCard);
             }    
         }
 
@@ -131,31 +126,72 @@ public class TasksController {
         user.setCompletedTasks(completedTasks);
             
         view.getTasksCount().setText(user.getPendingTasks() + " pendientes · " + user.getCompletedTasks() + " completadas");
+        
+        view.getPendingLbl().setText("PENDIENTES (" + pendingTasks + ")");
+        view.getCompletedLbl().setText("COMPLETADAS (" + completedTasks + ")");
+        
+        view.getPendingTasksPnl().revalidate();
+        view.getPendingTasksPnl().repaint();
+        
+        view.getCompletedTasksPnl().revalidate();
+        view.getCompletedTasksPnl().repaint();
+        
         view.revalidate();
         view.repaint();
     }
     
-//    public void reloadTasks() {
-//        view.getPendingTasksPnl().removeAll();
-//        view.getCompletedTasksPnl().removeAll();
-//
-//        loadTasks();
-//
-//        view.getCompletedTasksPnl().revalidate();
-//        view.getCompletedTasksPnl().repaint();
-//        view.getPendingTasksPnl().revalidate();
-//        view.getPendingTasksPnl().repaint();
-//    }
+    public void reloadTasks(Subject subject) {
+        view.getPendingTasksPnl().removeAll();
+        view.getCompletedTasksPnl().removeAll();
+
+        loadTasks(subject);
+
+        view.getCompletedTasksPnl().revalidate();
+        view.getCompletedTasksPnl().repaint();
+        
+        view.getPendingTasksPnl().revalidate();
+        view.getPendingTasksPnl().repaint();
+    }
+
+    public void editBtnListener(TaskCard taskCard, Task task) {
+    	taskCard.getEditBtn().addActionListener(e -> {
+        	TaskDialog dialog = new TaskDialog(Session.getMainFrame(), task);
+        	new TaskDialogController(dialog, TasksController.this);
+        	dialog.setVisible(true);
+        });
+    }
     
-    private void addListenerToAll(Component component, MouseListener listener) {
-        component.addMouseListener(listener);
-
-        if (component instanceof Container) {
-
-            for (Component child : ((Container) component).getComponents()) {
-                addListenerToAll(child, listener);
+    public void checkListeners(TaskCard taskCard, Task task) {
+    	taskCard.getCheckBtn().addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
             }
-        }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            	if(!task.isCompleted()) {
+            		taskCard.getCheckBtn().setIcon(IconLoader.getIcon("/assets/img/hoverCheckbox.svg", 22, 22));
+            	}
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+            	if (!task.isCompleted()) {
+                taskCard.getCheckBtn().setIcon(IconLoader.getIcon("/assets/img/checkbox.svg", 22, 22));
+            	}
+            }
+        });
+        
+        taskCard.getCheckBtn().addActionListener(e -> {
+        	if (!task.isCompleted()) {
+        		task.setStatus("Completada");
+        		repo.updateTask(task, user);
+        	} else {
+        		task.setStatus("Pendiente");
+        		repo.updateTask(task, user);
+        	}
+        	reloadTasks(Session.getCurrentSubjectSection());
+        });
     }
     
     public void assignSubjectColors(Subject subject) {

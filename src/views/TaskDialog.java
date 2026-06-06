@@ -3,6 +3,7 @@ package views;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -30,6 +31,7 @@ import models.Task;
 import utils.AppColors;
 import utils.CreateFont;
 import utils.Label;
+import utils.RoundedButton;
 import utils.Session;
 
 public class TaskDialog extends JDialog {
@@ -40,9 +42,9 @@ public class TaskDialog extends JDialog {
 	private JTextArea description;	
 	private JComboBox<Subject> subjectList;
 	private JSpinner dateSpinner;
-	private JComboBox<String> statusList;
 
 	private JButton saveButton;
+	private JButton deleteBtn;
 	
 	private Label titleError;
 	private Label subjectError;
@@ -85,10 +87,6 @@ public class TaskDialog extends JDialog {
 
 	public JSpinner getDateSpinner() {
 		return dateSpinner;
-	}
-	
-	public JComboBox<String> getStatusList() {
-		return statusList;
 	}
 	
 	public Label getTitleError() {
@@ -152,11 +150,6 @@ public class TaskDialog extends JDialog {
 
 	    dateSpinner.setEditor(editor);
 	    dateSpinner.setMaximumSize(fieldSize);
-	    
-	    statusList = new JComboBox<>();
-	    statusList.setMaximumSize(fieldSize);
-	    statusList.addItem("Pendiente");
-	    statusList.addItem("Completada");
 	    	    
 		panel.add(createField("Titulo", title)); 
 		panel.add(titleError);
@@ -164,9 +157,14 @@ public class TaskDialog extends JDialog {
 		panel.add(createField("Materia", subjectList));
 		panel.add(subjectError);
 		panel.add(createField("Fecha de entrega", dateSpinner));
-		panel.add(createField("Estado", statusList));
 		panel.add((Box.createVerticalStrut(30)));
-		panel.add(createSaveButton());
+		
+		createSaveButton();
+		createDeleteButton();
+		
+		panel.add(saveButton);
+		panel.add((Box.createVerticalStrut(20)));
+		panel.add(deleteBtn);
 			 
 		return scroll; 
 	}
@@ -198,14 +196,24 @@ public class TaskDialog extends JDialog {
 		return errorLabel;
 	}
 	
-	private JButton createSaveButton() {
-		saveButton = new JButton("Guardar");
+	private void createSaveButton() {
+		saveButton = new RoundedButton("Guardar", 12);
 		saveButton.setMaximumSize(new Dimension(300, 30));
 		saveButton.setPreferredSize(new Dimension(300, 30));
 		saveButton.setBackground(AppColors.primaryAccent);
 		saveButton.setForeground(Color.WHITE);
 		saveButton.setAlignmentX(CENTER_ALIGNMENT);
-		return saveButton;		
+		saveButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+	}
+	
+	private void createDeleteButton() {
+		deleteBtn = new RoundedButton("Eliminar tarea", 12);
+		deleteBtn.setMaximumSize(new Dimension(300, 30));
+		deleteBtn.setPreferredSize(new Dimension(300, 30));
+		deleteBtn.setBackground(new Color(254, 242, 242));
+		deleteBtn.setForeground(new Color(251, 44, 54));
+		deleteBtn.setAlignmentX(CENTER_ALIGNMENT);
+		deleteBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
 	}
 
 	

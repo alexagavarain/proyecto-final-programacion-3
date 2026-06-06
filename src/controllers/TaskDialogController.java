@@ -63,7 +63,7 @@ public class TaskDialogController {
 				if (save()) {
 					JOptionPane.showMessageDialog(view, "Se ha guardado la tarea");
 		            view.dispose();
-//		            tasksController.reloadTasks();
+		            tasksController.reloadTasks(Session.getCurrentSubjectSection());
 				} else {
 					JOptionPane.showMessageDialog(view, "No se pudo guardar la tarea");
 				}
@@ -89,9 +89,7 @@ public class TaskDialogController {
 			System.out.println("load");
 			view.getTitleField().setText(task.getTitle());
 			view.getDescription().setText(task.getDescription());
-			view.getSubjectList().setSelectedItem(task.getGroupSubject().getSubject());
-			view.getStatusList().setSelectedItem(task.getStatus());
-			
+			view.getSubjectList().setSelectedItem(task.getGroupSubject().getSubject());			
 			
 			LocalDateTime fecha = task.getDeadline();
 			Date date = Date.from(
@@ -106,14 +104,12 @@ public class TaskDialogController {
 		JTextArea descriptionField = view.getDescription();
 		JComboBox<Subject> subjectsList = view.getSubjectList();
 		JSpinner dateSpinner = view.getDateSpinner();
-		JComboBox<String> statusList = view.getStatusList();
 		
 		String title = titleField.getText();
 		String description = descriptionField.getText();
 		Subject subject = (Subject) subjectsList.getSelectedItem();
 		Date selectedDate = (Date) dateSpinner.getValue();
 		LocalDateTime dateTime = selectedDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
-		String status = (String) statusList.getSelectedItem();
 		
 		SubjectProfessor subjectProfessor = classesRepo.getSubjectProfessor(subject);
 		GroupSubject groupSubject = classesRepo.getGroupSubject(user, subjectProfessor);
@@ -123,7 +119,7 @@ public class TaskDialogController {
 				title,
 				description,
 				dateTime,
-				status,
+				"Pendiente",
 				user,
 				groupSubject
 				);
@@ -133,7 +129,6 @@ public class TaskDialogController {
 			task.setDescription(description);
 			task.setDeadline(dateTime);
 			task.setSubject(groupSubject);
-			task.setStatus(status);
 			return taskRepo.updateTask(task, user);
 		}
 	}

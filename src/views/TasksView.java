@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,9 +20,11 @@ import javax.swing.JScrollPane;
 
 import models.Subject;
 import utils.AppColors;
+import utils.CreateFont;
 import utils.IconLoader;
 import utils.InvisibleScrollBar;
 import utils.Label;
+import utils.RoundedButton;
 import utils.SubjectButton;
 import utils.WrapLayout;
 
@@ -34,6 +37,9 @@ public class TasksView extends JPanel {
 	private JPanel pendingTasksPnl;
 	private JPanel completedTasksPnl;
 	private JLabel tasksCount;
+	
+	private Label pendingLbl;
+	private Label completedLbl;
 	
 	private CardLayout cardLayout;
 	private JPanel cardContainer;
@@ -71,11 +77,22 @@ public class TasksView extends JPanel {
 		return subjectBtns;
 	}
 
+	public Label getPendingLbl() {
+		return pendingLbl;
+	}
+	
+	public Label getCompletedLbl() {
+		return completedLbl;
+	}
+
 	public JButton createAddBtn() {
-		addBtn = new JButton ("Nueva tarea");
+		addBtn = new RoundedButton("Nueva tarea", 14);
+		addBtn.setFont(CreateFont.DEFAULT_BOLD);
 	    addBtn.setIcon(IconLoader.getIcon("/assets/img/add.svg", 20, 20));  
+	    addBtn.setPreferredSize(new Dimension(140, 40));
 		addBtn.setBackground(AppColors.primaryAccent);
 		addBtn.setForeground(Color.WHITE);
+		addBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		return addBtn;
 	}
 	
@@ -83,8 +100,12 @@ public class TasksView extends JPanel {
 		JPanel header = new JPanel(new BorderLayout());
 		header.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
 		
+		JPanel btnContainer = new JPanel(new FlowLayout(FlowLayout.RIGHT, 0, 0));
+	    btnContainer.setOpaque(false);
+	    btnContainer.add(createAddBtn());
+		
 		header.add(createTitlePanel(), BorderLayout.WEST);
-		header.add(createAddBtn(), BorderLayout.EAST);
+		header.add(btnContainer, BorderLayout.EAST);
 		header.add(createSubjectMenu(), BorderLayout.SOUTH);
 		
 		add(header, BorderLayout.NORTH);
@@ -107,18 +128,24 @@ public class TasksView extends JPanel {
 		return titlePanel;
 	}
 	
-	private JPanel subtitlePnl(String text, String iconPath) {
-		JPanel container = new JPanel(new FlowLayout(FlowLayout.LEFT));
-		container.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
-		
+	public Label createSubtitleLbl(String text, String iconPath) {
 		Label subtitle = new Label(text, 12, false, AppColors.menuItem);
 		subtitle.setIcon(IconLoader.getIcon(iconPath, 8, 8));
 		subtitle.setIconTextGap(10);
-		
-		container.add(subtitle);
-		
-		return container;
+		return subtitle;
 	}
+	
+//	public JPanel createSubtitleLbl(String text, String iconPath) {
+//		JPanel container = new JPanel(new FlowLayout(FlowLayout.LEFT));
+//		
+//		Label subtitle = new Label(text, 12, false, AppColors.menuItem);
+//		subtitle.setIcon(IconLoader.getIcon(iconPath, 8, 8));
+//		subtitle.setIconTextGap(10);
+//		
+//		container.add(subtitle);
+//		
+//		return container;
+//	}
 	
 	private JScrollPane createSubjectMenu() {
 		subjectMenu = new JPanel();
@@ -160,34 +187,61 @@ public class TasksView extends JPanel {
 	}
 	
 	private JScrollPane createTaskContainer() {
-		JPanel taskContainer = new JPanel();
-		taskContainer.setLayout(new BoxLayout(taskContainer, BoxLayout.Y_AXIS));
-		
-		pendingTasksPnl = new JPanel(new WrapLayout(FlowLayout.LEFT, 15, 15));		
-		completedTasksPnl = new JPanel(new WrapLayout(FlowLayout.LEFT, 15, 15));
-				
-		taskContainer.add(subtitlePnl("PENDIENTES", "/assets/img/pending.svg"));
-		taskContainer.add(pendingTasksPnl);
-		taskContainer.add(subtitlePnl("COMPLETADAS", "/assets/img/completed.svg"));
-		taskContainer.add(completedTasksPnl);
-		
-		JScrollPane scroll = new JScrollPane(taskContainer);
-		scroll.setBorder(null);
-		
-		scroll.getVerticalScrollBar().setUI(new InvisibleScrollBar());
-		scroll.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
+	    JPanel taskContainer = new JPanel(new GridBagLayout());
+	    
+	    java.awt.GridBagConstraints gbc = new java.awt.GridBagConstraints();
+	    gbc.gridx = 0;
+	    gbc.gridy = java.awt.GridBagConstraints.RELATIVE; 
+	    gbc.fill = java.awt.GridBagConstraints.HORIZONTAL;
+	    gbc.weightx = 1.0; 
+	    gbc.weighty = 0.0;
+	    
+	    WrapLayout pendingLayout = new WrapLayout(FlowLayout.LEFT, 12, 12);
+	    WrapLayout completedLayout = new WrapLayout(FlowLayout.LEFT, 12, 12);
+	    pendingLayout.setAlignOnBaseline(false);
+	    completedLayout.setAlignOnBaseline(false);
+	    
+		JPanel pLblContainer = new JPanel(new FlowLayout(FlowLayout.LEFT));
+	    pendingLbl = createSubtitleLbl("", "/assets/img/pending.svg");
+	    pLblContainer.add(pendingLbl);
+	    
+	    pendingTasksPnl = new JPanel(pendingLayout);    
+	    pendingTasksPnl.setBorder(BorderFactory.createEmptyBorder(0, -12, 0, -12));
+	    
+		JPanel cLblContainer = new JPanel(new FlowLayout(FlowLayout.LEFT));
+	    completedLbl = createSubtitleLbl("", "/assets/img/completed.svg");
+	    cLblContainer.add(completedLbl);
+	    
+	    completedTasksPnl = new JPanel(completedLayout);
+	    completedTasksPnl.setBorder(BorderFactory.createEmptyBorder(0, -12, 0, -12));
+	            
+	    taskContainer.add(pLblContainer, gbc);
+	    taskContainer.add(pendingTasksPnl, gbc);
+	    
+	    taskContainer.add(Box.createVerticalStrut(15), gbc); 
+	    
+	    taskContainer.add(cLblContainer, gbc);
+	    taskContainer.add(completedTasksPnl, gbc);
+	    
+	    gbc.weighty = 1.0;
+	    taskContainer.add(new JPanel() {{ setOpaque(false); }}, gbc);
+	    
+	    JScrollPane scroll = new JScrollPane(taskContainer);
+	    scroll.setBorder(null);
+	    scroll.getVerticalScrollBar().setUI(new InvisibleScrollBar());
+	    scroll.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
 	    scroll.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 	    scroll.getVerticalScrollBar().setUnitIncrement(16);
-	    
 	    scroll.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 	    return scroll;
 	}
 	
 	public JPanel createEmptyTaskPanel() {
-		JPanel container = new JPanel();
+		JPanel container = new JPanel(new BorderLayout());
 		Label lbl = new Label("No hay tareas", 23, false, AppColors.menuItem);
-		container.add(lbl);
+		lbl.setAlignmentX(CENTER_ALIGNMENT);
+		container.add(lbl, BorderLayout.CENTER);
 		return container;
 	}
 	
@@ -202,10 +256,32 @@ public class TasksView extends JPanel {
 		cardContainer.add(emptyTasks, EMPTY_TASKS);
 		
 		add(cardContainer, BorderLayout.CENTER);
-		
 	}
 	
+	public void showView(String view) {
+		cardLayout.show(cardContainer, view);
+	}
 	
-
+	public void activeSubjectBtn(SubjectButton activeBtn) {
+	    for (SubjectButton btn : subjectBtns) {
+	        if (btn == activeBtn) {
+	        	if (btn.getSubject() == null) {
+	        		btn.setBackground(AppColors.primaryAccent);
+	        		btn.setForeground(Color.WHITE);
+	        	} else {
+		            btn.setBackground(activeBtn.getSubject().getColor());
+		            btn.setForeground(activeBtn.getSubject().getSubColor());
+	        	}
+	        } else {
+	        	if (btn.getSubject() == null) {
+	        		btn.setBackground(AppColors.iceGrey);
+	        		btn.setForeground(AppColors.primaryAccent);
+	        	} else {
+	        	 btn.setBackground(btn.getSubject().getSubColor());
+		         btn.setForeground(btn.getSubject().getColor());
+	        	}
+	        }
+	    }
+	}
 	
 }

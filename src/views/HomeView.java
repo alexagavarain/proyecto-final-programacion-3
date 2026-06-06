@@ -14,11 +14,13 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
+import javax.swing.border.Border;
 
 import utils.AppColors;
 import utils.CreateFont;
 import utils.IconLoader;
 import utils.Label;
+import utils.RoundedButton;
 import utils.Session;
 
 public class HomeView extends JFrame{
@@ -128,7 +130,7 @@ public class HomeView extends JFrame{
 	    userInfo.setLayout(new BoxLayout(userInfo, BoxLayout.Y_AXIS));
 	    userInfo.setOpaque(false);
 	    
-	    Label username = new Label(Session.getCurrentUser().getName(), 12, false);
+	    Label username = new Label(Session.getCurrentUser().getName(), 12, true);
 	    Label userCareer = new Label(Session.getCurrentUser().getGroup().getCareer().getAbb() + " · Sem. " + Session.getCurrentUser().getGroup().getSemester(), 12, true, AppColors.menuItem);
 	    username.setAlignmentX(Component.LEFT_ALIGNMENT);
 	    userCareer.setAlignmentX(Component.LEFT_ALIGNMENT);
@@ -151,9 +153,9 @@ public class HomeView extends JFrame{
 	}
 	
 	public JButton createBtn(String text, String iconPath) {
-	    JButton button = new JButton(text);
+	    JButton button = new RoundedButton(text, 12);
 	    button.setHorizontalAlignment(SwingConstants.LEFT);
-	    Dimension fixedSize = new Dimension(250, 40);
+	    Dimension fixedSize = new Dimension(240, 40);
 	    button.setPreferredSize(fixedSize);
 	    button.setMaximumSize(fixedSize);
 	    button.setMinimumSize(fixedSize);
@@ -175,6 +177,7 @@ public class HomeView extends JFrame{
 	    btnPanel.setLayout(new BoxLayout(btnPanel, BoxLayout.Y_AXIS)); 
 	    btnPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
 	    btnPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
+	    btnPanel.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
 	    btnPanel.setOpaque(false);
 
 	    tasksBtn = createBtn("Tareas", "/assets/img/tasks.svg");
@@ -186,9 +189,9 @@ public class HomeView extends JFrame{
 	            BorderFactory.createEmptyBorder(0, 15, 0, 15)
 	        ));
 	    btnPanel.add(tasksBtn);
-	    createSpace(3, btnPanel);
+	    createSpace(5, btnPanel);
 	    btnPanel.add(classesBtn);
-	    createSpace(3, btnPanel);
+	    createSpace(5, btnPanel);
 	    btnPanel.add(profileBtn);
 	    btnPanel.add(Box.createVerticalGlue());
 	    btnPanel.add(logoutBtn);

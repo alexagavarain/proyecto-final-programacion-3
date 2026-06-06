@@ -11,6 +11,8 @@ public class Session {
 	private static JFrame mainFrame;
 	
 	private static List<Subject> currentSubjects;
+	
+	private static Subject currentSubjectSection;
 
     private static User currentUser;
         
@@ -36,6 +38,14 @@ public class Session {
 
 	public static void setCurrentSubjects(List<Subject> currentSubjects) {
 		Session.currentSubjects = currentSubjects;
+	}
+
+	public static Subject getCurrentSubjectSection() {
+		return currentSubjectSection;
+	}
+
+	public static void setCurrentSubjectSection(Subject currentSubjectSection) {
+		Session.currentSubjectSection = currentSubjectSection;
 	}
 
 	public static void logout() {

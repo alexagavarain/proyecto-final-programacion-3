@@ -12,7 +12,6 @@ public class Task {
 	private String status;
 	private User user;
 	private GroupSubject groupSubject;
-	private Color subjectColor;
 	
 	public Task() {
 	}
@@ -112,15 +111,11 @@ public class Task {
 	public void setSubject(GroupSubject groupSubject) {
 		this.groupSubject = groupSubject;
 	}
-
-	public Color getSubjectColor() {
-		return subjectColor;
-	}
-
-	public void setSubjectColor(Color subjectColor) {
-		this.subjectColor = subjectColor;
-	}
 	
+	public boolean isCompleted() {
+		return status.equals("Completada");
+	}
+
 	@Override
 	public String toString() {
 		return title;
