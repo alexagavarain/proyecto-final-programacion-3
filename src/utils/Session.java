@@ -3,6 +3,7 @@ package utils;
 import java.util.List;
 import javax.swing.JFrame;
 
+import models.GroupSubject;
 import models.Subject;
 import models.User;
 
@@ -10,7 +11,7 @@ public class Session {
 	
 	private static JFrame mainFrame;
 	
-	private static List<Subject> currentSubjects;
+	private static List<GroupSubject> currentSubjects;
 	
 	private static Subject currentSubjectSection;
 
@@ -32,11 +33,11 @@ public class Session {
         return currentUser;
     }
 
-	public static List<Subject> getCurrentSubjects() {
+	public static List<GroupSubject> getCurrentSubjects() {
 		return currentSubjects;
 	}
 
-	public static void setCurrentSubjects(List<Subject> currentSubjects) {
+	public static void setCurrentSubjects(List<GroupSubject> currentSubjects) {
 		Session.currentSubjects = currentSubjects;
 	}
 

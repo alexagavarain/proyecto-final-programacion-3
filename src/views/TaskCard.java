@@ -42,7 +42,7 @@ public class TaskCard extends JPanel{
 	
 	public TaskCard(Task task) {
 		this.task = task; 
-		this.subject = task.getGroupSubject().getSubject();
+		this.subject = task.getGroupSubject().getSubjectProfessor().getSubject();
 		
 		setLayout(new BorderLayout());
 		
@@ -157,8 +157,17 @@ public class TaskCard extends JPanel{
 	
 	public SubjectButton createTaskSubject() {
 		SubjectButton taskSubject = new SubjectButton(subject.getName(), 12);
+		taskSubject.setToolTipText(subject.getName());
 		taskSubject.setBackground(subject.getSubColor());
-		taskSubject.setForeground(subject.getColor());	    
+		taskSubject.setForeground(subject.getColor());
+		
+		taskSubject.setModel(new javax.swing.DefaultButtonModel() {
+	        @Override public boolean isPressed() { return false; }
+	        @Override public boolean isRollover() { return false; }
+	        @Override public boolean isArmed() { return false; }
+	        @Override public void setPressed(boolean b) {}
+	        @Override public void setRollover(boolean b) {}
+	    });
 				
 		int width = taskSubject.getPreferredSize().width;
 	    int height = taskSubject.getPreferredSize().height;

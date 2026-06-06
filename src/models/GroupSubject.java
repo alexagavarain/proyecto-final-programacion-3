@@ -4,17 +4,17 @@ public class GroupSubject {
 	
 	private int id;
 	private Group group;
-	private Subject subject;
+	private SubjectProfessor subjectProfessor;
 	
-	public GroupSubject(int id, Group group, Subject subject) {
+	public GroupSubject(int id, Group group, SubjectProfessor subjectProfessor) {
 		this.id = id;
 		this.group = group;
-		this.subject = subject;
+		this.subjectProfessor = subjectProfessor;
 	}
 	
-	public GroupSubject(Group group, Subject subject) {
+	public GroupSubject(Group group, SubjectProfessor subjectProfessor) {
 		this.group = group;
-		this.subject = subject;
+		this.subjectProfessor = subjectProfessor;
 	}
 	
 	public int getId() {
@@ -33,13 +33,14 @@ public class GroupSubject {
 		this.group = group;
 	}
 
-	public Subject getSubject() {
-		return subject;
+	public SubjectProfessor getSubjectProfessor() {
+		return subjectProfessor;
 	}
 
-	public void setSubject(Subject subject) {
-		this.subject = subject;
+	public void setSubjectProfessor(SubjectProfessor subjectProfessor) {
+		this.subjectProfessor = subjectProfessor;
 	}
+
 
 
 }

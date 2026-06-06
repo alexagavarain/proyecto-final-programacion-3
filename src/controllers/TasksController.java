@@ -7,11 +7,14 @@ import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.JButton;
 
+import models.GroupSubject;
 import models.Subject;
+import models.SubjectProfessor;
 import models.Task;
 import models.User;
 import repository.ClassesRepository;
@@ -56,13 +59,19 @@ public class TasksController {
     	
     	List<Subject> subjects = classesRepo.getClasses(user);
     	
+    	List<GroupSubject> groupSubjects = new ArrayList<>();
+    	
     	for (Subject subject : subjects) { 
     		assignSubjectColors(subject);
     		view.addSubjectBtn(subject);
+    		
+    		SubjectProfessor subjectProfessor = classesRepo.getSubjectProfessor(subject);
+    		GroupSubject groupSubject = classesRepo.getGroupSubject(user, subjectProfessor);
+    		
+    		groupSubjects.add(groupSubject);
     	}
-   
-    	Session.setCurrentSubjects(subjects);
 
+    	Session.setCurrentSubjects(groupSubjects);
     }
     
     public void subjectBtnListeners() {
@@ -89,7 +98,7 @@ public class TasksController {
     	if (subject == null) {
             tasks = repo.getTasks(user);
     	} else {
-            tasks = repo.getSubjectTasks(user, subject);
+            tasks = repo.getSubjectTasks(user, classesRepo.getSubjectProfessor(subject));
     	}
     	
     	if (tasks == null || tasks.isEmpty()) {
@@ -100,7 +109,7 @@ public class TasksController {
 
         for(Task task : tasks) {
         	
-        	assignSubjectColors(task.getGroupSubject().getSubject());
+        	assignSubjectColors(task.getGroupSubject().getSubjectProfessor().getSubject());
         	        
             TaskCard taskCard = new TaskCard(task);
                   

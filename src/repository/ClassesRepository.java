@@ -66,7 +66,7 @@ public class ClassesRepository {
 				groupSubject = new GroupSubject(
 						rs.getInt("id_grupo_materia"),
 						user.getGroup(),
-						subjectProfessor.getSubject()
+						subjectProfessor
 				);
 			}
 		} catch(SQLException ex) {

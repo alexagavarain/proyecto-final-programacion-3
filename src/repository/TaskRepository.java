@@ -12,6 +12,7 @@ import config.DatabaseConnection;
 import models.GroupSubject;
 import models.Professor;
 import models.Subject;
+import models.SubjectProfessor;
 import models.Task;
 import models.User;
 import utils.Session;
@@ -41,12 +42,17 @@ public class TaskRepository {
 						rs.getInt("id_materia"),
 						rs.getString("materia"),
 						professor
-						);
+				);
+				
+				SubjectProfessor subjectProfessor = new SubjectProfessor(
+						subject,
+						professor
+				);
 								
 				GroupSubject groupSubject = new GroupSubject(
 						rs.getInt("id_grupo_materia"),
 						user.getGroup(),						
-						subject
+						subjectProfessor
 				);
 				
 				Task task = new Task(
@@ -69,7 +75,7 @@ public class TaskRepository {
 		return tasks;
 	}
 	
-	public List<Task> getSubjectTasks(User user, Subject subject) {
+	public List<Task> getSubjectTasks(User user, SubjectProfessor subjectProfessor) {
 		List<Task> tasks = new ArrayList<Task>();
 
 		String sql = "SELECT * FROM vista_tarea WHERE id_usuario = ? AND id_materia = ? "
@@ -79,7 +85,7 @@ public class TaskRepository {
 			PreparedStatement pst = connection.prepareStatement(sql)) {
 			
 			pst.setInt(1, user.getId());
-			pst.setInt(2, subject.getId());
+			pst.setInt(2, subjectProfessor.getSubject().getId());
 			
 			ResultSet rs = pst.executeQuery(); 
 			
@@ -88,7 +94,7 @@ public class TaskRepository {
 				GroupSubject groupSubject = new GroupSubject(
 						rs.getInt("id_grupo_materia"),
 						user.getGroup(),						
-						subject
+						subjectProfessor
 				);
 				
 				Task task = new Task(
@@ -132,12 +138,17 @@ public class TaskRepository {
 						rs.getInt("id_materia"),
 						rs.getString("materia"),
 						professor
-						);
-								
+				);
+							
+				SubjectProfessor subjectProfessor= new SubjectProfessor(
+						subject,
+						professor
+				);
+				
 				GroupSubject groupSubject = new GroupSubject(
 						rs.getInt("id_grupo_materia"),
 						Session.getCurrentUser().getGroup(),						
-						subject
+						subjectProfessor
 				);
 				
 				taskData = new Task(

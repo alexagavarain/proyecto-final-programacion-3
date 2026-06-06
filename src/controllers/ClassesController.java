@@ -2,6 +2,7 @@ package controllers;
 
 import java.util.List;
 
+import models.GroupSubject;
 import models.Subject;
 import models.User;
 import repository.ClassesRepository;
@@ -12,27 +13,33 @@ import views.SubjectCard;
 public class ClassesController {
 
     private ClassesView view;
-    private ClassesRepository repo;
-    private User currentUser;
 
     public ClassesController(ClassesView view) {
         this.view = view;
-
-        repo = new ClassesRepository();
-        currentUser = Session.getCurrentUser();
 
         loadClasses();
     }
     
     public void loadClasses() {
-        List<Subject> classes = repo.getClasses(currentUser);
+        List<GroupSubject> groupSubjects = Session.getCurrentSubjects();
         
-        for(Subject subject : classes) {
+        view.getClassesPnl().removeAll();
+        
+        int totalClasses = 0;
+        
+        for(GroupSubject groupSubject : groupSubjects) {
+        	
+        	totalClasses++;
         		        	
-            SubjectCard card = new SubjectCard(subject);
-
-            view.getContainer().add(card);
+            SubjectCard card = new SubjectCard(groupSubject);
+       
+            view.getClassesPnl().add(card);
         }
+        
+        view.getTotalClasses().setText(totalClasses + " clases este semestre");
+        
+        view.getClassesPnl().revalidate();
+        view.getClassesPnl().repaint();
 
         view.revalidate();
         view.repaint();

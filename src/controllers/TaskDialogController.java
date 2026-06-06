@@ -103,7 +103,7 @@ public class TaskDialogController {
 		if (task != null) {
 			view.getTitleField().setText(task.getTitle());
 			view.getDescription().setText(task.getDescription());
-			view.getSubjectList().setSelectedItem(task.getGroupSubject().getSubject());			
+			view.getSubjectList().setSelectedItem(task.getGroupSubject().getSubjectProfessor().getSubject());			
 			
 			LocalDateTime fecha = task.getDeadline();
 			Date date = Date.from(
