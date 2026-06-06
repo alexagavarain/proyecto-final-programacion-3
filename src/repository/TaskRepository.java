@@ -226,5 +226,29 @@ public class TaskRepository {
 		
 		return false;
 	}
+	
+	public boolean deleteTask(Task task) {
+		String sql = "DELETE FROM tarea WHERE id_tarea = ?";
+		
+		try(Connection connection = DatabaseConnection.getConnection();
+			PreparedStatement pst = connection.prepareStatement(sql)) {
+				
+			pst.setInt(1, task.getId());
+			
+			int affectedRows = pst.executeUpdate();
+			
+			if(affectedRows > 0) {
+				System.out.println("Tarea eliminada");
+				return true;
+			}else {
+				System.out.println("No se eliminó la tarea");
+			}
+			
+		} catch(SQLException ex) {
+			ex.printStackTrace();
+		}
+		
+		return false;
+	}
 
 }

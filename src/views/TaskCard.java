@@ -105,7 +105,6 @@ public class TaskCard extends JPanel{
             
 		colorLine.setOpaque(false);
         colorLine.setPreferredSize(new Dimension(6, 0));
-        System.out.println(subject.getName());
     	colorLine.setBackground(subject.getColor());  
 		return colorLine;
 	}

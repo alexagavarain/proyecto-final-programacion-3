@@ -93,6 +93,7 @@ public class TasksView extends JPanel {
 		addBtn.setBackground(AppColors.primaryAccent);
 		addBtn.setForeground(Color.WHITE);
 		addBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		addBtn.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
 		return addBtn;
 	}
 	
@@ -134,18 +135,6 @@ public class TasksView extends JPanel {
 		subtitle.setIconTextGap(10);
 		return subtitle;
 	}
-	
-//	public JPanel createSubtitleLbl(String text, String iconPath) {
-//		JPanel container = new JPanel(new FlowLayout(FlowLayout.LEFT));
-//		
-//		Label subtitle = new Label(text, 12, false, AppColors.menuItem);
-//		subtitle.setIcon(IconLoader.getIcon(iconPath, 8, 8));
-//		subtitle.setIconTextGap(10);
-//		
-//		container.add(subtitle);
-//		
-//		return container;
-//	}
 	
 	private JScrollPane createSubjectMenu() {
 		subjectMenu = new JPanel();
@@ -238,10 +227,10 @@ public class TasksView extends JPanel {
 	}
 	
 	public JPanel createEmptyTaskPanel() {
-		JPanel container = new JPanel(new BorderLayout());
-		Label lbl = new Label("No hay tareas", 23, false, AppColors.menuItem);
-		lbl.setAlignmentX(CENTER_ALIGNMENT);
-		container.add(lbl, BorderLayout.CENTER);
+		JPanel container = new JPanel(new GridBagLayout());
+		Label lbl = new Label("No tienes tareas", 20, false, AppColors.taskInfo);
+		lbl.setBorder(BorderFactory.createEmptyBorder(0, 0, 150, 0));
+		container.add(lbl);
 		return container;
 	}
 	

@@ -40,18 +40,12 @@ public class TaskDialogController {
 		this.view = view;
 		this.tasksController = tasksController;
 		
-		view.addWindowListener(new WindowAdapter() {
-	        @Override
-	        public void windowClosing(WindowEvent e) {
-	        	handleClose();
-	        }
-	    });
-		
 		classesRepo = new ClassesRepository();
 		taskRepo = new TaskRepository();
 		user = Session.getCurrentUser();
 		task = view.getTask();
 		saveListener();
+		deleteListener();
 		loadSubjects();
 		assignListeners();
 		loadTaskData();
@@ -72,6 +66,27 @@ public class TaskDialogController {
 		});
 	}
 	
+	private void deleteListener() {
+		view.getDeleteBtn().addActionListener(e -> {
+			int option = JOptionPane.showConfirmDialog(
+	                view,
+	                "¿Seguro que deseas eliminar?",
+	                "Eliminar tarea",
+	                JOptionPane.YES_NO_OPTION
+	            );
+
+	            if (option == JOptionPane.YES_OPTION) {
+	            	if (taskRepo.deleteTask(task)) {
+						JOptionPane.showMessageDialog(view, "Se ha eliminado la tarea");
+			            view.dispose();
+			            tasksController.reloadTasks(Session.getCurrentSubjectSection());
+					} else {
+						JOptionPane.showMessageDialog(view, "No se pudo eliminar la tarea");
+					}
+	            }
+		});
+	}
+	
 	private void loadSubjects() {
 		List<Subject> subjects= classesRepo.getClasses(user);
 		
@@ -86,7 +101,6 @@ public class TaskDialogController {
 	
 	private void loadTaskData() {
 		if (task != null) {
-			System.out.println("load");
 			view.getTitleField().setText(task.getTitle());
 			view.getDescription().setText(task.getDescription());
 			view.getSubjectList().setSelectedItem(task.getGroupSubject().getSubject());			
@@ -185,18 +199,18 @@ public class TaskDialogController {
 		 });
 	}
 	
-	private void handleClose() {
-		int option = JOptionPane.showConfirmDialog(
-                view,
-                "¿Seguro que deseas cancelar?",
-                "Cancelar tarea",
-                JOptionPane.YES_NO_OPTION
-            );
-
-            if (option == JOptionPane.YES_OPTION) {
-                view.dispose();
-            }
-	}
-	
+//	private void handleClose() {
+//		int option = JOptionPane.showConfirmDialog(
+//                view,
+//                "¿Seguro que deseas cancelar?",
+//                "Cancelar tarea",
+//                JOptionPane.YES_NO_OPTION
+//            );
+//
+//            if (option == JOptionPane.YES_OPTION) {
+//                view.dispose();
+//            }
+//	}
+//	
 
 }

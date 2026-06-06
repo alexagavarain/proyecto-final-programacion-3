@@ -55,13 +55,13 @@ public class TaskDialog extends JDialog {
 		System.out.println(task == null);
 		String title = task == null ? "Nueva tarea" : "Editar tarea";
 
-		setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		
 		setSize(400, 600);
     	setTitle(title);
 		setLocationRelativeTo(parent); 
 		setLayout(new BorderLayout()); 
-		add(createTitlePanel(title, 20), BorderLayout.NORTH); 
+		add(createTitlePanel(title, 18), BorderLayout.NORTH); 
 		add(createFormPanel(), BorderLayout.CENTER);
 	}
 	
@@ -97,11 +97,14 @@ public class TaskDialog extends JDialog {
 		return subjectError;
 	}
 	
+	public JButton getDeleteBtn() {
+		return deleteBtn;
+	}
+
 	private JPanel createTitlePanel(String title, float fontSize) { 
 		JPanel panel = new JPanel(); 
-		JLabel titleLbl = new JLabel(title);		
-		titleLbl.setBorder(BorderFactory.createEmptyBorder(10, 0, 0, 0));
-		titleLbl.setFont(CreateFont.DEFAULT_BOLD.deriveFont(fontSize));	
+		Label titleLbl = new Label(title, fontSize, true);		
+		titleLbl.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
 		titleLbl.setAlignmentX(CENTER_ALIGNMENT);
 		panel.add(titleLbl); 
 		return panel; 
@@ -157,15 +160,21 @@ public class TaskDialog extends JDialog {
 		panel.add(createField("Materia", subjectList));
 		panel.add(subjectError);
 		panel.add(createField("Fecha de entrega", dateSpinner));
-		panel.add((Box.createVerticalStrut(30)));
 		
 		createSaveButton();
 		createDeleteButton();
 		
-		panel.add(saveButton);
-		panel.add((Box.createVerticalStrut(20)));
-		panel.add(deleteBtn);
-			 
+		
+		if(task != null) {
+			panel.add((Box.createVerticalStrut(30)));
+			panel.add(saveButton);
+			panel.add((Box.createVerticalStrut(15)));
+			panel.add(deleteBtn);
+		} else {
+			panel.add((Box.createVerticalStrut(40)));
+			panel.add(saveButton);
+		}
+			
 		return scroll; 
 	}
 	
@@ -189,7 +198,7 @@ public class TaskDialog extends JDialog {
 	}
 	
 	public Label createErrorLabel() {
-		Label errorLabel = new Label("", 12, false);
+		Label errorLabel = new Label("", 12, true);
 		errorLabel.setForeground(Color.RED);
 		errorLabel.setMaximumSize(new Dimension(300, 16));
 		errorLabel.setAlignmentX(CENTER_ALIGNMENT);
