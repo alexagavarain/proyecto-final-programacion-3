@@ -34,13 +34,16 @@ public class Main {
 //					RegisterView frame = new RegisterView();
 //					new RegisterController(frame);
 					
-					Session.setCurrentUser(repo.getUser(2));
-				
-					HomeView frame = new HomeView();
-					HomeController appController = new HomeController(frame);
-					Session.setAppController(appController);
-//					LoginView frame = new LoginView();
-//					new LoginController(frame);
+//					Session.setCurrentUser(repo.getUser(2));
+//				
+//					HomeView frame = new HomeView();
+//					HomeController appController = new HomeController(frame);
+//					Session.setAppController(appController);
+					
+					//TODO estilo del registro, boton regresar, disable olvidaste contraseña, que sean roundButtons
+					
+					LoginView frame = new LoginView();
+					new LoginController(frame);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();

@@ -8,6 +8,8 @@ import utils.CreateFont;
 import utils.IconLoader;
 import utils.InputField;
 import utils.Label;
+import utils.PasswordField;
+import utils.RoundedButton;
 import utils.TextPrompt;
 
 import javax.swing.SwingConstants;
@@ -31,7 +33,6 @@ import java.awt.Image;
 
 import javax.swing.JLabel;
 
-import javax.swing.JPasswordField;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
@@ -46,10 +47,11 @@ public class LoginView extends JFrame {
 	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private InputField emailTextField;
-	private JPasswordField passwordField;
+	private PasswordField passwordField;
 	private Label emailError;
 	private Label passwordError;
 	private JButton loginButton;
+	private Label registerButton;
 
 	public LoginView() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -74,7 +76,7 @@ public class LoginView extends JFrame {
 		return emailTextField;
 	}
 
-	public JPasswordField getPasswordField() {
+	public PasswordField getPasswordField() {
 		return passwordField;
 	}
 
@@ -89,6 +91,10 @@ public class LoginView extends JFrame {
 	public JButton getLoginButton() {
 		return loginButton;
 	}
+	
+	public Label getRegisterButton() {
+		return registerButton;
+	}
 
 	private void initializeComponents() {
 		contentPane = createMainPanel();
@@ -100,7 +106,7 @@ public class LoginView extends JFrame {
 		
 		JPanel descText = createAlignPanel();
 		
-		Label welcomeMessage = new Label ("Bienvenid@", 16, false);
+		Label welcomeMessage = new Label ("Bienvenid@", 16, true);
 		descText.add(welcomeMessage);
 		createSpace(15, contentPane);
 		
@@ -128,9 +134,9 @@ public class LoginView extends JFrame {
 		
 		loginButton = createLoginButton();
 		
-		createSpace(10, contentPane);
+		createSpace(20, contentPane);
 		
-		createRegisterBtn();
+		contentPane.add(createRegisterBtn());
 	}
 	
 	private JPanel createMainPanel() {
@@ -188,8 +194,8 @@ public class LoginView extends JFrame {
 		return emailTextField;
 	}
 	
-	private JPasswordField createPasswordField() {
-		passwordField = new JPasswordField();
+	private PasswordField createPasswordField() {
+		passwordField = new PasswordField();
 		passwordField.setMaximumSize(new Dimension(300, 28));
 		passwordField.setAlignmentX(CENTER_ALIGNMENT);
 		passwordField.setBorder(
@@ -227,86 +233,91 @@ public class LoginView extends JFrame {
 		return chkRememberMe;
 	}
 	
-	private void createResetPasswordBtn(JPanel panel) {
-		JButton resetPasswordButton = createButton(panel, "¿Olvidaste tu contraseña?", 160, 25, AppColors.background, AppColors.primaryAccent);
+	private Label createResetPasswordBtn() {
+		Label resetPasswordButton = new Label("¿Olvidaste tu contraseña?", 12, true, AppColors.primaryAccent);
 		resetPasswordButton.setHorizontalAlignment(SwingConstants.RIGHT);
 		resetPasswordButton.setBorder(null);
 		resetPasswordButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		
-		resetPasswordButton.addActionListener(e ->{
-			new ResetPasswordView().setVisible(true);
-			dispose();
-		});
-		
 		resetPasswordButton.addMouseListener(new MouseAdapter() {
-			public void mouseEntered(MouseEvent e) {
-				resetPasswordButton.setText("<html><u>¿Olvidaste tu contraseña?</u></html>");
+			@Override
+			public void mouseClicked(MouseEvent e) {
+//				new ResetPasswordView().setVisible(true);
+//				dispose();;
 			}
 			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				resetPasswordButton.setFont(CreateFont.DEFAULT_UNDERLINE.deriveFont(12f));
+			}
+			
+			@Override
 			public void mouseExited(MouseEvent e) {
-				resetPasswordButton.setText("¿Olvidaste tu contraseña?");
+				resetPasswordButton.setFont(CreateFont.DEFAULT.deriveFont(12f));
 			}
 		});
+		
+		return resetPasswordButton;
 	}
 	
 	private JPanel createSecondaryOptionPanel() {
 		JPanel secondaryOptionPanel = new JPanel();
 		secondaryOptionPanel.setMaximumSize(new Dimension(330, 35));
 		secondaryOptionPanel.setPreferredSize(new Dimension(330, 35));
-		secondaryOptionPanel.setBackground(AppColors.background);
+		secondaryOptionPanel.setOpaque(false);
 				
 		JCheckBox chkRememberMe = createRememberMeChk("Recuérdame");
+		chkRememberMe.setForeground(AppColors.subtitle);
 		secondaryOptionPanel.add(chkRememberMe);
 		
 		secondaryOptionPanel.add(Box.createHorizontalStrut(38));
 		
-		createResetPasswordBtn(secondaryOptionPanel);
+		secondaryOptionPanel.add(createResetPasswordBtn());
 		
 		return secondaryOptionPanel;
 	}
 	
-	private JButton createLoginButton() {
-		JButton loginButton = createButton(contentPane, "Iniciar sesión", 300, 30, AppColors.primaryAccent, Color.WHITE);
+	private RoundedButton createLoginButton() {
+		RoundedButton loginButton = createButton(contentPane, "Iniciar sesión", 300, 30, AppColors.primaryAccent, Color.WHITE);
 		loginButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		loginButton.setContentAreaFilled(true);
 				
 		loginButton.addMouseListener(new MouseAdapter() {
-			public void mouseEntered(MouseEvent e) {
-				loginButton.setBackground(AppColors.background);
-				loginButton.setForeground(AppColors.primaryAccent);
-				loginButton.setBorderPainted(true);
-				loginButton.setBorder(BorderFactory.createLineBorder(AppColors.primaryAccent, 1));
-			}
-			
-			public void mouseExited(MouseEvent e) {
-				loginButton.setBackground(AppColors.primaryAccent);
-				loginButton.setForeground(Color.WHITE);
-				loginButton.setBorderPainted(false);
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				RegisterView view = new RegisterView();
+			    new RegisterController(view);
+			    view.setVisible(true);
+			    dispose();
 			}
 		});
 		
 		return loginButton;
 	}
 	
-	private JButton createRegisterBtn() {
-		JButton registerButton = createButton(contentPane, "¿No tienes una cuenta? Regístrate aquí", 300, 30, AppColors.background, AppColors.primaryAccent);
+	private Label createRegisterBtn() {
+		registerButton = new Label("¿No tienes una cuenta? Regístrate aquí", 12, true, AppColors.primaryAccent);
 		registerButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
 		
-		registerButton.addActionListener(e ->{
-		    RegisterView view = new RegisterView();
-		    new RegisterController(view);
-		    view.setVisible(true);
-		    dispose();
-		});
-		
 		registerButton.addMouseListener(new MouseAdapter() {
-			public void mouseEntered(MouseEvent e) {
-				registerButton.setText("<html><u>¿No tienes una cuenta? Regístrate aquí</u></html>");
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				RegisterView view = new RegisterView();
+			    new RegisterController(view);
+			    view.setVisible(true);
+			    dispose();
 			}
 			
-			public void mouseExited(MouseEvent e) {
-				registerButton.setText("¿No tienes una cuenta? Regístrate aquí");
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				registerButton.setFont(CreateFont.DEFAULT_UNDERLINE.deriveFont(12f));
 			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				registerButton.setFont(CreateFont.DEFAULT.deriveFont(12f));
+			}
+			
 		});
 		return registerButton;
 	}
@@ -323,8 +334,8 @@ public class LoginView extends JFrame {
 		container.add(Box.createVerticalStrut(pixels));
 	}
 	
-	public JButton createButton(JPanel container, String name, int width, int length, Color background, Color foreground) {
-		JButton button = new JButton(name);
+	public RoundedButton createButton(JPanel container, String name, int width, int length, Color background, Color foreground) {
+		RoundedButton button = new RoundedButton(name, 20);
 		button.setMaximumSize(new Dimension(width, length));
 		button.setPreferredSize(new Dimension(width, length));
 		button.setBackground(background);

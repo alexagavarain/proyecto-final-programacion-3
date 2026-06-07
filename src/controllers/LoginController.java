@@ -36,19 +36,15 @@ public class LoginController {
 			try {
 				handleLogin(view.getContentPane());
 			} catch (InvalidEmailException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 		});
 	}
 	
 	private void handleLogin(JPanel panel) throws InvalidEmailException {
-
 	    view.getEmailError().setText("");
 	    view.getPasswordError().setText("");
-	    
-	    boolean valid = false;
-	    
+	   	    
 	    try {
 	    	 if (!validateCredentials(
 	 	            new User(

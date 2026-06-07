@@ -32,7 +32,7 @@ public class HomeController {
 	        @Override
 	        public void windowClosing(WindowEvent e) {
 	        	view.dispose();
-//	        	handleClose();
+	        	handleClose();
 	        }
 	    });
 		
@@ -115,7 +115,6 @@ public class HomeController {
 	}
 	
 	public void loadUserSummary() {
-		System.out.println("Cargando info de" + user.getName());
 		this.user = Session.getCurrentUser();
 		view.getUsername().setText(user.getName());
 		view.getUserCareer().setText(user.getGroup().getCareer().getAbb() + " · Sem. " + Session.getCurrentUser().getGroup().getSemester());
