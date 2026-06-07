@@ -22,13 +22,14 @@ public class TaskRepository {
 	public List<Task> getTasks(User user) {
 		List<Task> tasks = new ArrayList<Task>();
 
-		String sql = "SELECT * FROM vista_tarea WHERE id_usuario = ? "
+		String sql = "SELECT * FROM vista_tarea WHERE id_usuario = ? AND id_grupo = ? "
 				+ "ORDER BY fecha_entrega ASC";
 		
 		try(Connection connection = DatabaseConnection.getConnection();
 			PreparedStatement pst = connection.prepareStatement(sql)) {
 			
 			pst.setInt(1, user.getId());
+			pst.setInt(2, user.getGroup().getId());
 			
 			ResultSet rs = pst.executeQuery(); 
 			

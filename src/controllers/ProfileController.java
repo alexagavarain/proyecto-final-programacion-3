@@ -20,27 +20,32 @@ public class ProfileController {
 		editBtnListener();
 	}
 	
+	public void reloadProfileData() {
+		this.user = Session.getCurrentUser();	
+		loadData();
+		view.revalidate();
+		view.repaint();
+	}
+	
 	public void editBtnListener() {
 		view.getEditBtn().addActionListener(e -> {
-			System.out.println("click bitch");
-			UserFormDialog dialog = new UserFormDialog(null, user);
+			UserFormDialog dialog = new UserFormDialog(Session.getMainFrame(), user);
 			new UserFormDialogController(dialog);
 			dialog.setVisible(true);
 		});
 	}
 	
-	public void loadData() {
+	public void loadData() {	
 		view.getAvatar().setText(getInitials(user.getName()));
 		view.getNameLbl().setText(user.getName());
 		view.getCareerLbl().setText(user.getGroup().getCareer().getName());
 		
-		view.loadPrompt(view.getNameField(), user.getName());
-		view.loadPrompt(view.getEmailField(), user.getEmail());
-		view.loadPrompt(view.getCareerField(), user.getGroup().getCareer().getName());
-		view.loadPrompt(view.getSemesterField(), user.getGroup().getSemester() + "");
-		view.loadPrompt(view.getGroupField(), user.getGroup().getName());
-		view.loadPrompt(view.getShiftField(), user.getGroup().getShift());
-
+		view.getNamePrompt().setText(user.getName());
+		view.getEmailPrompt().setText(user.getEmail());
+		view.getCareerPrompt().setText(user.getGroup().getCareer().getName());
+		view.getSemesterPrompt().setText(user.getGroup().getSemester() + "");
+		view.getGroupPrompt().setText(user.getGroup().getName());
+		view.getShiftPrompt().setText(user.getGroup().getShift());
 	}
 	
 	private String getInitials(String name) {
@@ -53,30 +58,4 @@ public class ProfileController {
         }
         return ini.toUpperCase();
     }
-	
-//	public void openForm(User user) {
-//		UserFormDialog dialog = new UserFormDialog(null, user);
-//		new UserFormDialogController(dialog);
-//		dialog.setVisible(true);
-//		
-//		if(dialog.isSaved()) {
-//			User savedUser = dialog.getUser();
-//			
-//			try {
-//				if(user == null) {
-//					repo.save(savedUser);
-//				}else {
-//					int row = view.getSelectedRow();
-//					repo.update(row, savedUser);
-//				}
-//				
-//				loadUsers();
-//			}catch(Exception e) {
-//				e.printStackTrace();
-//				JOptionPane.showMessageDialog(view, e.getMessage());
-//			}
-//			
-//		}
-//	}
-
 }

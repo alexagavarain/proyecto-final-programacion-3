@@ -49,6 +49,7 @@ public class UserRepository {
 					rs.getInt("id_usuario"), 
 					rs.getString("nombre"), 
 					rs.getString("correo"),
+					rs.getString("contrasena"),
 					rs.getString("rol"),
 					group
 				);

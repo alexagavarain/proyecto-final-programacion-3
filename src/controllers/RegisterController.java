@@ -103,7 +103,9 @@ public class RegisterController {
 			    );
 			
 			if(option == JOptionPane.YES_OPTION) {
-				new LoginView().setVisible(true);
+				LoginView login = new LoginView();
+				new LoginController(login);
+				login.setVisible(true);
 				view.dispose();
 			}
 		});

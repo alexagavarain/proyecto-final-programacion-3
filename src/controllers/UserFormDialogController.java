@@ -17,6 +17,7 @@ import repository.CareersRepository;
 import repository.GroupRepository;
 import repository.UserRepository;
 import utils.Session;
+import views.HomeView;
 import views.UserFormDialog;
 
 public class UserFormDialogController {
@@ -90,7 +91,12 @@ public class UserFormDialogController {
     	
 		if (repo.updateUser(user)) {
             JOptionPane.showMessageDialog(view.getContentPane(), "Se han actualizado tus datos");
-//            view.dispose();
+            
+            Session.setCurrentUser(user);
+            
+            Session.getAppController().reloadApp();
+            
+            view.dispose();
 		} else {
         JOptionPane.showMessageDialog(view.getContentPane(), "Error al actualizar datos");
         }
@@ -100,7 +106,6 @@ public class UserFormDialogController {
 		view.getNameField().setText(user.getName());
 		view.getEmailField().setText(user.getEmail());
 		view.getPasswordField().setText(user.getPassword());
-		System.out.println(user.getPassword());
 	}
 
     private void disableCombos() {

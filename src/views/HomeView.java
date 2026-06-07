@@ -36,6 +36,10 @@ public class HomeView extends JFrame{
 	public static final String PROFILE = "PROFILE";
 	public static final String CLASSES = "CLASSES";
 	public static final String TASKS = "TASKS";
+	
+	private Label username;
+	private Label userCareer;
+	private JLabel avatar;
 
 	private JButton tasksBtn;
 	private JButton classesBtn;
@@ -57,13 +61,6 @@ public class HomeView extends JFrame{
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setTitle("Uni Tasks");
-		
-		ImageIcon icon = (ImageIcon) IconLoader.getIcon("/assets/img/logo.svg", 64, 64);
-        
-        if (icon != null) {
-            Image logo = icon.getImage();
-            setIconImage(logo);
-        }
 		
 		createSideBar();
 		createViews();
@@ -89,7 +86,6 @@ public class HomeView extends JFrame{
 		return profileView;
 	}
 
-
 	public ClassesView getClassesView() {
 		return classesView;
 	}
@@ -104,6 +100,18 @@ public class HomeView extends JFrame{
 	
 	public JPanel getPfpContainer() {
 		return pfpContainer;
+	}
+
+	public Label getUsername() {
+		return username;
+	}
+
+	public Label getUserCareer() {
+		return userCareer;
+	}
+
+	public JLabel getAvatar() {
+		return avatar;
 	}
 
 	public void createSideBar() {
@@ -154,8 +162,8 @@ public class HomeView extends JFrame{
 	    userInfo.setLayout(new BoxLayout(userInfo, BoxLayout.Y_AXIS));
 	    userInfo.setOpaque(false);
 	    
-	    Label username = new Label(user.getName(), 12, true);
-	    Label userCareer = new Label(user.getGroup().getCareer().getAbb() + " · Sem. " + Session.getCurrentUser().getGroup().getSemester(), 12, true, AppColors.menuItem);
+	    username = new Label("", 12, true);
+	    userCareer = new Label("", 12, true, AppColors.menuItem);
 	    username.setAlignmentX(Component.LEFT_ALIGNMENT);
 	    userCareer.setAlignmentX(Component.LEFT_ALIGNMENT);
 	    
@@ -177,8 +185,7 @@ public class HomeView extends JFrame{
 	}
 
 	private JPanel createAvatar() {
-	    String initials = user != null ? getInitials(user.getName()) : "??";
-	    JLabel avatar = new JLabel(initials, SwingConstants.CENTER);
+	    avatar = new JLabel("", SwingConstants.CENTER);
 	    
 	    avatar.setForeground(new Color(0x2563EB));
 	    avatar.setFont(CreateFont.DEFAULT_BOLD.deriveFont(13f));
@@ -209,17 +216,6 @@ public class HomeView extends JFrame{
 	    
 	    return avatarWrap;
 	}
-	
-	private String getInitials(String name) {
-        if (name == null || name.isBlank()) return "?";
-        String[] parts = name.trim().split("\\s+");
-        String ini = String.valueOf(parts[0].charAt(0));
-        
-        if (parts.length > 1) {
-        	ini += parts[1].charAt(0);
-        }
-        return ini.toUpperCase();
-    }
 	
 	public JButton createBtn(String text, String iconPath) {
 	    JButton button = new RoundedButton(text, 20);

@@ -34,10 +34,11 @@ public class Main {
 //					RegisterView frame = new RegisterView();
 //					new RegisterController(frame);
 					
-					Session.setCurrentUser(repo.getUser(1));
+					Session.setCurrentUser(repo.getUser(2));
 				
 					HomeView frame = new HomeView();
-					new HomeController(frame);
+					HomeController appController = new HomeController(frame);
+					Session.setAppController(appController);
 //					LoginView frame = new LoginView();
 //					new LoginController(frame);
 					frame.setVisible(true);

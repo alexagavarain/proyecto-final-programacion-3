@@ -82,7 +82,8 @@ public class LoginController {
 	    	Session.setMainFrame(adminView);
 	    } else {
 		    HomeView home = new HomeView();
-	        new HomeController(home);
+	        HomeController appController = new HomeController(home);
+	        Session.setAppController(appController);
 	        home.setVisible(true);
 	        
 	        Session.setMainFrame(home);

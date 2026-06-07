@@ -22,6 +22,13 @@ public class ProfileView extends JPanel {
 	private InputField groupField;
 	private InputField shiftField;
 	
+	private TextPrompt namePrompt; 
+	private TextPrompt emailPrompt;
+	private TextPrompt careerPrompt;
+	private TextPrompt semesterPrompt;
+	private TextPrompt groupPrompt;
+	private TextPrompt shiftPrompt;
+	
 	private Label nameLbl;
 	private Label careerLbl;
 	
@@ -79,6 +86,29 @@ public class ProfileView extends JPanel {
 		return avatar;
 	}
 
+	public TextPrompt getNamePrompt() {
+		return namePrompt;
+	}
+
+	public TextPrompt getEmailPrompt() {
+		return emailPrompt;
+	}
+
+	public TextPrompt getCareerPrompt() {
+		return careerPrompt;
+	}
+
+	public TextPrompt getSemesterPrompt() {
+		return semesterPrompt;
+	}
+
+	public TextPrompt getGroupPrompt() {
+		return groupPrompt;
+	}
+
+	public TextPrompt getShiftPrompt() {
+		return shiftPrompt;
+	}
 
 	private void createHeader() {
 		JPanel titlePanel = new JPanel();
@@ -236,6 +266,13 @@ public class ProfileView extends JPanel {
         semesterField = createField();
         groupField = createField();
         shiftField = createField();
+        
+        namePrompt = createTextPrompt("", nameField);
+		emailPrompt = createTextPrompt("", emailField);
+		careerPrompt = createTextPrompt("", careerField);
+		semesterPrompt = createTextPrompt("", semesterField);
+		groupPrompt = createTextPrompt("", groupField);
+		shiftPrompt = createTextPrompt("", shiftField);
     	
         JPanel row1 = new JPanel(new GridLayout(1, 2, gapHorizontal, 0));
         row1.setOpaque(false);
@@ -276,6 +313,12 @@ public class ProfileView extends JPanel {
         block.add(lbl);
         block.add(field);
         return block;
+    }
+    
+    private TextPrompt createTextPrompt(String text, InputField field) {
+    	TextPrompt prompt = new TextPrompt(text, field);
+		prompt.setForeground(AppColors.subtitle);
+		return prompt;
     }
     
     private InputField createField(){

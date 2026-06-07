@@ -3,6 +3,7 @@ package utils;
 import java.util.List;
 import javax.swing.JFrame;
 
+import controllers.HomeController;
 import models.GroupSubject;
 import models.Subject;
 import models.User;
@@ -16,6 +17,8 @@ public class Session {
 	private static Subject currentSubjectSection;
 
     private static User currentUser;
+    
+    private static HomeController appController;
         
     public static JFrame getMainFrame() {
 		return mainFrame;
@@ -49,9 +52,19 @@ public class Session {
 		Session.currentSubjectSection = currentSubjectSection;
 	}
 
+	public static HomeController getAppController() {
+		return appController;
+	}
+
+	public static void setAppController(HomeController appController) {
+		Session.appController = appController;
+	}
+
 	public static void logout() {
         currentUser = null;
         currentSubjects.clear();
+        appController = null;
+        currentSubjectSection = null;
     }
 	    
 }

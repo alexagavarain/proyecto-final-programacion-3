@@ -1,16 +1,9 @@
 package controllers;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.swing.JButton;
 
 import models.GroupSubject;
 import models.Subject;
@@ -46,71 +39,78 @@ public class TasksController {
         loadTasks(null);
     }
     
+    public void reloadTasksData() {
+        this.user = Session.getCurrentUser();  
+        Session.setCurrentSubjectSection(null);
+        view.clearSubjectMenu(); 
+        loadSubjectMenu();
+        subjectBtnListeners();
+        loadTasks(null);
+    }
+    
     public void addBtnListener() {
-    	view.getAddBtn().addActionListener(e -> {
-			TaskDialog dialog = new TaskDialog(Session.getMainFrame(), null);
-			new TaskDialogController(dialog, this);
-			dialog.setVisible(true);
-		});
+        view.getAddBtn().addActionListener(e -> {
+            TaskDialog dialog = new TaskDialog(Session.getMainFrame(), null);
+            new TaskDialogController(dialog, this);
+            dialog.setVisible(true);
+        });
     }
     
     public void loadSubjectMenu() {
-    	view.addAllTasksBtn();
-    	
-    	List<Subject> subjects = classesRepo.getClasses(user);
-    	
-    	List<GroupSubject> groupSubjects = new ArrayList<>();
-    	
-    	for (Subject subject : subjects) { 
-    		assignSubjectColors(subject);
-    		view.addSubjectBtn(subject);
-    		
-    		SubjectProfessor subjectProfessor = classesRepo.getSubjectProfessor(subject);
-    		GroupSubject groupSubject = classesRepo.getGroupSubject(user, subjectProfessor);
-    		
-    		groupSubjects.add(groupSubject);
-    	}
+        view.addAllTasksBtn();
+        
+        List<Subject> subjects = classesRepo.getClasses(user);
+        List<GroupSubject> groupSubjects = new ArrayList<>();
+        
+        for (Subject subject : subjects) { 
+            assignSubjectColors(subject);
+            view.addSubjectBtn(subject);
+            
+            SubjectProfessor subjectProfessor = classesRepo.getSubjectProfessor(subject);
+            GroupSubject groupSubject = classesRepo.getGroupSubject(user, subjectProfessor);
+            
+            groupSubjects.add(groupSubject);
+        }
 
-    	Session.setCurrentSubjects(groupSubjects);
+        Session.setCurrentSubjects(groupSubjects);
     }
     
     public void subjectBtnListeners() {
-    	List<SubjectButton> subjectBtns = view.getSubjectBtns();
-    	    	
-    	for (SubjectButton btn : subjectBtns) {
-    		btn.addActionListener(e -> {
-    			loadTasks(btn.getSubject());
-    			view.activeSubjectBtn(btn);
-    			Session.setCurrentSubjectSection(btn.getSubject());
-    		});
-    	}
+        List<SubjectButton> subjectBtns = view.getSubjectBtns();
+                
+        for (SubjectButton btn : subjectBtns) {
+            btn.addActionListener(e -> {
+                loadTasks(btn.getSubject());
+                view.activeSubjectBtn(btn);
+                Session.setCurrentSubjectSection(btn.getSubject());
+            });
+        }
     }
 
     public void loadTasks(Subject subject) {
-    	int pendingTasks = 0;
+        int pendingTasks = 0;
         int completedTasks = 0;
         
-    	view.getPendingTasksPnl().removeAll();
-    	view.getCompletedTasksPnl().removeAll();
-    	
-    	List<Task> tasks;
+        view.getPendingTasksPnl().removeAll();
+        view.getCompletedTasksPnl().removeAll();
+        
+        List<Task> tasks;
 
-    	if (subject == null) {
+        if (subject == null) {
             tasks = repo.getTasks(user);
-    	} else {
+        } else {
             tasks = repo.getSubjectTasks(user, classesRepo.getSubjectProfessor(subject));
-    	}
-    	
-    	if (tasks == null || tasks.isEmpty()) {
-    		view.showView("EMPTY_TASKS");
-    	} else {
-    		view.showView("SHOW_TASKS");
-    	}
+        }
+        
+        if (tasks == null || tasks.isEmpty()) {
+            view.showView("EMPTY_TASKS");
+        } else {
+            view.showView("SHOW_TASKS");
+        }
 
         for(Task task : tasks) {
-        	
-        	assignSubjectColors(task.getGroupSubject().getSubjectProfessor().getSubject());
-        	        
+            assignSubjectColors(task.getGroupSubject().getSubjectProfessor().getSubject());
+                    
             TaskCard taskCard = new TaskCard(task);
                   
             if (!task.isCompleted()) {
@@ -123,11 +123,11 @@ public class TasksController {
             checkListeners(taskCard, task);       
             
             if(task.getStatus().equals("Pendiente")) {
-            	pendingTasks++;
+                pendingTasks++;
                 view.getPendingTasksPnl().add(taskCard);
             } else {
-            	completedTasks++;
-            	view.getCompletedTasksPnl().add(taskCard);
+                completedTasks++;
+                view.getCompletedTasksPnl().add(taskCard);
             }    
         }
 
@@ -163,77 +163,76 @@ public class TasksController {
     }
 
     public void editBtnListener(TaskCard taskCard, Task task) {
-    	taskCard.getEditBtn().addActionListener(e -> {
-        	TaskDialog dialog = new TaskDialog(Session.getMainFrame(), task);
-        	new TaskDialogController(dialog, TasksController.this);
-        	dialog.setVisible(true);
+        taskCard.getEditBtn().addActionListener(e -> {
+            TaskDialog dialog = new TaskDialog(Session.getMainFrame(), task);
+            new TaskDialogController(dialog, TasksController.this);
+            dialog.setVisible(true);
         });
     }
     
     public void checkListeners(TaskCard taskCard, Task task) {
-    	taskCard.getCheckBtn().addMouseListener(new MouseAdapter() {
+        taskCard.getCheckBtn().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
             }
 
             @Override
             public void mouseEntered(MouseEvent e) {
-            	if(!task.isCompleted()) {
-            		taskCard.getCheckBtn().setIcon(IconLoader.getIcon("/assets/img/hoverCheckbox.svg", 22, 22));
-            	}
+                if(!task.isCompleted()) {
+                    taskCard.getCheckBtn().setIcon(IconLoader.getIcon("/assets/img/hoverCheckbox.svg", 22, 22));
+                }
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-            	if (!task.isCompleted()) {
-                taskCard.getCheckBtn().setIcon(IconLoader.getIcon("/assets/img/checkbox.svg", 22, 22));
-            	}
+                if (!task.isCompleted()) {
+                    taskCard.getCheckBtn().setIcon(IconLoader.getIcon("/assets/img/checkbox.svg", 22, 22));
+                }
             }
         });
         
         taskCard.getCheckBtn().addActionListener(e -> {
-        	if (!task.isCompleted()) {
-        		task.setStatus("Completada");
-        		repo.updateTask(task, user);
-        	} else {
-        		task.setStatus("Pendiente");
-        		repo.updateTask(task, user);
-        	}
-        	reloadTasks(Session.getCurrentSubjectSection());
+            if (!task.isCompleted()) {
+                task.setStatus("Completada");
+                repo.updateTask(task, user);
+            } else {
+                task.setStatus("Pendiente");
+                repo.updateTask(task, user);
+            }
+            reloadTasks(Session.getCurrentSubjectSection());
         });
     }
     
     public void assignSubjectColors(Subject subject) {
-		switch(subject.getName()) {
-		case "Inglés IV":
-			subject.setColor(SubjectColors.ENG_COLOR);
-			subject.setSubColor(SubjectColors.ENG_SUBCOLOR);
-			break;
-		case "Estructura de Datos II":
-			subject.setColor(SubjectColors.DS_COLOR);
-			subject.setSubColor(SubjectColors.DS_SUBCOLOR);
-			break;
-		case "Interacción Humano-Computadora":
-			subject.setColor(SubjectColors.HCI_COLOR);
-			subject.setSubColor(SubjectColors.HCI_SUBCOLOR);
-			break;
-		case "Base de Datos I":
-			subject.setColor(SubjectColors.DB_COLOR);
-			subject.setSubColor(SubjectColors.DB_SUBCOLOR);
-			break;
-		case "Métodos Numéricos":
-			subject.setColor(SubjectColors.NUM_COLOR);
-			subject.setSubColor(SubjectColors.NUM_SUBCOLOR);
-			break;
-		case "Paradigmas de Programación":
-			subject.setColor(SubjectColors.PDGM_COLOR);
-			subject.setSubColor(SubjectColors.PDGM_SUBCOLOR);
-			break;
-		case "Programación III":
-			subject.setColor(SubjectColors.PROG_COLOR);
-			subject.setSubColor(SubjectColors.PROG_SUBCOLOR);
-			break;
-		}
-	}
-
+        switch(subject.getName()) {
+        case "Inglés IV":
+            subject.setColor(SubjectColors.ENG_COLOR);
+            subject.setSubColor(SubjectColors.ENG_SUBCOLOR);
+            break;
+        case "Estructura de Datos II":
+            subject.setColor(SubjectColors.DS_COLOR);
+            subject.setSubColor(SubjectColors.DS_SUBCOLOR);
+            break;
+        case "Interacción Humano-Computadora":
+            subject.setColor(SubjectColors.HCI_COLOR);
+            subject.setSubColor(SubjectColors.HCI_SUBCOLOR);
+            break;
+        case "Base de Datos I":
+            subject.setColor(SubjectColors.DB_COLOR);
+            subject.setSubColor(SubjectColors.DB_SUBCOLOR);
+            break;
+        case "Métodos Numéricos":
+            subject.setColor(SubjectColors.NUM_COLOR);
+            subject.setSubColor(SubjectColors.NUM_SUBCOLOR);
+            break;
+        case "Paradigmas de Programación":
+            subject.setColor(SubjectColors.PDGM_COLOR);
+            subject.setSubColor(SubjectColors.PDGM_SUBCOLOR);
+            break;
+        case "Programación III":
+            subject.setColor(SubjectColors.PROG_COLOR);
+            subject.setSubColor(SubjectColors.PROG_SUBCOLOR);
+            break;
+        }
+    }
 }

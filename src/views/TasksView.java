@@ -251,6 +251,18 @@ public class TasksView extends JPanel {
 		cardLayout.show(cardContainer, view);
 	}
 	
+	public void clearSubjectMenu() {
+	    if (this.subjectBtns != null) {
+	        this.subjectBtns.clear();
+	    }
+	    
+	    if (this.subjectMenu != null) {
+	        this.subjectMenu.removeAll(); 
+	        this.subjectMenu.revalidate();
+	        this.subjectMenu.repaint();
+	    }
+	}
+	
 	public void activeSubjectBtn(SubjectButton activeBtn) {
 	    for (SubjectButton btn : subjectBtns) {
 	        if (btn == activeBtn) {

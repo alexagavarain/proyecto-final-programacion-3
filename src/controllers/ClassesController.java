@@ -20,6 +20,12 @@ public class ClassesController {
         loadClasses();
     }
     
+    public void reloadClassesData() {
+        loadClasses(); 
+        view.revalidate();
+        view.repaint();
+    }
+    
     public void loadClasses() {
         List<GroupSubject> groupSubjects = Session.getCurrentSubjects();
         
