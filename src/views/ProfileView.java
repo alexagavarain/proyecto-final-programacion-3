@@ -299,6 +299,7 @@ public class ProfileView extends JPanel {
     	editBtn.setFocusPainted(false);
         editBtn.setPreferredSize(new Dimension(520, 38));
         editBtn.setMaximumSize(new Dimension(520, 38));
+        editBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
         editBtn.setAlignmentX(Component.LEFT_ALIGNMENT);
     }
 

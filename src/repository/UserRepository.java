@@ -147,6 +147,7 @@ public class UserRepository {
 					rs.getInt("id_usuario"), 
 					rs.getString("nombre"), 
 					rs.getString("correo"),
+					rs.getString("contrasena"),
 					rs.getString("rol"),
 					group
 				);
@@ -208,7 +209,35 @@ public class UserRepository {
 		return false;
 	}
 	
-	public void update(int index, User updatedUser) throws IOException {
+	public boolean updateUser(User updatedUser){
+		String sql = "UPDATE usuario SET nombre = ?, correo = ?, id_grupo = ?"
+				+ " WHERE id_usuario = ?";
+		
+		try (Connection connection = DatabaseConnection.getConnection();
+				PreparedStatement pst = connection.prepareStatement(sql)) {
+			
+			pst.setString(1, updatedUser.getName());
+			pst.setString(2, updatedUser.getEmail());
+			pst.setInt(3, updatedUser.getGroup().getId());
+			pst.setInt(4, updatedUser.getId());
+			
+			int affectedRows = pst.executeUpdate();
+			
+			if(affectedRows > 0) {
+				System.out.println("Usuario editado");
+				return true;
+			}else {
+				System.out.println("No se pudo editar al usuario");
+			}
+						
+		}catch(SQLException ex) {
+			ex.printStackTrace();
+		}
+		
+		return false;
+	}
+	
+	public void updateUsers(int index, User updatedUser) throws IOException {
 		List<User> users = getUsers();
 		users.set(index, updatedUser);
 		

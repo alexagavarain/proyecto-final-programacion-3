@@ -26,7 +26,7 @@ public class CareersRepository {
 					rs.getString("nombre"),
 					rs.getString("siglas")
 				);
-				
+								
 				careers.add(career);
 			}
 			

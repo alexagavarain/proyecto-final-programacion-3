@@ -2,108 +2,110 @@ package views;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component; 
+import java.awt.Component;
+import java.awt.Cursor;
 import java.awt.Dimension; 
 import java.awt.FlowLayout; 
-import javax.swing.BorderFactory; 
+import javax.swing.BorderFactory;
+import javax.swing.Box;
 import javax.swing.BoxLayout; 
 import javax.swing.ButtonGroup; 
 import javax.swing.JButton; 
-import javax.swing.JComboBox; 
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
 import javax.swing.JDialog; 
 import javax.swing.JFrame; 
 import javax.swing.JLabel; 
 import javax.swing.JList;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel; 
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JRadioButton; 
 import javax.swing.JScrollPane; 
 import javax.swing.JTextArea; 
 import javax.swing.JTextField; 
-import javax.swing.SwingConstants; 
-import models.User;
-import utils.Label; 
+import javax.swing.SwingConstants;
 
-public class UserFormDialog extends JDialog{ 
+import models.Career;
+import models.User;
+import utils.AppColors;
+import utils.InputField;
+import utils.Label;
+import utils.RoundedButton; 
+
+public class UserFormDialog extends JDialog {
+		
+	private JTextField nameField;
+	private JTextField emailField;
+	private JPasswordField passwordField;
 	
-	private JTextField txtName; 
-	private JTextField txtEmail; 
-	private JComboBox<String> cboCarrera; 
-	private JRadioButton rbtnMatutino; 
-	private JRadioButton rbtnVespertino; 
-	private ButtonGroup turnoGroup; 
-	private JComboBox<String> cboGrupo; 
-	private JButton btnSave; 
-	private JButton btnCancel; 
-	private User user; 
-	private boolean saved = false; 
+	private JComboBox<String> groups;
+	private JComboBox<Career> careers;
+	private JComboBox<Integer> semesters;
+	private JComboBox<String> shifts;
+	
+	private JButton saveButton; 
+	
+	private User user;
+	
+	private Dimension fieldSize;
 	
 	private Label emailError = createErrorLabel("");
 	private Label passwordError = createErrorLabel("");
 	private Label nameError = createErrorLabel("");
-	private Label carreraError = createErrorLabel("");
-	private Label grupoError =  createErrorLabel("");
-	private Label turnoError = createErrorLabel("");
+	private Label careerError = createErrorLabel("");
 	
 	public UserFormDialog(JFrame parent, User user) { 
 		super(parent, true); 
 		this.user = user; 
-		String title = user == null ? "Agregar usuario" : "Editar usuario";
 		
-		setSize(400, 500);
+		String title = user == null ? "Agregar usuario" : "Editar perfil";
+		
+		setSize(400, 650);
     	setTitle(title);
 		setLocationRelativeTo(parent); 
 		setLayout(new BorderLayout()); 
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE); 
-		add(createTitlePanel(title), BorderLayout.NORTH); 
+			
+		add(createTitlePanel(title, 18), BorderLayout.NORTH); 
 		add(createFormPanel(), BorderLayout.CENTER); 
-		add(createButtonPanel(), BorderLayout.SOUTH); 
-		
-		loadData();
+		add(createSaveButton(), BorderLayout.SOUTH); 		
 	} 
 	
-	public JButton getBtnSave() {
-		return btnSave;
+	public JTextField getNameField() {
+		return nameField;
 	}
 
-	public JButton getBtnCancel() {
-		return btnCancel;
+	public JTextField getEmailField() {
+		return emailField;
+	}
+
+	public JPasswordField getPasswordField() {
+		return passwordField;
+	}
+
+	public JComboBox<String> getGroups() {
+		return groups;
+	}
+
+	public JComboBox<Career> getCareers() {
+		return careers;
+	}
+
+	public JComboBox<Integer> getSemesters() {
+		return semesters;
+	}
+
+	public JComboBox<String> getShifts() {
+		return shifts;
+	}
+
+	public JButton getSaveButton() {
+		return saveButton;
 	}
 
 	public User getUser() {
 		return user;
-	}
-
-	public boolean isSaved() {
-		return saved;
-	}
-
-	public JTextField getTxtName() {
-		return txtName;
-	}
-
-	public JTextField getTxtEmail() {
-		return txtEmail;
-	}
-
-	public JComboBox<String> getCboCarrera() {
-		return cboCarrera;
-	}
-
-	public JRadioButton getRbtnMatutino() {
-		return rbtnMatutino;
-	}
-
-	public JRadioButton getRbtnVespertino() {
-		return rbtnVespertino;
-	}
-
-	public ButtonGroup getTurnoGroup() {
-		return turnoGroup;
-	}
-
-	public JComboBox<String> getCboGrupo() {
-		return cboGrupo;
 	}
 
 	public Label getEmailError() {
@@ -118,138 +120,117 @@ public class UserFormDialog extends JDialog{
 		return nameError;
 	}
 
-	public Label getCarreraError() {
-		return carreraError;
+	public Label getCareerError() {
+		return careerError;
 	}
-
-	public Label getGrupoError() {
-		return grupoError;
-	}
-
-	public Label getTurnoError() {
-		return turnoError;
-	}
-
-	private JPanel createTitlePanel(String title) { 
+	
+	private JPanel createTitlePanel(String title, float fontSize) { 
 		JPanel panel = new JPanel(); 
-		panel.add(new JLabel(title)); 
+		Label titleLbl = new Label(title, fontSize, true);		
+		titleLbl.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
+		titleLbl.setAlignmentX(CENTER_ALIGNMENT);
+		panel.add(titleLbl); 
 		return panel; 
 	} 
 	
-	private JPanel createButtonPanel() { 
-		JPanel panel = new JPanel(); 
-		btnSave = new JButton("Guardar"); 
-		btnCancel = new JButton("Cancelar"); 
+	private JPanel createFormPanel() { 
+		JPanel contentPane = new JPanel(); 
+		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS)); 
+		contentPane.setBorder(BorderFactory.createEmptyBorder(15, 25, 15, 25)); 
 		
-		panel.add(btnSave); 
-		panel.add(btnCancel); 
-		
-		btnCancel.addActionListener(e -> dispose()); 
-		
-		return panel;
-	} 
-	
-	private JPanel createField(String labelText, Component field) { 
-		Dimension fieldSize = new Dimension(250, 30); 
-		
-		JPanel panel = new JPanel(); 
-		panel.setBorder(BorderFactory.createEmptyBorder(5, 0, 5, 0)); 
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS)); 
-		panel.setAlignmentX(Component.CENTER_ALIGNMENT); 
-		
-		JLabel label = new JLabel(labelText); 
-		label.setMaximumSize(fieldSize); 
-		label.setHorizontalAlignment(SwingConstants.LEFT); 
-		label.setAlignmentX(Component.CENTER_ALIGNMENT); 
-		
-		panel.add(label); 
-		panel.add(field); 
-		
-		return panel; 
-	}
-	
-	private JScrollPane createFormPanel() { 
-		JPanel panel = new JPanel(); 
-		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS)); 
-		panel.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20)); 
-		
-		JScrollPane scroll = new JScrollPane(panel); 
-		scroll.setBorder(null); 
-		scroll.setHorizontalScrollBar(null); 
-		
-		Dimension fieldSize = new Dimension(250, 30); 
+		fieldSize = new Dimension(340, 32); 
 
-		txtName = new JTextField(); 
-		txtName.setMaximumSize(fieldSize); 
+		nameField = new JTextField();
+		setupComponent(nameField);
+		contentPane.add(createLabel("Nombre completo"));
+		contentPane.add(nameField);
+		contentPane.add(nameError);
 		
-		txtEmail = new JTextField(); 
-		txtEmail.setMaximumSize(fieldSize);
+		contentPane.add(Box.createVerticalStrut(4));
+				
+		emailField = new JTextField();
+		setupComponent(emailField);
+		contentPane.add(createLabel("Correo electrónico"));
+		contentPane.add(emailField);
+		contentPane.add(emailError);
 		
-		cboCarrera = new JComboBox<>(new String[] { 
-				"Seleccione", 
-				"Ingeniería en Desarrollo de Software (IDS)",
-			    "Licenciatura en Tecnologías de la Información (LATI)",
-			    "Ingeniería en Tecnologia Computacional (ITC)",
-			    "Ingeniería en Ciberseguridad (IC)"}); 
-		cboCarrera.setMaximumSize(fieldSize);
+		contentPane.add(Box.createVerticalStrut(4));
+
+		passwordField = new JPasswordField();
+		setupComponent(passwordField);
+		contentPane.add(createLabel("Contraseña"));
+		contentPane.add(passwordField);
+		contentPane.add(passwordError);
+				
+		contentPane.add(Box.createVerticalStrut(4));
+				
+		careerError = createErrorLabel("");
+
+		careers = createList();
+		contentPane.add(createLabel("Carrera"));
+		contentPane.add(careers);
+		contentPane.add(careerError);
 		
-		rbtnMatutino = new JRadioButton("Matutino"); 
-		rbtnMatutino.setActionCommand("M"); 
-		rbtnVespertino = new JRadioButton("Vespertino"); 
-		rbtnVespertino.setActionCommand("V");
-		turnoGroup = new ButtonGroup(); 
-		turnoGroup.add(rbtnMatutino); 
-		turnoGroup.add(rbtnVespertino); 
+		semesters = createList();
+		contentPane.add(createLabel("Semestre"));
+		contentPane.add(semesters);
+		contentPane.add(Box.createVerticalStrut(12));
 		
-		cboGrupo = new JComboBox<>(new String[] { "Seleccione", "A", "B" });
-		cboGrupo.setMaximumSize(fieldSize);
+		groups = createList();
+		contentPane.add(createLabel("Grupo"));
+		contentPane.add(groups);
+		contentPane.add(Box.createVerticalStrut(12));
 		
-		panel.add(createField("Nombre:", txtName)); 
-		panel.add(nameError);
-		panel.add(createField("Correo:", txtEmail)); 
-		panel.add(emailError);
-		panel.add(createField("Carrera:", cboCarrera)); 
-		panel.add(carreraError);
-		
-		JPanel turnoPanel = new JPanel(new FlowLayout(FlowLayout.LEFT)); 
-		turnoPanel.setMaximumSize(fieldSize);
-		turnoPanel.setPreferredSize(fieldSize);
-		turnoPanel.add(rbtnMatutino); 
-		turnoPanel.add(rbtnVespertino); 
-		
-		panel.add(createField("Turno:", turnoPanel));
-		panel.add(turnoError);
-		panel.add(createField("Grupo:", cboGrupo));
-		panel.add(grupoError);	
+		shifts = createList();
+		contentPane.add(createLabel("Turno"));
+		contentPane.add(shifts);
 			 
-		return scroll; 
+		return contentPane; 
 	}
 	
-	private void loadData() {
-	    if (user != null) {
-	        txtName.setText(user.getName());
-	        txtEmail.setText(user.getEmail());
-
-	        cboCarrera.setSelectedItem(user.getGroup().getCareer().getName());
-	        cboGrupo.setSelectedItem(user.getGroup().getName());
-
-	        if (user.getGroup().getShift().equals("M")) {
-	            rbtnMatutino.setSelected(true);
-	        } else {
-	            rbtnVespertino.setSelected(true);
-	        }
-	    }
+	private void setupComponent(Component c) {
+		c.setMaximumSize(fieldSize);
+		c.setPreferredSize(fieldSize);
+		c.setMinimumSize(fieldSize);
+		((JComponent) c).setAlignmentX(Component.LEFT_ALIGNMENT);
+	}
+	
+	public <T> JComboBox<T> createList() {
+	    JComboBox<T> list = new JComboBox<>();
+	    setupComponent(list);
+	    list.setBackground(Color.WHITE);
+	    return list;
+	}
+	
+	public Label createLabel(String containerName) {
+		Label label = new Label(containerName, 14, true);
+		label.setAlignmentX(LEFT_ALIGNMENT);
+		return label;
 	}
 	
 	public Label createErrorLabel(String text) {
-		Label errorLabel = new Label("", 12, false);
+		Label errorLabel = new Label("", 12, true);
 		errorLabel.setForeground(Color.RED);
 		errorLabel.setBackground(Color.BLUE);		
 		errorLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		errorLabel.setMaximumSize(new Dimension(250,20));
-		errorLabel.setAlignmentX(CENTER_ALIGNMENT);
+		errorLabel.setMaximumSize(new Dimension(340, 20));
+		errorLabel.setAlignmentX(LEFT_ALIGNMENT);
 		return errorLabel;
 	}
-
-
+	
+	private JPanel createSaveButton() {
+		JPanel btnContainer = new JPanel();
+		btnContainer.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
+		
+		saveButton = new RoundedButton("Guardar", 12);
+		saveButton.setMaximumSize(new Dimension(340, 30));
+		saveButton.setPreferredSize(new Dimension(340, 30));
+		saveButton.setBackground(AppColors.primaryAccent);
+		saveButton.setForeground(Color.WHITE);
+		saveButton.setAlignmentX(CENTER_ALIGNMENT);
+		saveButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		
+		btnContainer.add(saveButton);
+		return btnContainer;
+	}
 }

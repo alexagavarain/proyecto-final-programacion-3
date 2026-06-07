@@ -44,7 +44,6 @@ public class RegisterView extends JFrame{
 	private InputField nameField;
 	private InputField emailTextField;
 	private JPasswordField passwordField;
-	private JPanel contentPane;
 			
 	private JComboBox<String> groups;
 	private JComboBox<Career> careers;
@@ -61,6 +60,9 @@ public class RegisterView extends JFrame{
 	private JButton backButton;
 	
 	private Dimension fieldSize;
+	
+	private JPanel contentPane;
+
 	
 	public JPanel getContentPane() {
 		return contentPane;

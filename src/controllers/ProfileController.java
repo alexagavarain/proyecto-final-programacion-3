@@ -1,8 +1,11 @@
 package controllers;
 
+import javax.swing.JOptionPane;
+
 import models.User;
 import utils.Session;
 import views.ProfileView;
+import views.UserFormDialog;
 
 public class ProfileController {
 	
@@ -14,13 +17,17 @@ public class ProfileController {
 		this.user = Session.getCurrentUser();
 		
 		loadData();
+		editBtnListener();
 	}
 	
-//	public void saveBtnListener() {
-//		view.getEditBtn().addActionListener(e -> {
-//			
-//		});
-//	}
+	public void editBtnListener() {
+		view.getEditBtn().addActionListener(e -> {
+			System.out.println("click bitch");
+			UserFormDialog dialog = new UserFormDialog(null, user);
+			new UserFormDialogController(dialog);
+			dialog.setVisible(true);
+		});
+	}
 	
 	public void loadData() {
 		view.getAvatar().setText(getInitials(user.getName()));
@@ -46,5 +53,30 @@ public class ProfileController {
         }
         return ini.toUpperCase();
     }
+	
+//	public void openForm(User user) {
+//		UserFormDialog dialog = new UserFormDialog(null, user);
+//		new UserFormDialogController(dialog);
+//		dialog.setVisible(true);
+//		
+//		if(dialog.isSaved()) {
+//			User savedUser = dialog.getUser();
+//			
+//			try {
+//				if(user == null) {
+//					repo.save(savedUser);
+//				}else {
+//					int row = view.getSelectedRow();
+//					repo.update(row, savedUser);
+//				}
+//				
+//				loadUsers();
+//			}catch(Exception e) {
+//				e.printStackTrace();
+//				JOptionPane.showMessageDialog(view, e.getMessage());
+//			}
+//			
+//		}
+//	}
 
 }
