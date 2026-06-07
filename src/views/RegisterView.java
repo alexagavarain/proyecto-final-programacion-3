@@ -41,10 +41,9 @@ import utils.TextPrompt;
 
 public class RegisterView extends JFrame{
 	
-	boolean error = false;
-	InputField nameField;
-	InputField emailTextField;
-	JPasswordField passwordField;
+	private InputField nameField;
+	private InputField emailTextField;
+	private JPasswordField passwordField;
 	private JPanel contentPane;
 			
 	private JComboBox<String> groups;
@@ -83,37 +82,12 @@ public class RegisterView extends JFrame{
 		return semesters;
 	}
 
-	public void setSemesters(JComboBox<Integer> semesters) {
-		this.semesters = semesters;
-	}
-
 	public Label getCareerError() {
 		return careerError;
 	}
 
-	public void setCareerError(Label careerError) {
-		this.careerError = careerError;
-	}
-
-
-	public void setGroups(JComboBox<String> groups) {
-		this.groups = groups;
-	}
-
-	public void setCareers(JComboBox<Career> careers) {
-		this.careers = careers;
-	}
-
-	public void setShifts(JComboBox<String> shifts) {
-		this.shifts = shifts;
-	}
-
 	public JButton getRegisterButton() {
 		return registerButton;
-	}
-	
-	public boolean isError() {
-		return error;
 	}
 	
 	public String getName() {
@@ -147,6 +121,7 @@ public class RegisterView extends JFrame{
 	public JButton getBackButton() {
 		return backButton;
 	}
+	
 	
 	public RegisterView() {
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);

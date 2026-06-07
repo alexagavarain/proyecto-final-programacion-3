@@ -1,5 +1,7 @@
 package controllers;
 
+import java.awt.Cursor;
+import java.awt.event.MouseAdapter;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -28,8 +30,21 @@ public class HomeController {
 		
 		new TasksController(view.getTasksView());
 		new ClassesController(view.getClassesView());
+		new ProfileController(view.getProfileView());
 		
 		menuListeners();	
+		pfpBtnListeners();
+	}
+	
+	public void pfpBtnListeners() {
+		view.getPfpContainer().addMouseListener(new MouseAdapter() {
+		    @Override
+		    public void mouseClicked(java.awt.event.MouseEvent e) {
+		        view.showView(HomeView.PROFILE);
+		        view.activeBtnStyle(view.getProfileBtn());
+		        //TODO profileController
+		    }
+		});
 	}
 	
 	public void menuListeners( ) {

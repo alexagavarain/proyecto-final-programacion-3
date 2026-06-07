@@ -1,7 +1,5 @@
 package controllers;
 
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -19,12 +17,10 @@ import models.User;
 import repository.ClassesRepository;
 import repository.TaskRepository;
 import utils.Session;
-import models.Career;
 import models.GroupSubject;
 import models.Subject;
 import models.SubjectProfessor;
 import models.Task;
-import views.HomeView;
 import views.TaskDialog;
 
 public class TaskDialogController {
@@ -95,7 +91,12 @@ public class TaskDialogController {
         view.getSubjectList().addItem(placeholder);
 
 	    for (Subject subject : subjects) {
+	    	
 	        view.getSubjectList().addItem(subject);
+
+	    	if (Session.getCurrentSubjectSection() != null && Session.getCurrentSubjectSection().getName().equals(subject.getName())) {
+	    		view.getSubjectList().setSelectedItem(subject);
+	    	}
 	    }
 	}
 	

@@ -6,7 +6,11 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.RenderingHints;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -19,6 +23,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
+import models.User;
 import utils.AppColors;
 import utils.CreateFont;
 import utils.IconLoader;
@@ -42,8 +47,13 @@ public class HomeView extends JFrame{
 	private TasksView tasksView;
 	private CardLayout cardLayout;
 	private JPanel container;
+	private JPanel pfpContainer;
+	
+	private User user;
 	
 	public HomeView() {
+		this.user = Session.getCurrentUser();
+		
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setTitle("Uni Tasks");
@@ -92,6 +102,10 @@ public class HomeView extends JFrame{
 		return cardLayout;
 	}
 	
+	public JPanel getPfpContainer() {
+		return pfpContainer;
+	}
+
 	public void createSideBar() {
 	    JPanel sideBar = new JPanel();
 	    sideBar.setLayout(new BoxLayout(sideBar, BoxLayout.Y_AXIS));
@@ -132,16 +146,16 @@ public class HomeView extends JFrame{
 	    userSummary.setAlignmentX(Component.LEFT_ALIGNMENT);
 	    userSummary.setMaximumSize(new Dimension(Integer.MAX_VALUE, 80));
 	    userSummary.setBorder(BorderFactory.createCompoundBorder(
-	    		BorderFactory.createMatteBorder(1, 0, 1, 0, AppColors.iceGrey), 
-	    		BorderFactory.createEmptyBorder(12, 5, 10, 0)));
+	            BorderFactory.createMatteBorder(1, 0, 1, 0, AppColors.iceGrey), 
+	            BorderFactory.createEmptyBorder(12, 5, 10, 0)));
 	    userSummary.setOpaque(false);
 	    
 	    JPanel userInfo = new JPanel();
 	    userInfo.setLayout(new BoxLayout(userInfo, BoxLayout.Y_AXIS));
 	    userInfo.setOpaque(false);
 	    
-	    Label username = new Label(Session.getCurrentUser().getName(), 12, true);
-	    Label userCareer = new Label(Session.getCurrentUser().getGroup().getCareer().getAbb() + " · Sem. " + Session.getCurrentUser().getGroup().getSemester(), 12, true, AppColors.menuItem);
+	    Label username = new Label(user.getName(), 12, true);
+	    Label userCareer = new Label(user.getGroup().getCareer().getAbb() + " · Sem. " + Session.getCurrentUser().getGroup().getSemester(), 12, true, AppColors.menuItem);
 	    username.setAlignmentX(Component.LEFT_ALIGNMENT);
 	    userCareer.setAlignmentX(Component.LEFT_ALIGNMENT);
 	    
@@ -150,17 +164,62 @@ public class HomeView extends JFrame{
 	    userInfo.add(userCareer);
 	    userInfo.add(Box.createVerticalStrut(4));
 	    
-	    JButton pfp = new JButton(IconLoader.getIcon("/assets/img/pfp.svg", 30, 30));
-	    pfp.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));	    
-	    pfp.setContentAreaFilled(false);
-	    pfp.setFocusable(false);
+	    pfpContainer = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
+		pfpContainer.setCursor(new Cursor(Cursor.HAND_CURSOR));
+	    pfpContainer.setOpaque(false);
 	    
-	    pfp.setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 10));
-	     
-	    userSummary.add(pfp, BorderLayout.WEST);
+	    JPanel pfp = createAvatar();
+	    pfpContainer.add(pfp);
+	    	     
+	    userSummary.add(pfpContainer, BorderLayout.WEST);
 	    userSummary.add(userInfo, BorderLayout.CENTER);
 	    return userSummary;
 	}
+
+	private JPanel createAvatar() {
+	    String initials = user != null ? getInitials(user.getName()) : "??";
+	    JLabel avatar = new JLabel(initials, SwingConstants.CENTER);
+	    
+	    avatar.setForeground(new Color(0x2563EB));
+	    avatar.setFont(CreateFont.DEFAULT_BOLD.deriveFont(13f));
+	    
+	    JPanel avatarWrap = new JPanel(new BorderLayout()) {
+	        @Override 
+	        protected void paintComponent(Graphics g) {
+	            Graphics2D g2 = (Graphics2D) g.create();
+	            g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+	                                RenderingHints.VALUE_ANTIALIAS_ON);
+	            g2.setColor(new Color(0xBFD3F6));
+	            g2.fillOval(0, 0, getWidth() - 1, getHeight() - 1);
+	            g2.dispose();
+	            
+	            super.paintComponent(g);
+	        }
+	    };
+	    
+	    avatarWrap.setOpaque(false);
+	    
+	    Dimension avatarSize = new Dimension(40, 40);
+	    avatarWrap.setPreferredSize(avatarSize);
+	    avatarWrap.setMaximumSize(avatarSize);
+	    avatarWrap.setMinimumSize(avatarSize);
+	    
+	    avatar.setOpaque(false);
+	    avatarWrap.add(avatar, BorderLayout.CENTER);
+	    
+	    return avatarWrap;
+	}
+	
+	private String getInitials(String name) {
+        if (name == null || name.isBlank()) return "?";
+        String[] parts = name.trim().split("\\s+");
+        String ini = String.valueOf(parts[0].charAt(0));
+        
+        if (parts.length > 1) {
+        	ini += parts[1].charAt(0);
+        }
+        return ini.toUpperCase();
+    }
 	
 	public JButton createBtn(String text, String iconPath) {
 	    JButton button = new RoundedButton(text, 20);

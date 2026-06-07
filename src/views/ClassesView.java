@@ -46,7 +46,7 @@ public class ClassesView extends JPanel{
 		titlePanel.setLayout(new BoxLayout(titlePanel, BoxLayout.Y_AXIS));
 		titlePanel.setBorder(BorderFactory.createEmptyBorder(0, 0, 20, 0));
 		
-		Label title = new Label("Mis clases", 23, false);
+		Label title = new Label("Mis Clases", 23, false);
 		totalClasses = new Label("", 14, true, AppColors.menuItem);
 		
 		title.setAlignmentX(LEFT_ALIGNMENT);
