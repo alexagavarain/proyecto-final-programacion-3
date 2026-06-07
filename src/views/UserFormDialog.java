@@ -5,32 +5,25 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension; 
-import java.awt.FlowLayout; 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout; 
-import javax.swing.ButtonGroup; 
 import javax.swing.JButton; 
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import javax.swing.JDialog; 
 import javax.swing.JFrame; 
-import javax.swing.JLabel; 
-import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JRadioButton; 
-import javax.swing.JScrollPane; 
-import javax.swing.JTextArea; 
+import javax.swing.JPasswordField; 
 import javax.swing.JTextField; 
-import javax.swing.SwingConstants;
 
 import models.Career;
 import models.User;
 import utils.AppColors;
+import utils.CustomComboBox;
 import utils.InputField;
 import utils.Label;
+import utils.PasswordField;
 import utils.RoundedButton; 
 
 public class UserFormDialog extends JDialog {
@@ -140,7 +133,7 @@ public class UserFormDialog extends JDialog {
 		
 		fieldSize = new Dimension(340, 32); 
 
-		nameField = new JTextField();
+		nameField = new InputField();
 		setupComponent(nameField);
 		contentPane.add(createLabel("Nombre completo"));
 		contentPane.add(nameField);
@@ -148,7 +141,7 @@ public class UserFormDialog extends JDialog {
 		
 		contentPane.add(Box.createVerticalStrut(4));
 				
-		emailField = new JTextField();
+		emailField = new InputField();
 		setupComponent(emailField);
 		contentPane.add(createLabel("Correo electrónico"));
 		contentPane.add(emailField);
@@ -156,7 +149,7 @@ public class UserFormDialog extends JDialog {
 		
 		contentPane.add(Box.createVerticalStrut(4));
 
-		passwordField = new JPasswordField();
+		passwordField = new PasswordField();
 		setupComponent(passwordField);
 		contentPane.add(createLabel("Contraseña"));
 		contentPane.add(passwordField);
@@ -196,7 +189,7 @@ public class UserFormDialog extends JDialog {
 	}
 	
 	public <T> JComboBox<T> createList() {
-	    JComboBox<T> list = new JComboBox<>();
+	    JComboBox<T> list = new CustomComboBox<>();
 	    setupComponent(list);
 	    list.setBackground(Color.WHITE);
 	    return list;

@@ -20,6 +20,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import javax.swing.border.Border;
 
@@ -249,16 +250,18 @@ public class HomeView extends JFrame{
 	    classesBtn = createBtn("Clases", "/assets/img/classes.svg");
 	    profileBtn = createBtn("Mi perfil", "/assets/img/profile.svg");
 	    logoutBtn = createBtn("Cerrar sesión", "/assets/img/logout.svg");
-	    logoutBtn.setBorder(BorderFactory.createCompoundBorder(
-	            BorderFactory.createMatteBorder(1, 0, 0, 0, AppColors.iceGrey),
-	            BorderFactory.createEmptyBorder(0, 15, 0, 15)
-	        ));
+	    
+	    JSeparator separator = new JSeparator();
+        separator.setMaximumSize(new Dimension(Integer.MAX_VALUE, 1));
+        
 	    btnPanel.add(tasksBtn);
 	    createSpace(5, btnPanel);
 	    btnPanel.add(classesBtn);
 	    createSpace(5, btnPanel);
 	    btnPanel.add(profileBtn);
 	    btnPanel.add(Box.createVerticalGlue());
+	    btnPanel.add(separator);
+	    createSpace(5, btnPanel);
 	    btnPanel.add(logoutBtn);
 	    createSpace(20, btnPanel);
 

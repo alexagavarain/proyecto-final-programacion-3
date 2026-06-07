@@ -15,7 +15,6 @@ import utils.TextPrompt;
 import javax.swing.SwingConstants;
 import javax.swing.text.JTextComponent;
 
-
 import controllers.RegisterController;
 
 import javax.swing.BorderFactory;
@@ -33,14 +32,12 @@ import java.awt.Image;
 
 import javax.swing.JLabel;
 
-import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.ActionEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 
 public class LoginView extends JFrame {
 
@@ -106,13 +103,13 @@ public class LoginView extends JFrame {
 		
 		JPanel descText = createAlignPanel();
 		
-		Label welcomeMessage = new Label ("Bienvenid@", 16, true);
+		Label welcomeMessage = new Label("Bienvenid@", 16, true);
 		descText.add(welcomeMessage);
 		createSpace(15, contentPane);
 		
 		descText.add(Box.createHorizontalStrut(100));
 		
-		Label message = new Label ("Inicia sesión para continuar", 13, true);
+		Label message = new Label("Inicia sesión para continuar", 13, true);
 		message.setForeground(AppColors.subtitle);
 		descText.add(message);
 		
@@ -127,7 +124,6 @@ public class LoginView extends JFrame {
 		createSpace(12, contentPane);
 		
 		JPanel secondaryOptionPanel = createSecondaryOptionPanel();
-		
 		contentPane.add(secondaryOptionPanel);
 		
 		createSpace(25, contentPane);
@@ -140,11 +136,11 @@ public class LoginView extends JFrame {
 	}
 	
 	private JPanel createMainPanel() {
-		JPanel contentPane = new JPanel();
-		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
-		contentPane.setBorder(BorderFactory.createEmptyBorder(150, 0, 0, 0));
-		contentPane.setBackground(AppColors.background);
-		return contentPane;
+		JPanel mainPanel = new JPanel();
+		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+		mainPanel.setBorder(BorderFactory.createEmptyBorder(150, 0, 0, 0));
+		mainPanel.setBackground(AppColors.background);
+		return mainPanel;
 	}
 	
 	private JPanel createAppLogo(String appName, int fontSize) {
@@ -188,10 +184,10 @@ public class LoginView extends JFrame {
 	}
 	
 	private InputField createEmailField(String textPrompt) {
-		InputField emailTextField = new InputField();
-		TextPrompt promptEmail = new TextPrompt(textPrompt, emailTextField);
+		InputField emailField = new InputField();
+		TextPrompt promptEmail = new TextPrompt(textPrompt, emailField);
 		promptEmail.setForeground(AppColors.subtitle);
-		return emailTextField;
+		return emailField;
 	}
 	
 	private PasswordField createPasswordField() {
@@ -199,11 +195,11 @@ public class LoginView extends JFrame {
 		passwordField.setMaximumSize(new Dimension(300, 28));
 		passwordField.setAlignmentX(CENTER_ALIGNMENT);
 		passwordField.setBorder(
-			    BorderFactory.createCompoundBorder(
-			        BorderFactory.createLineBorder(AppColors.subtleAccent, 1, true),
-			        BorderFactory.createEmptyBorder(5, 5, 5, 5)
-			    )
-			);
+			BorderFactory.createCompoundBorder(
+				BorderFactory.createLineBorder(AppColors.subtleAccent, 1, true),
+				BorderFactory.createEmptyBorder(5, 8, 5, 8)
+			)
+		);
 		TextPrompt promptPassword = new TextPrompt("•••••••••••", passwordField);
 		promptPassword.setForeground(AppColors.subtitle);
 		return passwordField;
@@ -211,7 +207,7 @@ public class LoginView extends JFrame {
 	
 	private JPanel createLoginFields(JPanel container) {
 		createLabel(container, "Correo electrónico", 12, 193);
- 		emailTextField = createEmailField("estudiante@alu.uabcs.mx");
+		emailTextField = createEmailField("estudiante@alu.uabcs.mx");
 		container.add(emailTextField);
 		container.add(emailError);
 		
@@ -230,6 +226,7 @@ public class LoginView extends JFrame {
 	
 	private JCheckBox createRememberMeChk(String text) {
 		JCheckBox chkRememberMe = new JCheckBox(text, true);
+		chkRememberMe.setOpaque(false);
 		return chkRememberMe;
 	}
 	
@@ -242,8 +239,7 @@ public class LoginView extends JFrame {
 		resetPasswordButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-//				new ResetPasswordView().setVisible(true);
-//				dispose();;
+				// Acción para recuperar contraseña
 			}
 			
 			@Override
@@ -271,28 +267,16 @@ public class LoginView extends JFrame {
 		secondaryOptionPanel.add(chkRememberMe);
 		
 		secondaryOptionPanel.add(Box.createHorizontalStrut(38));
-		
 		secondaryOptionPanel.add(createResetPasswordBtn());
 		
 		return secondaryOptionPanel;
 	}
 	
 	private RoundedButton createLoginButton() {
-		RoundedButton loginButton = createButton(contentPane, "Iniciar sesión", 300, 30, AppColors.primaryAccent, Color.WHITE);
-		loginButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		loginButton.setContentAreaFilled(true);
-				
-		loginButton.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				RegisterView view = new RegisterView();
-			    new RegisterController(view);
-			    view.setVisible(true);
-			    dispose();
-			}
-		});
-		
-		return loginButton;
+		RoundedButton lBtn = createButton(contentPane, "Iniciar sesión", 300, 30, AppColors.primaryAccent, Color.WHITE);
+		lBtn.setCursor(new Cursor(Cursor.HAND_CURSOR));
+		lBtn.setContentAreaFilled(true);
+		return lBtn;
 	}
 	
 	private Label createRegisterBtn() {
@@ -302,9 +286,9 @@ public class LoginView extends JFrame {
 		registerButton.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				RegisterView view = new RegisterView();
-			    new RegisterController(view);
-			    view.setVisible(true);
+				RegisterView register = new RegisterView();
+			    new RegisterController(register);
+			    register.setVisible(true);
 			    dispose();
 			}
 			
@@ -317,7 +301,6 @@ public class LoginView extends JFrame {
 			public void mouseExited(MouseEvent e) {
 				registerButton.setFont(CreateFont.DEFAULT.deriveFont(12f));
 			}
-			
 		});
 		return registerButton;
 	}
@@ -351,23 +334,29 @@ public class LoginView extends JFrame {
 	
 	private void fieldFocus(JTextComponent field) {
 		addWindowListener(new WindowAdapter() {
+			@Override
 			public void windowOpened(WindowEvent e) {
 				field.requestFocusInWindow();
 			}
 		});
 		
 		field.addFocusListener(new FocusAdapter() {
+			@Override
 			public void focusGained(FocusEvent e) {
 				field.selectAll();
-		        field.setBorder(BorderFactory.createLineBorder(AppColors.primaryAccent, 1, true));
+				field.setBorder(BorderFactory.createCompoundBorder(
+					BorderFactory.createLineBorder(AppColors.primaryAccent, 1, true),
+					BorderFactory.createEmptyBorder(5, 8, 5, 8)
+				));
 			}
 			
+			@Override
 			public void focusLost(FocusEvent e) {
-		        field.setBorder(BorderFactory.createLineBorder(AppColors.subtleAccent, 1, true));
+				field.setBorder(BorderFactory.createCompoundBorder(
+					BorderFactory.createLineBorder(AppColors.subtleAccent, 1, true),
+					BorderFactory.createEmptyBorder(5, 8, 5, 8)
+				));
 			}
 		});
 	}
-	
-
-	
 }

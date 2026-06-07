@@ -1,49 +1,37 @@
 package views;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JPasswordField;
-import javax.swing.JRadioButton;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
-import javax.swing.text.JTextComponent;
-
-import controllers.RegisterController;
-import models.Career;
-import models.Subject;
 import utils.AppColors;
 import utils.CreateFont;
+import utils.CustomComboBox;
+import utils.IconLoader;
 import utils.InputField;
 import utils.Label;
-import utils.Session;
+import utils.PasswordField;
+import utils.RoundedButton;
 import utils.TextPrompt;
+import models.Career;
 
-public class RegisterView extends JFrame{
+public class RegisterView extends JFrame {
 	
+	private static final long serialVersionUID = 1L;
+
 	private InputField nameField;
 	private InputField emailTextField;
-	private JPasswordField passwordField;
+	private PasswordField passwordField;
 			
 	private JComboBox<String> groups;
 	private JComboBox<Career> careers;
@@ -53,19 +41,16 @@ public class RegisterView extends JFrame{
 	private Label emailError = createErrorLabel("");
 	private Label passwordError = createErrorLabel("");
 	private Label nameError = createErrorLabel("");
-	
 	private Label careerError;
 	
-	private JButton registerButton;
-	private JButton backButton;
+	private RoundedButton registerButton;
+	private JLabel backButton;
 	
 	private Dimension fieldSize;
-	
-	private JPanel contentPane;
+	private JPanel mainContent;
 
-	
-	public JPanel getContentPane() {
-		return contentPane;
+	public JPanel getContainer() {
+		return mainContent;
 	}
 	
 	public Label getEmailError() {
@@ -104,7 +89,7 @@ public class RegisterView extends JFrame{
 		return emailTextField;
 	}
 	
-	public JPasswordField getPasswordField() {
+	public PasswordField getPasswordField() {
 		return passwordField;
 	}
 	
@@ -120,10 +105,9 @@ public class RegisterView extends JFrame{
 		return careers;
 	}
 	
-	public JButton getBackButton() {
+	public JLabel getBackButton() {
 		return backButton;
 	}
-	
 	
 	public RegisterView() {
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
@@ -131,6 +115,7 @@ public class RegisterView extends JFrame{
 		setTitle("Registro");
 		
 		addWindowListener(new WindowAdapter() {
+			@Override
 			public void windowClosing(WindowEvent e) {
 				int option = JOptionPane.showConfirmDialog(
 					RegisterView.this,
@@ -146,217 +131,156 @@ public class RegisterView extends JFrame{
 		});
 		
 		initializeComponents();
-		
 	}
 	
 	public void initializeComponents() {
-		contentPane = createMainPanel();
-		setContentPane(contentPane);
-		
-		createSpace(60, contentPane);
-		
-		showAppName(contentPane, "Registro", 30);
-		createSpace(40, contentPane);
-		
-		fieldSize = new Dimension (300, 40);
-		
-		createLabel(contentPane, "Nombre", 14, 245);
-		nameField = createNameField();
-		contentPane.add(nameField);
-		contentPane.add(nameError);
-		
-		createSpace(2, contentPane);
-		
-		createLabel(contentPane, "Correo electrónico", 14, 180);
-		
-		emailTextField = createEmailField();
-		contentPane.add(emailTextField);
-		contentPane.add(emailError);
-
-		createSpace(2, contentPane);
-		createLabel(contentPane, "Contraseña", 14, 220);
-		passwordField = createPasswordField();
-		contentPane.add(passwordField);
-		contentPane.add(passwordError);
+		mainContent = new JPanel(new BorderLayout());
+		mainContent.setBackground(AppColors.background);
+		mainContent.setBorder(BorderFactory.createEmptyBorder(20, 0, 0, 0));
 				
+		mainContent.add(createHeader(), BorderLayout.NORTH);
 		
-		createSpace(2, contentPane);
+		JPanel formPanel = new JPanel();
+		formPanel.setLayout(new BoxLayout(formPanel, BoxLayout.Y_AXIS));
+		formPanel.setOpaque(false);
+		
+		fieldSize = new Dimension(300, 32);
+		
+		createSpace(30, formPanel);
+		
+		createLabel(formPanel, "Nombre", 14, 245);
+		nameField = createNameField();
+		formPanel.add(nameField);
+		formPanel.add(nameError);
+		
+		createSpace(6, formPanel);
+		
+		createLabel(formPanel, "Correo electrónico", 14, 180);
+		emailTextField = createEmailField();
+		formPanel.add(emailTextField);
+		formPanel.add(emailError);
+
+		createSpace(6, formPanel);
+		
+		createLabel(formPanel, "Contraseña", 14, 220);
+		passwordField = createPasswordField();
+		formPanel.add(passwordField);
+		formPanel.add(passwordError);
+				
+		createSpace(6, formPanel);
 		
 		careerError = createErrorLabel("");
-
-		createLabel(contentPane, "Carrera", 14, 246);		
-		careers = createList(contentPane);
-		contentPane.add(careerError);
-		createLabel(contentPane, "Semestre", 14, 237);
-		semesters = createList(contentPane);
-		createLabel(contentPane, "Grupo", 14, 253);
-		groups = createList(contentPane);
-		createLabel(contentPane, "Turno", 14, 255);
-		shifts = createList(contentPane);
+		createLabel(formPanel, "Carrera", 14, 246);		
+		careers = createList(formPanel);
+		formPanel.add(careerError);
+		
+		createLabel(formPanel, "Semestre", 14, 237);
+		semesters = createList(formPanel);
+		
+		createLabel(formPanel, "Grupo", 14, 253);
+		groups = createList(formPanel);
+		
+		createLabel(formPanel, "Turno", 14, 255);
+		shifts = createList(formPanel);
 	
-		createSpace(20, contentPane);
+		createSpace(20, formPanel);
+		
 		registerButton = createRegisterButton();
-		createSpace(10, contentPane);
+		formPanel.add(registerButton);
 		
-		backButton = createBackButton();
+		mainContent.add(formPanel, BorderLayout.CENTER);
 		
-		createSpace(50, contentPane);
-		
+		add(mainContent);
 	}
 	
-	public <T> JComboBox<T> createList(JPanel container) {
-	    JComboBox<T> list = new JComboBox<>();
-	    list.setMaximumSize(new Dimension(300, 60));
+	public JPanel createHeader() {
+	    JPanel headerPanel = new JPanel(new BorderLayout());
+	    headerPanel.setBackground(AppColors.background);
+	    headerPanel.setOpaque(true);
+	    headerPanel.setPreferredSize(new Dimension(JFrame.MAXIMIZED_BOTH, 60));
+	    
+	    headerPanel.setBorder(BorderFactory.createEmptyBorder(0, 40, 0, 20));
+	    
+	    headerPanel.add(createBackBtn(), BorderLayout.WEST);
+	    headerPanel.add(createTitle(), BorderLayout.CENTER);
+	    return headerPanel;
+	}
+
+	public JLabel createBackBtn() {
+	    backButton = new JLabel("");
+	    backButton.setIcon(IconLoader.getIcon("/assets/img/backArrow.svg", 40, 40));
+	    
+	    backButton.setPreferredSize(new Dimension(60, 60));
+	    backButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+	    return backButton;
+	}
+	
+	public Label createTitle() {
+		Label title = new Label("Registro", 26, true);
+		title.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 70));
+		title.setHorizontalAlignment(JLabel.CENTER);
+		title.setVerticalAlignment(JLabel.CENTER);
+		return title;
+	}
+	
+	public <T> JComboBox<T> createList(JPanel targetPanel) {
+	    JComboBox<T> list = new CustomComboBox<>();
+	    list.setMaximumSize(new Dimension(300, 35));
 	    list.setAlignmentX(CENTER_ALIGNMENT);
 	    list.setBackground(Color.WHITE);
 
-	    container.add(list);
-	    createSpace(5, container);
+	    targetPanel.add(list);
+	    createSpace(6, targetPanel);
 
 	    return list;
 	}
 
-	private JPanel createMainPanel() {
-		JPanel contentPane = new JPanel();
-		contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
-		contentPane.setBackground(AppColors.background);
-		return contentPane;
-	}
-
-	public void createLabel(JPanel container, String containerName, float fontSize, int rightBorder) {
+	public void createLabel(JPanel targetPanel, String containerName, float fontSize, int rightBorder) {
 		JLabel label = new JLabel(containerName);
 		label.setFont(CreateFont.DEFAULT.deriveFont(fontSize));		
-		label.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, rightBorder));
+		label.setBorder(BorderFactory.createEmptyBorder(0, 0, 3, rightBorder));
 		label.setAlignmentX(CENTER_ALIGNMENT);
-		container.add(label);
+		targetPanel.add(label);
 	}
 	
-	private JPasswordField createPasswordField() {
-		passwordField = new JPasswordField();
-		passwordField.setMaximumSize(new Dimension(300, 28));
+	private PasswordField createPasswordField() {
+		passwordField = new PasswordField();
+		passwordField.setMaximumSize(fieldSize);
 		passwordField.setAlignmentX(CENTER_ALIGNMENT);
 		passwordField.setBorder(
-			    BorderFactory.createCompoundBorder(
-			        BorderFactory.createLineBorder(AppColors.subtleAccent, 1, true),
-			        BorderFactory.createEmptyBorder(5, 5, 5, 5)
-			    )
-			);
+			BorderFactory.createCompoundBorder(
+			    BorderFactory.createLineBorder(AppColors.subtleAccent, 1, true),
+			    BorderFactory.createEmptyBorder(5, 5, 5, 5)
+			)
+		);
 		TextPrompt promptPassword = new TextPrompt("•••••••••••", passwordField);
 		promptPassword.setForeground(AppColors.subtitle);
 		return passwordField;
 	}
 	
-	public void showText(JPanel container, String text, int fontSize) {
-		JLabel loginText = new JLabel(text);
-		loginText.setToolTipText("");
-		loginText.setAlignmentX(CENTER_ALIGNMENT);
-		container.add(loginText);
+	public void createSpace(int pixels, JPanel targetPanel) {
+		targetPanel.add(Box.createVerticalStrut(pixels));
 	}
 	
-	public void showAppName(JPanel container, String name, float fontSize) {
-		JLabel appName = new JLabel(name);
-		appName.setToolTipText("");
-		appName.setFont(CreateFont.DEFAULT_BOLD.deriveFont(fontSize));		
-		appName.setAlignmentX(CENTER_ALIGNMENT);
-		container.add(appName);
-	}
-	
-	public void createSpace(int pixels, JPanel container) {
-		container.add(Box.createVerticalStrut(pixels));
-	}
-	
-	public JButton createButton(JPanel container, String name, int width, int length) {
-		JButton button = new JButton(name);
-		button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		button.setMaximumSize(new Dimension(width, length));
-		button.setBackground(Color.BLACK);
-		button.setForeground(Color.WHITE);
-		button.setFocusPainted(false);  
-		button.setBorderPainted(false);
-		button.setAlignmentX(CENTER_ALIGNMENT);
-		container.add(button);
-		return button;
-	}
-	
-	private JButton createRegisterButton() {
-		JButton registerButton = createButton(contentPane, "Registrarme", 300, 50, AppColors.primaryAccent, Color.WHITE);
+	private RoundedButton createRegisterButton() {
+		registerButton = new RoundedButton("Registrarme", 12);
+		registerButton.setMaximumSize(new Dimension(300, 30));
+		registerButton.setPreferredSize(new Dimension(300, 30));
+		registerButton.setBackground(AppColors.primaryAccent);
+		registerButton.setForeground(Color.WHITE);
+		registerButton.setAlignmentX(CENTER_ALIGNMENT);
 		registerButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
-		registerButton.setContentAreaFilled(true);
-		
-		registerButton.addMouseListener(new MouseAdapter() {
-			public void mouseEntered(MouseEvent e) {
-				registerButton.setBackground(AppColors.background);
-				registerButton.setForeground(AppColors.primaryAccent);
-				registerButton.setBorderPainted(true);
-				registerButton.setBorder(BorderFactory.createLineBorder(AppColors.primaryAccent, 1));
-			}
-			
-			public void mouseExited(MouseEvent e) {
-				registerButton.setBackground(AppColors.primaryAccent);
-				registerButton.setForeground(Color.WHITE);
-				registerButton.setBorderPainted(false);
-			}
-		});
 		
 		return registerButton;
 	}
 	
-	private JButton createBackButton() {
-		JButton btnReturn = createButton(contentPane, "Regresar", 100, 30, AppColors.primaryAccent, Color.WHITE);
-		
-		btnReturn.addMouseListener(new MouseAdapter() {
-			public void mouseEntered(MouseEvent e) {
-				btnReturn.setBackground(AppColors.background);
-				btnReturn.setForeground(AppColors.primaryAccent);
-				btnReturn.setBorderPainted(true);
-				btnReturn.setBorder(BorderFactory.createLineBorder(AppColors.primaryAccent, 1));
-			}
-			
-			public void mouseExited(MouseEvent e) {
-				btnReturn.setBackground(AppColors.primaryAccent);
-				btnReturn.setForeground(Color.WHITE);
-				btnReturn.setBorderPainted(false);
-			}
-		});
-		
-		return btnReturn;
-	}
-		
-	public JButton createButton(JPanel container, String name, int width, int length, Color background, Color foreground) {
-		JButton button = new JButton(name);
-		button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		button.setMaximumSize(new Dimension(width, length));
-		button.setBackground(background);
-		button.setForeground(foreground);
-		button.setFocusPainted(false);  
-		button.setBorderPainted(false);
-		button.setAlignmentX(CENTER_ALIGNMENT);
-		container.add(button);
-		return button;
-	}
-	
 	public Label createErrorLabel(String text) {
-		Label errorLabel = new Label(text, 12, false);
+		Label errorLabel = new Label(text, 12, true);
 		errorLabel.setForeground(Color.RED);
-		errorLabel.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 0));
-		errorLabel.setMaximumSize(new Dimension(300,20));
+		errorLabel.setMaximumSize(new Dimension(300, 20));
 		errorLabel.setAlignmentX(CENTER_ALIGNMENT);
 		return errorLabel;
-	}
-	
-	
-	public JPanel createSecondaryPanel() {
-		JPanel secondaryPanel = new JPanel();
-		secondaryPanel.setOpaque(false);
-		secondaryPanel.setMaximumSize(new Dimension(300, 80));
-		secondaryPanel.setLayout(new GridLayout(1, 2, 20, 0));
-		return secondaryPanel;
 	}
 	
 	public InputField createEmailField() {
@@ -374,5 +298,4 @@ public class RegisterView extends JFrame{
 		namePrompt.setForeground(AppColors.subtitle);
 		return nameField;
 	}
-	
 }

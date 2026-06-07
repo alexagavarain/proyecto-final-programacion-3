@@ -22,7 +22,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
 import javax.swing.SpinnerDateModel;
 import javax.swing.SwingConstants;
 
@@ -30,6 +29,10 @@ import models.Subject;
 import models.Task;
 import utils.AppColors;
 import utils.CreateFont;
+import utils.CustomComboBox;
+import utils.CustomSpinner;
+import utils.CustomTextArea;
+import utils.InputField;
 import utils.Label;
 import utils.RoundedButton;
 import utils.Session;
@@ -38,7 +41,7 @@ public class TaskDialog extends JDialog {
 	
 	private Task task;
 	
-	private JTextField title;
+	private InputField title;
 	private JTextArea description;	
 	private JComboBox<Subject> subjectList;
 	private JSpinner dateSpinner;
@@ -77,7 +80,7 @@ public class TaskDialog extends JDialog {
 		return description;
 	}
 
-	public JTextField getTitleField() {
+	public InputField getTitleField() {
 		return title;
 	}
 
@@ -122,12 +125,12 @@ public class TaskDialog extends JDialog {
 		Dimension fieldSize = new Dimension(300, 30); 
 		Dimension descFieldSize = new Dimension(300, 100); 
 		
-		title = new JTextField(); 
+		title = new InputField(); 
 		title.setMaximumSize(fieldSize);
 
 		titleError = createErrorLabel();
 		
-		description = new JTextArea();
+		description = new CustomTextArea();
 		description.setLineWrap(true);
 		description.setWrapStyleWord(true);
 
@@ -135,19 +138,21 @@ public class TaskDialog extends JDialog {
 		    BorderFactory.createEmptyBorder(5, 5, 5, 5)
 		);
 
-		JScrollPane descriptionScroll =
-		    new JScrollPane(description);
+		JScrollPane descriptionScroll = new JScrollPane(description);
 
 		descriptionScroll.setPreferredSize(descFieldSize);
 		descriptionScroll.setMaximumSize(descFieldSize);
 		descriptionScroll.setMinimumSize(descFieldSize);
+		descriptionScroll.setOpaque(false);
+		descriptionScroll.getViewport().setOpaque(false);
+		descriptionScroll.setBorder(null);
 		
-		subjectList = new JComboBox<>();
+		subjectList = new CustomComboBox<>();
 	    subjectList.setMaximumSize(fieldSize);
 	    
 		subjectError = createErrorLabel();
 	    
-	    dateSpinner = new JSpinner(new SpinnerDateModel());
+	    dateSpinner = new CustomSpinner(new SpinnerDateModel());
 	    
 	    JSpinner.DateEditor editor = new JSpinner.DateEditor(dateSpinner, "dd/MM/yyyy HH:mm");
 

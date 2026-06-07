@@ -4,6 +4,8 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -53,7 +55,7 @@ public class RegisterController {
     
     private void registerBtnListener() {
     	view.getRegisterButton().addActionListener(e -> {
-    		register(view.getContentPane());
+    		register(view.getContainer());
     	});
     }
     
@@ -94,21 +96,25 @@ public class RegisterController {
 	}
 
     private void backListener() {
-        view.getBackButton().addActionListener(e -> {
-			int option = JOptionPane.showConfirmDialog(
-			        view,
-			        "¿Seguro que deseas regresar? Se perderán todos los datos",
-			        "Confirmar regreso",
-			        JOptionPane.YES_NO_OPTION
-			    );
-			
-			if(option == JOptionPane.YES_OPTION) {
-				LoginView login = new LoginView();
-				new LoginController(login);
-				login.setVisible(true);
-				view.dispose();
-			}
-		});
+    	view.getBackButton().addMouseListener(new MouseAdapter() {
+    	    @Override
+    	    public void mouseClicked(MouseEvent e) {
+    	    	System.out.println("regresar");
+    	    	int option = JOptionPane.showConfirmDialog(
+    			        view,
+    			        "¿Seguro que deseas regresar? Se perderán todos los datos",
+    			        "Confirmar regreso",
+    			        JOptionPane.YES_NO_OPTION
+    			    );
+    			
+    			if(option == JOptionPane.YES_OPTION) {
+    				LoginView login = new LoginView();
+    				new LoginController(login);
+    				login.setVisible(true);
+    				view.dispose();
+    			}
+    	    }
+    	});
     }
 
     private void disableCombos() {
@@ -140,23 +146,25 @@ public class RegisterController {
     }
 
     private void careerListener() {
+	    view.getCareers().addActionListener(e -> {
+	        Career selectedCareer = (Career) view.getCareers().getSelectedItem();
 
-        view.getCareers().addActionListener(e -> {
+	        if(selectedCareer == null || selectedCareer.getId() == 0) {
+	            clearCombo(view.getSemesters());
+	            clearCombo(view.getGroups());
+	            clearCombo(view.getShifts());
+	            return;
+	        }
 
-            Career selectedCareer = (Career) view.getCareers().getSelectedItem();
+	        view.getCareerError().setText("");
 
-            if(selectedCareer == null || selectedCareer.getId() == 0) {
-                return;
-            }
+	        clearCombo(view.getSemesters());
+	        clearCombo(view.getGroups());
+	        clearCombo(view.getShifts());
 
-            clearCombo(view.getSemesters());
-            clearCombo(view.getGroups());
-            clearCombo(view.getShifts());
-
-            loadSemesters(selectedCareer.getId());
-
-            view.getSemesters().setEnabled(true);
-        });
+	        loadSemesters(selectedCareer.getId());
+	        view.getSemesters().setEnabled(true);
+	    });
     }
 
     private void loadSemesters(int idCareer) {
@@ -294,7 +302,7 @@ public class RegisterController {
 	    KeyAdapter enterRegister = new KeyAdapter() {
 	        public void keyPressed(KeyEvent e) {
 	            if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-	                register(view.getContentPane());
+	                register(view.getContainer());
 	            }
 	        }
 	    };
@@ -318,7 +326,7 @@ public class RegisterController {
 	    }
 
 	    if (!view.getEmailTextField().getText().contains("@alu.uabcs.mx")) {
-	        view.getEmailError().setText("Correo inválido");
+	        view.getEmailError().setText("Correo inválido. Dominio: @alu.uabcs.mx");
 	        return false;
 	    }
 

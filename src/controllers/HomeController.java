@@ -31,8 +31,8 @@ public class HomeController {
 		view.addWindowListener(new WindowAdapter() {
 	        @Override
 	        public void windowClosing(WindowEvent e) {
-	        	view.dispose();
 	        	handleClose();
+	        	view.dispose();
 	        }
 	    });
 		
