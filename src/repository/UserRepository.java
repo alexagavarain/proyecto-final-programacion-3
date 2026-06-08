@@ -237,31 +237,6 @@ public class UserRepository {
 		return false;
 	}
 	
-	public void updateUsers(int index, User updatedUser) throws IOException {
-		String sql = "UPDATE usuario SET nombre = ?, correo = ?, id_grupo = ?"
-				+ " WHERE id_usuario = ?";
-		
-		try (Connection connection = DatabaseConnection.getConnection();
-				PreparedStatement pst = connection.prepareStatement(sql)) {
-			
-			pst.setString(1, updatedUser.getName());
-			pst.setString(2, updatedUser.getEmail());
-			pst.setInt(3, updatedUser.getGroup().getId());
-			pst.setInt(4, updatedUser.getId());
-			
-			int affectedRows = pst.executeUpdate();
-			
-			if(affectedRows > 0) {
-				System.out.println("Cambios guardados");
-			}else {
-				System.out.println("No se hicieron cambios");
-			}
-			
-		}catch(SQLException ex) {
-			ex.printStackTrace();
-		}
-	}
-	
 	public int getCarreerId(User user) throws SQLException {
 		int carreerId = -1;
 		String sql = "SELECT id_carrera FROM carrera WHERE nombre = ?";
