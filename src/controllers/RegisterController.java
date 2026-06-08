@@ -77,7 +77,7 @@ public class RegisterController {
 	        );
 	        
 	        try {
-	            repository.saveRegister(user); 
+	            repository.save(user); 
 	            JOptionPane.showMessageDialog(panel, "Te has registrado correctamente");
 	            
 	            LoginView login = new LoginView();

@@ -85,31 +85,6 @@ public class UserRepository {
 		}	
 	}
 	
-	public void saveRegister(User user) throws IOException {		
-		String sql = "INSERT INTO usuario (nombre, correo, id_grupo, contrasena) "
-				+ "VALUES(?, ?, ?, ?)";
-		
-		try(Connection connection = DatabaseConnection.getConnection();
-			PreparedStatement pst = connection.prepareStatement(sql)) {
-
-			pst.setString(1, user.getName());
-			pst.setString(2, user.getEmail());
-			pst.setInt(3, user.getGroup().getId());
-			pst.setString(4, user.getPassword());
-			
-			int affectedRows = pst.executeUpdate();
-			
-			if(affectedRows > 0) {
-				System.out.println("Usuario registrado");
-			}else {
-				System.out.println("No se registró al usuario");
-			}
-			
-		} catch(SQLException ex) {
-			ex.printStackTrace();
-		}	
-	}
-	
 	public User getUser(int id) throws IOException {
 		User user = null;
 		String sql = "SELECT * FROM user_data WHERE id_usuario = ?";
