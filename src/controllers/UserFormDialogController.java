@@ -326,6 +326,11 @@ public class UserFormDialogController {
 	}
 	
 	private boolean validateEmail() {
+		if(repo.userExists(view.getEmailField().getText())) {
+	        view.getEmailError().setText("Ya existe otro usuario con ese correo");
+	        return false;
+		}
+		
 		if (view.getEmailField().getText().trim().isEmpty()) {
 			view.getEmailError().setText("El correo es obligatorio");
 			return false;

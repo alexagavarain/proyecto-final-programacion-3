@@ -152,6 +152,26 @@ public class UserRepository {
 		return user;
 	}
 	
+	public boolean userExists(String email) {	
+		String sql = "SELECT * FROM user_data WHERE correo = ?";
+		
+		try(Connection connection = DatabaseConnection.getConnection();
+			PreparedStatement pst = connection.prepareStatement(sql)) {
+					
+			pst.setString(1, email);
+			
+			ResultSet rs = pst.executeQuery(); 
+			
+			if(rs.next()) {
+				return true;
+			}	
+		} catch(SQLException ex ) {
+			ex.printStackTrace();
+		}
+		
+		return false;
+	}
+	
 	public List<User> getUsers() throws IOException {
 		List<User> users = new ArrayList<User>();
 		

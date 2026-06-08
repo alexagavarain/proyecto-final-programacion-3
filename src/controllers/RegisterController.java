@@ -74,7 +74,7 @@ public class RegisterController {
 	            "Usuario",
 	            group
 	        );
-
+	        
 	        try {
 	            repository.saveRegister(user); 
 	            JOptionPane.showMessageDialog(panel, "Te has registrado correctamente");
@@ -323,6 +323,11 @@ public class RegisterController {
 	}
 	
 	private boolean validateEmail() {
+		if(repository.userExists(view.getEmailTextField().getText())) {
+	        view.getEmailError().setText("Ya existe otro usuario con ese correo");
+	        return false;
+		}
+		
 	    if (view.getEmailTextField().getText().trim().isEmpty()) {
 	        view.getEmailError().setText("El correo es obligatorio");
 	        return false;
