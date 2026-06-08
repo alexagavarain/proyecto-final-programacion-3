@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
@@ -17,7 +16,6 @@ import repository.CareersRepository;
 import repository.GroupRepository;
 import repository.UserRepository;
 import utils.Session;
-import views.HomeView;
 import views.UserFormDialog;
 
 public class UserFormDialogController {
@@ -45,6 +43,7 @@ public class UserFormDialogController {
 	    assignListeners();
 	}
 	
+	@SuppressWarnings("unused")
 	private void saveListener() {
 		view.getSaveButton().addActionListener(e -> editUser());
 	}
@@ -137,7 +136,8 @@ public class UserFormDialogController {
         }
     }
 
-    private void careerListener() {
+    @SuppressWarnings("unused")
+	private void careerListener() {
         view.getCareers().addActionListener(e -> {
             Career selectedCareer = (Career) view.getCareers().getSelectedItem();
             
@@ -169,7 +169,8 @@ public class UserFormDialogController {
         }
     }
 
-    private void semesterListener() {
+    @SuppressWarnings("unused")
+	private void semesterListener() {
         view.getSemesters().addActionListener(e -> {
 
             Career selectedCareer = (Career) view.getCareers().getSelectedItem();
@@ -200,7 +201,8 @@ public class UserFormDialogController {
         }
     }
 
-    private void groupListener() {
+    @SuppressWarnings("unused")
+	private void groupListener() {
         view.getGroups().addActionListener(e -> {
 
             Career selectedCareer = (Career) view.getCareers().getSelectedItem();

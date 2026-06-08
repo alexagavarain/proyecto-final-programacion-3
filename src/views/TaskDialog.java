@@ -5,9 +5,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Cursor;
 import java.awt.Dimension;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -17,7 +14,6 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
@@ -28,17 +24,20 @@ import javax.swing.SwingConstants;
 import models.Subject;
 import models.Task;
 import utils.AppColors;
-import utils.CreateFont;
 import utils.CustomComboBox;
 import utils.CustomSpinner;
 import utils.CustomTextArea;
 import utils.InputField;
 import utils.Label;
 import utils.RoundedButton;
-import utils.Session;
 
 public class TaskDialog extends JDialog {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private Task task;
 	
 	private InputField title;

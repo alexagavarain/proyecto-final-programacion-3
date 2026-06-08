@@ -121,9 +121,6 @@ public class CustomComboBox<T> extends JComboBox<T> {
             };
             return popup;
         }
-        
-        public void paintFocus(Graphics g, Rectangle bounds, boolean hasFocus) {
-        }
 
         @Override
         public void paintCurrentValueBackground(Graphics g, Rectangle bounds, boolean hasFocus) {

@@ -25,6 +25,10 @@ import utils.CreateFont;
 
 public class UsersView extends JPanel{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTable table;
 	private JButton btnEdit;
 	private JButton btnAdd;

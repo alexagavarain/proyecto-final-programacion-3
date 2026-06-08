@@ -28,6 +28,10 @@ import utils.RoundedButton;
 
 public class UserFormDialog extends JDialog {
 		
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTextField nameField;
 	private JTextField emailField;
 	private JPasswordField passwordField;

@@ -1,27 +1,27 @@
 package views;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import utils.AppColors;
-import utils.CreateFont;
 import utils.InvisibleScrollBar;
 import utils.Label;
 import utils.WrapLayout;
 
 public class ClassesView extends JPanel{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel classesPnl;
 	private Label totalClasses;
 	

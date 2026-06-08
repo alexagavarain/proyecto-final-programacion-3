@@ -25,6 +25,10 @@ import utils.SubjectButton;
 
 public class SubjectCard extends JPanel{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private GroupSubject groupSubject;
 	private Subject subject;
 	

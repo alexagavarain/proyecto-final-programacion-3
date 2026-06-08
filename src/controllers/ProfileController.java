@@ -1,7 +1,5 @@
 package controllers;
 
-import javax.swing.JOptionPane;
-
 import models.User;
 import utils.Session;
 import views.ProfileView;
@@ -27,6 +25,7 @@ public class ProfileController {
 		view.repaint();
 	}
 	
+	@SuppressWarnings("unused")
 	public void editBtnListener() {
 		view.getEditBtn().addActionListener(e -> {
 			UserFormDialog dialog = new UserFormDialog(Session.getMainFrame(), user);

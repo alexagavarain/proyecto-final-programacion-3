@@ -47,6 +47,7 @@ public class TaskDialogController {
 		loadTaskData();
 	}
 	
+	@SuppressWarnings("unused")
 	private void saveListener() {
 		view.getSaveButton().addActionListener(e -> {
 			if (validate()) {
@@ -62,6 +63,7 @@ public class TaskDialogController {
 		});
 	}
 	
+	@SuppressWarnings("unused")
 	private void deleteListener() {
 		view.getDeleteBtn().addActionListener(e -> {
 			int option = JOptionPane.showConfirmDialog(
@@ -180,6 +182,7 @@ public class TaskDialogController {
 		return true;
 	}
 	
+	@SuppressWarnings("unused")
 	private void assignListeners() {
 		 view.getTitleField().getDocument().addDocumentListener(new DocumentListener() {
 		        public void insertUpdate(DocumentEvent e) {

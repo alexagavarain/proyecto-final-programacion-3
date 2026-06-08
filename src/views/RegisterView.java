@@ -1,8 +1,6 @@
 package views;
 
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.BorderFactory;
@@ -49,7 +47,7 @@ public class RegisterView extends JFrame {
 	private Dimension fieldSize;
 	private JPanel mainContent;
 
-	public JPanel getContainer() {
+	public JPanel getMainContent() {
 		return mainContent;
 	}
 	
@@ -148,7 +146,7 @@ public class RegisterView extends JFrame {
 		
 		createSpace(30, formPanel);
 		
-		createLabel(formPanel, "Nombre", 14, 245);
+		createLabel(formPanel, "Nombre completo", 14, 183);
 		nameField = createNameField();
 		formPanel.add(nameField);
 		formPanel.add(nameError);
@@ -218,7 +216,7 @@ public class RegisterView extends JFrame {
 	
 	public Label createTitle() {
 		Label title = new Label("Registro", 26, true);
-		title.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 70));
+		title.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 80));
 		title.setHorizontalAlignment(JLabel.CENTER);
 		title.setVerticalAlignment(JLabel.CENTER);
 		return title;
@@ -254,8 +252,8 @@ public class RegisterView extends JFrame {
 			    BorderFactory.createEmptyBorder(5, 5, 5, 5)
 			)
 		);
-		TextPrompt promptPassword = new TextPrompt("•••••••••••", passwordField);
-		promptPassword.setForeground(AppColors.subtitle);
+		TextPrompt promptPassword = new TextPrompt("••••••••", passwordField);
+		promptPassword.setForeground(AppColors.subtleAccent);
 		return passwordField;
 	}
 	
@@ -287,15 +285,15 @@ public class RegisterView extends JFrame {
 		emailTextField = new InputField();
 		emailTextField.setMaximumSize(fieldSize);
 		TextPrompt promptEmail = new TextPrompt("estudiante@alu.uabcs.mx", emailTextField);
-		promptEmail.setForeground(AppColors.subtitle);
+		promptEmail.setForeground(AppColors.subtleAccent);
 		return emailTextField;
 	}
 	
 	public InputField createNameField() {
 		nameField = new InputField();
 		nameField.setMaximumSize(fieldSize);
-		TextPrompt namePrompt = new TextPrompt("Nombre Apellido", nameField);
-		namePrompt.setForeground(AppColors.subtitle);
+		TextPrompt namePrompt = new TextPrompt("Nombre(s) Apellido(s)", nameField);
+		namePrompt.setForeground(AppColors.subtleAccent);
 		return nameField;
 	}
 }

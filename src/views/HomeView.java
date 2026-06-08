@@ -9,31 +9,30 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.RenderingHints;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
-import javax.swing.border.Border;
 
-import models.User;
 import utils.AppColors;
 import utils.CreateFont;
 import utils.IconLoader;
 import utils.Label;
 import utils.RoundedButton;
-import utils.Session;
 
 public class HomeView extends JFrame{
 		
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public static final String PROFILE = "PROFILE";
 	public static final String CLASSES = "CLASSES";
 	public static final String TASKS = "TASKS";
@@ -53,12 +52,8 @@ public class HomeView extends JFrame{
 	private CardLayout cardLayout;
 	private JPanel container;
 	private JPanel pfpContainer;
-	
-	private User user;
-	
-	public HomeView() {
-		this.user = Session.getCurrentUser();
 		
+	public HomeView() {		
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setTitle("Uni Tasks");

@@ -16,10 +16,8 @@ import java.awt.Shape;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextArea;
-import javax.swing.SwingConstants;
 
 import models.Subject;
 import models.Task;
@@ -31,11 +29,20 @@ import utils.SubjectButton;
 
 public class TaskCard extends JPanel{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private int cornerRadius = 20;
 	
 	private Task task;
 	private Subject subject;
 	private String date;
+	private Label title;
+	
+	private Label taskTitle;
+	private Label completedTitle;
 	
 	private JButton edit;
 	private JButton check;
@@ -115,7 +122,10 @@ public class TaskCard extends JPanel{
 		
 		JPanel northElements = new JPanel(new BorderLayout());
 		
-		Label title = createTaskTitle();
+		createTaskTitle();
+		createCompletedTitle();
+		
+		title = task.getStatus().equals("Pendiente") ? taskTitle : completedTitle;
 		
 		edit = new JButton(IconLoader.getIcon("/assets/img/edit.svg", 13, 13));
 	    edit.setBorder(BorderFactory.createEmptyBorder(0, 0, 10, 0));	    
@@ -147,15 +157,31 @@ public class TaskCard extends JPanel{
 		add(container, BorderLayout.CENTER);
 	}
 	
-	public Label createTaskTitle() {
-		Label taskTitle = new Label(task.getTitle(), 14, true);
+	public void activateCompletedTitle() {
+		System.out.println("estilo completada");
+		title = completedTitle;
+	}
+	
+	public void activatePendingTitle() {
+		System.out.println("estilo pendiente");
+		title = taskTitle;
+	}
+	
+	private void createCompletedTitle() {
+		completedTitle = new Label("<html><body><s>" + task.getTitle() + "</s></body></html>", 14, true, AppColors.taskInfo);
+		completedTitle.setAlignmentX(Component.CENTER_ALIGNMENT);   
+		completedTitle.setMaximumSize(new Dimension(Integer.MAX_VALUE, completedTitle.getPreferredSize().height));
+		completedTitle.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
+	}
+	
+	private void createTaskTitle() {
+		taskTitle = new Label(task.getTitle(), 14, true);
 	    taskTitle.setAlignmentX(Component.CENTER_ALIGNMENT);   
 	    taskTitle.setMaximumSize(new Dimension(Integer.MAX_VALUE, taskTitle.getPreferredSize().height));
 	    taskTitle.setBorder(BorderFactory.createEmptyBorder(0, 0, 5, 0));
-	    return taskTitle;
 	}
 	
-	public SubjectButton createTaskSubject() {
+	private SubjectButton createTaskSubject() {
 		SubjectButton taskSubject = new SubjectButton(subject.getName(), 12);
 		taskSubject.setToolTipText(subject.getName());
 		taskSubject.setBackground(subject.getSubColor());
@@ -184,7 +210,7 @@ public class TaskCard extends JPanel{
 		return taskSubject;
 	}
 	
-	public Label createTaskDeadline() {
+	private Label createTaskDeadline() {
 		Label deadline = new Label(date, 13, true);
 		deadline.setForeground(AppColors.subtitle);
 		deadline.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -193,7 +219,7 @@ public class TaskCard extends JPanel{
 	    return deadline;
 	}
 	
-	public JTextArea createTaskDescription() {
+	private JTextArea createTaskDescription() {
 	    JTextArea description = new JTextArea(task.getDescription());
 
 	    Dimension size = new Dimension(300, 70);

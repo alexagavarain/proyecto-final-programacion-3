@@ -1,6 +1,5 @@
 package controllers;
 
-import java.awt.Cursor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
@@ -32,7 +31,6 @@ public class HomeController {
 	        @Override
 	        public void windowClosing(WindowEvent e) {
 	        	handleClose();
-	        	view.dispose();
 	        }
 	    });
 		
@@ -75,6 +73,7 @@ public class HomeController {
 		});
 	}
 	
+	@SuppressWarnings("unused")
 	private void menuListeners( ) {
 		view.getTasksBtn().addActionListener(e -> {
 			view.showView(HomeView.TASKS);

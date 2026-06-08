@@ -12,7 +12,11 @@ import javax.swing.JTextField;
 
 public class InputField extends JTextField {
 	
-    private int arcWidth = 15;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private int arcWidth = 15;
     private int arcHeight = 15;
 
     public InputField() {

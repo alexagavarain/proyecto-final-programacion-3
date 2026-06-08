@@ -12,6 +12,7 @@ import models.Task;
 import models.User;
 import repository.ClassesRepository;
 import repository.TaskRepository;
+import utils.AppColors;
 import utils.IconLoader;
 import utils.Session;
 import utils.SubjectButton;
@@ -48,7 +49,8 @@ public class TasksController {
         loadTasks(null);
     }
     
-    public void addBtnListener() {
+    @SuppressWarnings("unused")
+	public void addBtnListener() {
         view.getAddBtn().addActionListener(e -> {
             TaskDialog dialog = new TaskDialog(Session.getMainFrame(), null);
             new TaskDialogController(dialog, this);
@@ -75,7 +77,8 @@ public class TasksController {
         Session.setCurrentSubjects(groupSubjects);
     }
     
-    public void subjectBtnListeners() {
+    @SuppressWarnings("unused")
+	public void subjectBtnListeners() {
         List<SubjectButton> subjectBtns = view.getSubjectBtns();
                 
         for (SubjectButton btn : subjectBtns) {
@@ -162,7 +165,8 @@ public class TasksController {
         view.getPendingTasksPnl().repaint();
     }
 
-    public void editBtnListener(TaskCard taskCard, Task task) {
+    @SuppressWarnings("unused")
+	public void editBtnListener(TaskCard taskCard, Task task) {
         taskCard.getEditBtn().addActionListener(e -> {
             TaskDialog dialog = new TaskDialog(Session.getMainFrame(), task);
             new TaskDialogController(dialog, TasksController.this);
@@ -170,7 +174,8 @@ public class TasksController {
         });
     }
     
-    public void checkListeners(TaskCard taskCard, Task task) {
+    @SuppressWarnings("unused")
+	public void checkListeners(TaskCard taskCard, Task task) {
         taskCard.getCheckBtn().addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -233,6 +238,9 @@ public class TasksController {
             subject.setColor(SubjectColors.PROG_COLOR);
             subject.setSubColor(SubjectColors.PROG_SUBCOLOR);
             break;
+        default:
+        	subject.setColor(AppColors.primaryAccent);
+        	subject.setSubColor(AppColors.iceGrey);
         }
     }
 }

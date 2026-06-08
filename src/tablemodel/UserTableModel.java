@@ -6,6 +6,11 @@ import javax.swing.table.AbstractTableModel;
 
 public class UserTableModel extends AbstractTableModel {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private List<User> users;
 	
 	private final String[] columns = {

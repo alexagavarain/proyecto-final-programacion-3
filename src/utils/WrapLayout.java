@@ -4,13 +4,14 @@ import java.awt.*;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 
-/*
- *  FlowLayout que automáticamente hace wrap de componentes
- *  cuando ya no caben horizontalmente.
- */
 public class WrapLayout extends FlowLayout {
 
-    public WrapLayout() {
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public WrapLayout() {
         super();
     }
 

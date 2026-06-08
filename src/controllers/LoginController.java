@@ -14,7 +14,6 @@ import exceptions.InvalidEmailException;
 import exceptions.InvalidPasswordException;
 import models.User;
 import repository.UserRepository;
-import utils.InputField;
 import utils.Session;
 import views.AdminView;
 import views.HomeView;
@@ -31,6 +30,7 @@ public class LoginController {
 	    loginListener();
  		validateEmailCharacters();	}
 	
+	@SuppressWarnings("unused")
 	private void loginListener() {
 		view.getLoginButton().addActionListener(e -> {
 			try {
@@ -166,6 +166,7 @@ public class LoginController {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private void assignListeners() {
 	    view.getEmailTextField().getDocument().addDocumentListener(new DocumentListener() {
 	        public void insertUpdate(DocumentEvent e) {
@@ -197,6 +198,7 @@ public class LoginController {
 	}
 
 	
+	@SuppressWarnings("unused")
 	private void windowStatus() {
 		view.addWindowListener(new WindowListener() {
 			

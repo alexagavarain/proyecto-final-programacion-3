@@ -3,7 +3,6 @@ package views;
 import java.awt.*;
 import javax.swing.*;
 
-import models.User;
 import utils.AppColors;
 import utils.CreateFont;
 import utils.InputField;
@@ -13,6 +12,11 @@ import utils.TextPrompt;
 
 public class ProfileView extends JPanel {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private JLabel avatar;
 	
 	private InputField nameField;

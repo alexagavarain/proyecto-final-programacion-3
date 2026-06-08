@@ -186,7 +186,7 @@ public class LoginView extends JFrame {
 	private InputField createEmailField(String textPrompt) {
 		InputField emailField = new InputField();
 		TextPrompt promptEmail = new TextPrompt(textPrompt, emailField);
-		promptEmail.setForeground(AppColors.subtitle);
+		promptEmail.setForeground(AppColors.subtleAccent);
 		return emailField;
 	}
 	
@@ -200,8 +200,8 @@ public class LoginView extends JFrame {
 				BorderFactory.createEmptyBorder(5, 8, 5, 8)
 			)
 		);
-		TextPrompt promptPassword = new TextPrompt("•••••••••••", passwordField);
-		promptPassword.setForeground(AppColors.subtitle);
+		TextPrompt promptPassword = new TextPrompt("••••••••", passwordField);
+		promptPassword.setForeground(AppColors.subtleAccent);
 		return passwordField;
 	}
 	

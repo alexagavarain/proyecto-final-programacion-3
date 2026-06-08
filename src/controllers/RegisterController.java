@@ -26,8 +26,6 @@ import repository.CareersRepository;
 import repository.GroupRepository;
 import repository.UserRepository;
 import utils.AppColors;
-import utils.Session;
-import views.HomeView;
 import views.LoginView;
 import views.RegisterView;
 
@@ -53,9 +51,10 @@ public class RegisterController {
         assignListeners();
     }
     
-    private void registerBtnListener() {
+    @SuppressWarnings("unused")
+	private void registerBtnListener() {
     	view.getRegisterButton().addActionListener(e -> {
-    		register(view.getContainer());
+    		register(view.getMainContent());
     	});
     }
     
@@ -145,7 +144,8 @@ public class RegisterController {
         }
     }
 
-    private void careerListener() {
+    @SuppressWarnings("unused")
+	private void careerListener() {
 	    view.getCareers().addActionListener(e -> {
 	        Career selectedCareer = (Career) view.getCareers().getSelectedItem();
 
@@ -175,7 +175,8 @@ public class RegisterController {
         }
     }
 
-    private void semesterListener() {
+    @SuppressWarnings("unused")
+	private void semesterListener() {
 
         view.getSemesters().addActionListener(e -> {
 
@@ -204,7 +205,8 @@ public class RegisterController {
         }
     }
 
-    private void groupListener() {
+    @SuppressWarnings("unused")
+	private void groupListener() {
 
         view.getGroups().addActionListener(e -> {
 
@@ -302,7 +304,7 @@ public class RegisterController {
 	    KeyAdapter enterRegister = new KeyAdapter() {
 	        public void keyPressed(KeyEvent e) {
 	            if(e.getKeyCode() == KeyEvent.VK_ENTER) {
-	                register(view.getContainer());
+	                register(view.getMainContent());
 	            }
 	        }
 	    };
@@ -408,6 +410,7 @@ public class RegisterController {
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	private void windowStatus() {
 		view.addWindowListener(new WindowListener() {
 			
@@ -455,6 +458,7 @@ public class RegisterController {
 		});
 	}
 	
+	@SuppressWarnings("unused")
 	private void fieldFocus(JTextComponent field) {
 		view.addWindowListener(new WindowAdapter() {
 			public void windowOpened(WindowEvent e) {

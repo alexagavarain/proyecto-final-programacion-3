@@ -30,6 +30,10 @@ import utils.WrapLayout;
 
 public class TasksView extends JPanel {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private List<SubjectButton> subjectBtns;
 	private JPanel subjectMenu;
 	
