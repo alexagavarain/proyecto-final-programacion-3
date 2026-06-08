@@ -74,6 +74,7 @@ public class LoginController {
 	    
 	    if (user.getRole() != null && user.getRole().equals("Administrador")) {
 	    	AdminView adminView = new AdminView();
+	    	new AdminController(adminView);
 	    	adminView.setVisible(true);
 	    	Session.setMainFrame(adminView);
 	    } else {
@@ -81,7 +82,6 @@ public class LoginController {
 	        HomeController appController = new HomeController(home);
 	        Session.setAppController(appController);
 	        home.setVisible(true);
-	        
 	        Session.setMainFrame(home);
 	    }
 

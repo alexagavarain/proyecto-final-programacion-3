@@ -62,7 +62,9 @@ public class Session {
 
 	public static void logout() {
         currentUser = null;
-        currentSubjects.clear();
+        if (currentSubjects != null) {
+        	currentSubjects.clear();
+        }
         appController = null;
         currentSubjectSection = null;
     }

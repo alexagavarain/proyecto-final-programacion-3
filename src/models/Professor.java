@@ -21,11 +21,6 @@ public class Professor {
 		this.name = name;
 	}
 	
-	public Professor(String name, String cedula) {
-		this.name = name;
-		this.cedula = cedula;
-	}
-	
 	public String getName() {
 		return name;
 	}

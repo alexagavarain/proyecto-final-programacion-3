@@ -15,19 +15,14 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.JTableHeader;
-
 import config.Config;
-
 import javax.swing.filechooser.FileNameExtensionFilter;
 import tablemodel.UserTableModel;
 import utils.AppColors;
 import utils.CreateFont;
 
-public class UsersView extends JPanel{
+public class UsersView extends JPanel {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	private JTable table;
 	private JButton btnEdit;
@@ -44,24 +39,22 @@ public class UsersView extends JPanel{
 		
 		JPanel panelButtons = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
-        btnAdd = new JButton("Agregar");
-        btnEdit = new JButton("Editar");
-        btnDelete = new JButton("Eliminar");
-        btnPdf = new JButton("Exportar a PDF");
+		btnAdd = new JButton("Agregar");
+		btnEdit = new JButton("Editar");
+		btnDelete = new JButton("Eliminar");
+		btnPdf = new JButton("Exportar a PDF");
 
-        panelButtons.add(btnAdd);
-        panelButtons.add(btnEdit);
-        panelButtons.add(btnDelete);
-        panelButtons.add(btnPdf);
-        
-        add(panelButtons, BorderLayout.NORTH);
-
+		panelButtons.add(btnAdd);
+		panelButtons.add(btnEdit);
+		panelButtons.add(btnDelete);
+		panelButtons.add(btnPdf);
+		
+		add(panelButtons, BorderLayout.NORTH);
 	}
 	
 	public void styleTable() {
 		table.setRowHeight(27);
 		table.setShowGrid(true);
-		//Lineas
 		table.setGridColor(new Color(230, 230, 230));
 		table.setBackground(AppColors.background);
 		table.setForeground(Color.BLACK);
@@ -80,23 +73,22 @@ public class UsersView extends JPanel{
 		header.setReorderingAllowed(false);
 		
 		table.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
+			@Override
+			public Component getTableCellRendererComponent(
+					JTable table,
+					Object value,
+					boolean isSelected,
+					boolean hasFocus,
+					int row,
+					int column) {
 
-            @Override
-            public Component getTableCellRendererComponent(
-                    JTable table,
-                    Object value,
-                    boolean isSelected,
-                    boolean hasFocus,
-                    int row,
-                    int column) {
-
-                Component c = super.getTableCellRendererComponent(
-                        table,
-                        value,
-                        isSelected,
-                        hasFocus,
-                        row,
-                        column);
+				Component c = super.getTableCellRendererComponent(
+						table,
+						value,
+						isSelected,
+						hasFocus,
+						row,
+						column);
 				
 				if(column == 0) {
 					c.setFont(CreateFont.DEFAULT_BOLD);
@@ -109,97 +101,89 @@ public class UsersView extends JPanel{
 					}
 					c.setFont(CreateFont.DEFAULT);
 				}
-			
 				
 				return c;
-				
 			}
-			
 		});	
 	}
 	
 	public void setTableModel(UserTableModel model) {
 		table.setModel(model);
 		
-		table.getColumnModel().getColumn(0).setPreferredWidth(100);
-		table.getColumnModel().getColumn(1).setPreferredWidth(150);	
-		table.getColumnModel().getColumn(2).setPreferredWidth(200);	
+		table.getColumnModel().getColumn(0).setPreferredWidth(30);
+		table.getColumnModel().getColumn(1).setPreferredWidth(140);	
+		table.getColumnModel().getColumn(2).setPreferredWidth(180);	
+		table.getColumnModel().getColumn(3).setPreferredWidth(30);	
+		table.getColumnModel().getColumn(4).setPreferredWidth(30);	
+		table.getColumnModel().getColumn(5).setPreferredWidth(30);
+		table.getColumnModel().getColumn(6).setPreferredWidth(180);	
 
-		DefaultTableCellRenderer center = new DefaultTableCellRenderer();
-		center.setHorizontalAlignment(SwingConstants.CENTER);
+		DefaultTableCellRenderer baseRenderer = (DefaultTableCellRenderer) table.getDefaultRenderer(Object.class);
 		
-		table.getColumnModel().getColumn(2).setCellRenderer(center);
-		table.getColumnModel().getColumn(3).setCellRenderer(center);
-		table.getColumnModel().getColumn(4).setCellRenderer(center);
-	}
-	public File selectPdfFile() {
-			
-			String path = Config.get("users.export.pdf", System.getProperty("user.home"));
-			JFileChooser chooser = new JFileChooser(path);
-			
-			chooser.setSelectedFile(new File("reporte-usuarios.pdf"));
-			
-			chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
-			chooser.setAcceptAllFileFilterUsed(false);
-			
-			FileNameExtensionFilter filter = new FileNameExtensionFilter("Documentos PDF",  "pdf");
-			chooser.addChoosableFileFilter(filter);
-			chooser.setFileFilter(filter);
-			
-			int option = chooser.showDialog(this, "Exportar PDF de usuarios");
-			
-			if(option != JFileChooser.APPROVE_OPTION) {
-				return null;
-			}
-			
-			File file = chooser.getSelectedFile();
-			Config.set("users.export.pdf", file.getParent());
-			
-			if(!file.getName().toLowerCase().endsWith(".pdf")) {
-				file = new File(file.getAbsolutePath() + ".pdf");
-			}
-			
-			return file;
+		int[] centerColumns = {0, 3, 4, 5};
+		
+		for (int i : centerColumns) {
+			table.getColumnModel().getColumn(i).setCellRenderer(new DefaultTableCellRenderer() {
+				private static final long serialVersionUID = 1L;
+				@Override
+				public Component getTableCellRendererComponent(JTable t, Object v, boolean isS, boolean hasF, int r, int col) {
+					Component c = baseRenderer.getTableCellRendererComponent(t, v, isS, hasF, r, col);
+					((DefaultTableCellRenderer) c).setHorizontalAlignment(SwingConstants.CENTER);
+					return c;
+				}
+			});
 		}
+	}
+
+	public File selectPdfFile() {
+		String path = Config.get("users.export.pdf", System.getProperty("user.home"));
+		JFileChooser chooser = new JFileChooser(path);
+		
+		chooser.setSelectedFile(new File("reporte-usuarios.pdf"));
+		chooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		chooser.setAcceptAllFileFilterUsed(false);
+		
+		FileNameExtensionFilter filter = new FileNameExtensionFilter("Documentos PDF", "pdf");
+		chooser.addChoosableFileFilter(filter);
+		chooser.setFileFilter(filter);
+		
+		int option = chooser.showDialog(this, "Exportar PDF de usuarios");
+		
+		if(option != JFileChooser.APPROVE_OPTION) {
+			return null;
+		}
+		
+		File file = chooser.getSelectedFile();
+		Config.set("users.export.pdf", file.getParent());
+		
+		if(!file.getName().toLowerCase().endsWith(".pdf")) {
+			file = new File(file.getAbsolutePath() + ".pdf");
+		}
+		
+		return file;
+	}
 	
 	public JButton getBtnPdf() {
-	    	return btnPdf;
-	    }
+		return btnPdf;
+	}
+
 	public JTable getTable() {
 		return table;
 	}
 	
 	public JButton getBtnAdd() {
-        return btnAdd;
-    }
+		return btnAdd;
+	}
 
-    public JButton getBtnEdit() {
-        return btnEdit;
-    }
+	public JButton getBtnEdit() {
+		return btnEdit;
+	}
 
-    public JButton getBtnDelete() {
-        return btnDelete;
-    }
+	public JButton getBtnDelete() {
+		return btnDelete;
+	}
 	
-    public int getSelectedRow() {
-    	return table.getSelectedRow();
-    }
+	public int getSelectedRow() {
+		return table.getSelectedRow();
+	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

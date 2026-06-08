@@ -71,6 +71,7 @@ public class RegisterController {
 	        	view.getName(),
 	            view.getEmailTextField().getText(),
 	            String.valueOf(view.getPasswordField().getPassword()),
+	            "Usuario",
 	            group
 	        );
 

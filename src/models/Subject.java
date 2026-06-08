@@ -16,17 +16,8 @@ public class Subject {
 		this.professor = professor;
 	}
 	
-	public Subject(String name, Professor professor) {
-		this.name = name;
-		this.professor = professor;
-	}
-	
 	public Subject(int id, String name) {
 		this.id = id;
-		this.name = name;
-	}
-	
-	public Subject(String name) {
 		this.name = name;
 	}
 	

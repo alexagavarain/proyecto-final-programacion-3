@@ -8,7 +8,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
 import config.DatabaseConnection;
 import models.Career;
 import models.Group;
@@ -18,7 +17,6 @@ public class UserRepository {
 	
 	public User login(String email, String password) {	
 		User user = null;
-		
 		String sql = "SELECT * FROM user_data WHERE correo = ? and contrasena = ?";
 		
 		try(Connection connection = DatabaseConnection.getConnection();
@@ -30,7 +28,6 @@ public class UserRepository {
 			ResultSet rs = pst.executeQuery(); 
 			
 			if(rs.next()) {
-				
 				Career career = new Career(
 						rs.getInt("id_carrera"),
 						rs.getString("carrera"),
@@ -64,8 +61,7 @@ public class UserRepository {
 	
 	public void save(User user) throws IOException {		
 		String sql = "INSERT INTO usuario (nombre, correo, id_grupo, contrasena, rol) "
-				+ "VALUES(?, ?, ?, ?)";
-		
+				+ "VALUES(?, ?, ?, ?, ?)";
 		
 		try(Connection connection = DatabaseConnection.getConnection();
 			PreparedStatement pst = connection.prepareStatement(sql)) {
@@ -74,7 +70,7 @@ public class UserRepository {
 			pst.setString(2, user.getEmail());
 			pst.setInt(3, user.getGroup().getId());
 			pst.setString(4, user.getPassword());
-			pst.setString(4, user.getRole());
+			pst.setString(5, user.getRole());
 			
 			int affectedRows = pst.executeUpdate();
 			
@@ -87,13 +83,11 @@ public class UserRepository {
 		} catch(SQLException ex) {
 			ex.printStackTrace();
 		}	
-		
 	}
 	
 	public void saveRegister(User user) throws IOException {		
 		String sql = "INSERT INTO usuario (nombre, correo, id_grupo, contrasena) "
 				+ "VALUES(?, ?, ?, ?)";
-		
 		
 		try(Connection connection = DatabaseConnection.getConnection();
 			PreparedStatement pst = connection.prepareStatement(sql)) {
@@ -118,18 +112,15 @@ public class UserRepository {
 	
 	public User getUser(int id) throws IOException {
 		User user = null;
-		
 		String sql = "SELECT * FROM user_data WHERE id_usuario = ?";
 		
 		try(Connection connection = DatabaseConnection.getConnection();
 			PreparedStatement pst = connection.prepareStatement(sql)) {
 			
 			pst.setInt(1, id);
-			
 			ResultSet rs = pst.executeQuery(); 
 			
 			if(rs.next()) {
-								
 				Career career = new Career(
 						rs.getInt("id_carrera"),
 						rs.getString("carrera"),
@@ -159,7 +150,6 @@ public class UserRepository {
 		}
 				
 		return user;
-				
 	}
 	
 	public List<User> getUsers() throws IOException {
@@ -168,16 +158,31 @@ public class UserRepository {
 		try(
 			Connection connection = DatabaseConnection.getConnection();
 			Statement st = connection.createStatement();
-			ResultSet rs = st.executeQuery("SELECT * FROM usuario"); 
+			ResultSet rs = st.executeQuery("SELECT * FROM user_data"); 
 		) {
 			
 			while(rs.next()) {
+				Career career = new Career(
+						rs.getInt("id_carrera"),
+						rs.getString("carrera"),
+						rs.getString("siglas")
+				);
+				
+				Group group = new Group(
+						rs.getInt("id_grupo"),
+						rs.getString("grupo"),
+						rs.getInt("semestre"),
+						rs.getString("turno"),
+						career	
+				);
 				
 				User user = new User(
 					rs.getInt("id_usuario"), 
 					rs.getString("nombre"), 
 					rs.getString("correo"),
-					rs.getInt("id_grupo")
+					rs.getString("contrasena"),
+					rs.getString("rol"),
+					group
 				);
 				users.add(user);
 			}
@@ -187,7 +192,6 @@ public class UserRepository {
 		}
 		
 		return users;
-				
 	}
 	
 	public boolean delete(int id) {
@@ -239,9 +243,6 @@ public class UserRepository {
 	}
 	
 	public void updateUsers(int index, User updatedUser) throws IOException {
-		List<User> users = getUsers();
-		users.set(index, updatedUser);
-		
 		String sql = "UPDATE usuario SET nombre = ?, correo = ?, id_grupo = ?"
 				+ " WHERE id_usuario = ?";
 		
@@ -261,7 +262,6 @@ public class UserRepository {
 				System.out.println("No se hicieron cambios");
 			}
 			
-			
 		}catch(SQLException ex) {
 			ex.printStackTrace();
 		}
@@ -269,15 +269,12 @@ public class UserRepository {
 	
 	public int getCarreerId(User user) throws SQLException {
 		int carreerId = -1;
-		
-		String sql = "SELECT id_carrera FROM carrera  "
-				+ "WHERE nombre = ?";
+		String sql = "SELECT id_carrera FROM carrera WHERE nombre = ?";
 		
 		try (Connection connection = DatabaseConnection.getConnection();
 				PreparedStatement pst = connection.prepareStatement(sql)) {
 			
 			pst.setString(1, user.getGroup().getCareer().getName());
-			
 			ResultSet rs = pst.executeQuery(); 
 			
 			if (rs.next()) {
@@ -290,16 +287,4 @@ public class UserRepository {
 		
 		return carreerId;
 	}
-
-			
 }
-
-
-
-
-
-
-
-
-
-

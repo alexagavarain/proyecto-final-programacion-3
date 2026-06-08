@@ -36,21 +36,6 @@ public class Task {
 		this.groupSubject = groupSubject;
 	}
 	
-	public Task(String title, LocalDateTime deadline,
-			String status, User user, GroupSubject groupSubject) {
-		this.title = title;
-		this.deadline = deadline;
-		this.status = status;
-		this.user = user;
-		this.groupSubject = groupSubject;
-	}
-	
-	public Task(String title, User user, GroupSubject groupSubject) {
-		this.title = title;
-		this.user = user;
-		this.groupSubject = groupSubject;
-	}
-	
 	public int getId() {
 		return id;
 	}

@@ -9,8 +9,6 @@ public class User {
 	private String password;
 	private Group group;
 	private String role;
-	private int pendingTasks;
-	private int completedTasks;
 	
 	public User() {
 		
@@ -19,31 +17,6 @@ public class User {
 	public User(String email, String password) {
 		this.email = email;
 		this.password = password;
-	}
-	
-	public User(int id) {
-		this.id = id;
-	}
-	
-	public User(int id, String email, String password) {
-		this.id = id;
-		this.email = email;
-		this.password = password;
-	}
-	
-	public User(int id, String name, String email, Group group) {
-		this.id = id;
-		this.email = email;
-		this.name = name;
-		this.group = group;
-	}
-	
-	public User(int id, String name, String email, String role, Group group) {
-		this.id = id;
-		this.email = email;
-		this.name = name;
-		this.group = group;
-		this.role = role;
 	}
 	
 	public User(int id, String name, String email, String password, String role, Group group) {
@@ -62,27 +35,13 @@ public class User {
 
 	}
 	
-	public User(String name, String email, Group group) {
-		this.email = email;
-		this.name = name;
-		this.group = group;
-
-	}
-	
-	public User(String name, String email, String password, Group group) {
+	public User(String name, String email, String password, String role, Group group) {
 		this.email = email;
 		this.name = name;
 		this.password = password;
 		this.group = group;
+		this.role = role;
 
-	}
-	
-	public User(int id, String name, String email, Group group, String password) {
-	    this.id = id;
-		this.name = name;
-	    this.email = email;
-	    this.group = group;
-	    this.password = password;
 	}
 	
 	public String getName() {
@@ -127,22 +86,6 @@ public class User {
 
 	public String getRole() {
 		return role;
-	}
-	
-	public void setPendingTasks(int pendingTasks) {
-		this.pendingTasks = pendingTasks;
-	}
-	
-	public void setCompletedTasks(int completedTasks) {
-		this.completedTasks = completedTasks;
-	}
-	
-	public int getPendingTasks() {
-		return pendingTasks;
-	}
-	
-	public int getCompletedTasks() {
-		return completedTasks;
 	}
 	
 	public String toString() {

@@ -133,11 +133,8 @@ public class TasksController {
                 view.getCompletedTasksPnl().add(taskCard);
             }    
         }
-
-        user.setPendingTasks(pendingTasks);
-        user.setCompletedTasks(completedTasks);
             
-        view.getTasksCount().setText(user.getPendingTasks() + " pendientes · " + user.getCompletedTasks() + " completadas");
+        view.getTasksCount().setText(pendingTasks + " pendientes · " + completedTasks + " completadas");
         
         view.getPendingLbl().setText("PENDIENTES (" + pendingTasks + ")");
         view.getCompletedLbl().setText("COMPLETADAS (" + completedTasks + ")");
