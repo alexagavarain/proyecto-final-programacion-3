@@ -326,7 +326,7 @@ public class UserFormDialogController {
 	}
 	
 	private boolean validateEmail() {
-		if(repo.userExists(view.getEmailField().getText())) {
+		if(user == null && repo.userExists(view.getEmailField().getText())) {
 	        view.getEmailError().setText("Ya existe otro usuario con ese correo");
 	        return false;
 		}
