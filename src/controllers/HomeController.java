@@ -107,7 +107,7 @@ public class HomeController {
             if (option == JOptionPane.YES_OPTION) {
             	LoginView login = new LoginView();
             	new LoginController(login);
-            	Session.setCurrentUser(null);
+            	Session.logout();
                 view.dispose();
             	login.setVisible(true);
             }
