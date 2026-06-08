@@ -6,6 +6,7 @@ import java.awt.event.WindowEvent;
 import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -111,6 +112,13 @@ public class RegisterView extends JFrame {
 		setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 		setExtendedState(JFrame.MAXIMIZED_BOTH);
 		setTitle("Registro");
+		
+		ImageIcon icon = (ImageIcon) IconLoader.getIcon("/assets/img/logo.svg", 64, 64);
+        
+        if (icon != null) {
+            Image logo = icon.getImage();
+            setIconImage(logo);
+        }
 		
 		addWindowListener(new WindowAdapter() {
 			@Override

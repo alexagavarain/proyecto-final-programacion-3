@@ -39,6 +39,7 @@ public class AdminController {
 	            	LoginView login = new LoginView();
 	            	new LoginController(login);
 	            	Session.logout();
+	            	Session.setMainFrame(login);
 	                view.dispose();
 	            	login.setVisible(true);
 	            }

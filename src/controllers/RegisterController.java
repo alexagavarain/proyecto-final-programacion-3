@@ -26,6 +26,7 @@ import repository.CareersRepository;
 import repository.GroupRepository;
 import repository.UserRepository;
 import utils.AppColors;
+import utils.Session;
 import views.LoginView;
 import views.RegisterView;
 
@@ -110,6 +111,7 @@ public class RegisterController {
     			if(option == JOptionPane.YES_OPTION) {
     				LoginView login = new LoginView();
     				new LoginController(login);
+    				Session.setMainFrame(login);
     				login.setVisible(true);
     				view.dispose();
     			}

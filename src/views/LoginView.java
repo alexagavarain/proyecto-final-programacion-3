@@ -10,6 +10,7 @@ import utils.InputField;
 import utils.Label;
 import utils.PasswordField;
 import utils.RoundedButton;
+import utils.Session;
 import utils.TextPrompt;
 
 import javax.swing.SwingConstants;
@@ -289,6 +290,7 @@ public class LoginView extends JFrame {
 				RegisterView register = new RegisterView();
 			    new RegisterController(register);
 			    register.setVisible(true);
+			    Session.setMainFrame(register);
 			    dispose();
 			}
 			
